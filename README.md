@@ -1,11 +1,11 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# Rtemplate
+# S7schema
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/NN-OpenSource/Rtemplate/actions/workflows/check_and_co.yaml/badge.svg)](https://github.com/NN-OpenSource/Rtemplate/actions/workflows/check_and_co.yaml)
+[![R-CMD-check](https://github.com/NN-OpenSource/S7schema/actions/workflows/check_and_co.yaml/badge.svg)](https://github.com/NN-OpenSource/S7schema/actions/workflows/check_and_co.yaml)
 <!-- badges: end -->
 
 This package is a template for future R packages developed by the ATMOS

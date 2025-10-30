@@ -52,3 +52,8 @@ po/*~
 rsconnect/
 
 /.quarto/
+
+# Javascript modules
+package-lock.json
+package.json
+node_modules/

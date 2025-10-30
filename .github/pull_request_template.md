@@ -1,25 +1,12 @@
----
-name: PR Template
-about: Template for PRs.
-title: "[PR] PR name"
-labels: ''
-assignees: ''
-
----
-
 ## Summary
 (Summary of made changes with explanation of what and why)
 
 ## Changes Made
-- Change1 (e.g. *Add `tbl_cnt()` method to `fs_methods`*)
-- ...
-
-## Related Issues
-- Fixes #57 (use #IssueNumber to reference to existing issues)
+- Change1 (e.g. added new method for `S7schema`)
 - ...
 
 ## Testing
-- Unit test for `tbl_cnt()` method
+- Unit test for new method
 - ...
 
 ## Checklist

@@ -2,10 +2,15 @@
 % Please edit documentation in R/z_validate.R
 \name{validate_schema}
 \alias{validate_schema}
-\title{Validate}
+\title{Validate schema}
 \usage{
 validate_schema(x, ...)
 }
+\arguments{
+\item{x}{definition}
+
+\item{...}{passed along to individual methods}
+}
 \description{
-Validate
+Check if content is in accordance with a schema.
 }

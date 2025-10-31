@@ -17,7 +17,8 @@ Imports:
     rlang,
     S7,
     tools,
-    V8
+    V8,
+    yaml
 Suggests: 
     testthat (>= 3.0.0),
     withr

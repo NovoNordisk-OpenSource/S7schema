@@ -1,0 +1,8 @@
+# Dead irrelevant path in pkgdown/favicon
+http://svgjs.dev/svgjs
+# Path to RSPM yet to be derived
+https://packagemanager.posit.co/cran/\$
+# Paths to workflows yet to be derived
+https://raw.githubusercontent.com/NovoNordisk-OpenSource/r.workflows/\$
+# Disallowed in their robots.txt
+https://www.npmjs.com/package

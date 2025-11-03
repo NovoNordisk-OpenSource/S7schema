@@ -16,8 +16,6 @@ function validate_yaml(validate_func, yaml_string) {
   const data = yaml.load(yaml_string)
   const valid = validate_func(data)
   return {
-    valid: valid,
-    data: data,
     errors: valid ? null : validate_func.errors
   }
 }

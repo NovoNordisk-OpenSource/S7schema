@@ -46,7 +46,6 @@ use_validator <- function(validator, yaml_content) {
     src = "var result = validate_yaml(validator, yaml_str);"
   )
 
-  # TODO: Only retrieve errors
   result <- validator@context$get(
     name = "result",
     simplifyVector = FALSE

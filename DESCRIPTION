@@ -1,7 +1,7 @@
 Package: S7schema
 Title: Generic 'S7' implementation of yaml config with schema based
     validation
-Version: 0.0.0.9001
+Version: 0.0.0.9002
 Authors@R: c(
     person("Aksel", "Thomsen", , "oath@novonordisk.com", role = c("aut", "cre")),
     person("Novo Nordisk A/S", role = "cph")

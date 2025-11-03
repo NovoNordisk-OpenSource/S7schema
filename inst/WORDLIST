@@ -3,12 +3,15 @@ CRAN
 emph
 knitr
 lintr
+multiarch
 nocov
 Nordisk
 pkgdown
 Pkgdown
 rlang
 Roxygen
+Roxygenize
+Sweave
 testthat
 Thomsen
 withr

@@ -1,31 +1,35 @@
 #' @noRd
-check_schema <- function(schema) {
-  val <- c(
-    "Schema must be supplied" = !length(schema),
-    "Only one schema is allowed" = length(schema) > 1,
-    "File does not exist" = any(!file.exists(schema)),
-    "Must be a JSON file" = any(tools::file_ext(schema) != "json")
-  )
-
-  errors <- names(val)[which(val)]
-  if (length(errors)) {
-    return(errors)
+check_file <- function(file, ext = NULL) {
+  if (length(file) != 1L) {
+    return(
+      cli::format_message("Only exactly {.emph one} file can be referenced")
+    )
+  }
+  if (!file.exists(file)) {
+    return(
+      cli::format_message("File does not exist")
+    )
+  }
+  if (!is.null(ext) && !tools::file_ext(file) %in% ext) {
+    return(
+      cli::format_message("Extension must be one of {.emph {ext}}")
+    )
   }
 
   TRUE
 }
 
 #' @noRd
-assert_schema <- function(schema) {
-  val <- check_schema(schema)
+assert_file <- function(file, ext = NULL) {
+  val <- check_file(file = file, ext = ext)
 
   if (isTRUE(val)) {
-    return(invisible(schema))
+    return(invisible(file))
   }
 
   cli::cli_abort(
     message = c(
-      "Illegal schema reference {.file {schema}}",
+      "Illegal file reference {.file {file}}",
       rlang::set_names(x = val, nm = "i")
     )
   )

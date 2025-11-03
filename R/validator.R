@@ -47,7 +47,6 @@ use_validator <- function(validator, yaml_content) {
   )
 
   # TODO: Only retrieve errors
-  # TODO: Can js script be simplified with exports etc.?
   result <- validator@context$get(
     name = "result",
     simplifyVector = FALSE

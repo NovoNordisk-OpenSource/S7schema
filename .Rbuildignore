@@ -2,7 +2,7 @@
 ^\.github$
 ^\.lintr$
 ^\.Rproj\.user$
-^cspell\.yaml$
+^.cspell\.json$
 ^dev$
 ^docs$
 ^LICENSE\.md$

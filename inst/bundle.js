@@ -22,32 +22,10 @@ function validate_yaml(validate_func, yaml_string) {
   }
 }
 
-// Define function to report validation results
-function report_validation(result) {
-  if (!result.valid) {
-    console.log(result.errors)
-  }
-  console.log('validation done')
-}
-
 // Export functions for browserify bundle
 // Make them available globally for V8 R package
-if (typeof window !== 'undefined') {
-  // Browser environment
-  window.create_validator = create_validator
-  window.validate_yaml = validate_yaml
-  window.report_validation = report_validation
-} else if (typeof global !== 'undefined') {
-  // Node.js/V8 environment
-  global.create_validator = create_validator
-  global.validate_yaml = validate_yaml
-  global.report_validation = report_validation
-}
-
-// Also make available on this context
-this.create_validator = create_validator
-this.validate_yaml = validate_yaml
-this.report_validation = report_validation
+global.create_validator = create_validator
+global.validate_yaml = validate_yaml
 
 }).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"ajv":2,"js-yaml":69}],2:[function(require,module,exports){

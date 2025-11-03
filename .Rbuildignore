@@ -4,6 +4,8 @@
 ^\.Rproj\.user$
 ^.cspell\.json$
 ^.lycheeignore$
+^.devskim.json$
+^.mega-linter.yml$
 ^dev$
 ^docs$
 ^LICENSE\.md$

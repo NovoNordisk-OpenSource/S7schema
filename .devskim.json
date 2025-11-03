@@ -1,0 +1,5 @@
+{
+  "Globs": [
+    "inst/bundle.js"
+  ]
+}

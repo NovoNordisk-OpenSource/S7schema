@@ -2,15 +2,38 @@
 % Please edit documentation in R/z_validate.R
 \name{validate}
 \alias{validate}
-\title{Validate schema}
+\title{Validate configuration}
 \usage{
 validate(x, schema)
 }
 \arguments{
-\item{x}{definition}
+\item{x}{Object to validate. Either \code{list} or a \code{character} path to file.}
 
-\item{schema}{passed along to individual methods}
+\item{schema}{Path to JSON schema definition}
+}
+\value{
+\code{invisible(x)}
 }
 \description{
-Check if content is in accordance with a schema.
+Check if a configuration is in accordance with a JSON schema definition.
+
+It is possible to both validate an existing object in memory and an existing configuration file.
+}
+\examples{
+# See all registered methods
+validate
+
+\dontshow{if (FALSE) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+# Validate list object in memory
+validate(
+  x = list(a = 1),
+  schema = "path/to/my/schema.json"
+)
+
+# Validate yaml file on disk
+validate(
+  x = "path/to/my/config.yml",
+  schema = "path/to/my/schema.json"
+)
+\dontshow{\}) # examplesIf}
 }

@@ -1,9 +1,28 @@
-#' Validate schema
+#' Validate configuration
 #' @description
-#' Check if content is in accordance with a schema.
+#' Check if a configuration is in accordance with a JSON schema definition.
 #'
-#' @param x definition
-#' @param schema passed along to individual methods
+#' It is possible to both validate an existing object in memory and an existing configuration file.
+#'
+#' @param x Object to validate. Either `list` or a `character` path to file.
+#' @param schema Path to JSON schema definition
+#' @return `invisible(x)`
+#' @examples
+#' # See all registered methods
+#' validate
+#'
+#' @examplesIf FALSE
+#' # Validate list object in memory
+#' validate(
+#'   x = list(a = 1),
+#'   schema = "path/to/my/schema.json"
+#' )
+#'
+#' # Validate yaml file on disk
+#' validate(
+#'   x = "path/to/my/config.yml",
+#'   schema = "path/to/my/schema.json"
+#' )
 #' @export
 validate <- S7::new_generic(
   name = "validate",

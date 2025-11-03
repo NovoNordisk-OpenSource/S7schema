@@ -18,7 +18,7 @@ construct_validator <- function(schema) {
   ctx$source(system.file("bundle.js", package = "S7schema"))
 
   ctx$assign("schema_str", schema_content)
-  ctx$eval("var validator = create_validator(schema_str);")
+  ctx$eval("var validator = createValidator(schema_str);")
 
   S7::new_object(
     .parent = S7::S7_object(),
@@ -43,7 +43,7 @@ use_validator <- function(validator, yaml_content) {
   )
 
   validator@context$eval(
-    src = "var result = validate_yaml(validator, yaml_str);"
+    src = "var result = validateYaml(validator, yaml_str);"
   )
 
   result <- validator@context$get(

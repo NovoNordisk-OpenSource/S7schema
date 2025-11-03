@@ -5,25 +5,25 @@ const yaml = require('js-yaml')
 
 const ajv = new Ajv()
 
-// Define create_validator function that compiles AJV validator from schema string
-function create_validator(schema_string) {
-  const schema = JSON.parse(schema_string)
+// Define createValidator function that compiles AJV validator from schema string
+function createValidator(schemaString) {
+  const schema = JSON.parse(schemaString)
   return ajv.compile(schema)
 }
 
 // Define function to validate YAML string using validator
-function validate_yaml(validate_func, yaml_string) {
-  const data = yaml.load(yaml_string)
-  const valid = validate_func(data)
+function validateYaml(validateFunc, yamlString) {
+  const data = yaml.load(yamlString)
+  const valid = validateFunc(data)
   return {
-    errors: valid ? null : validate_func.errors
+    errors: valid ? null : validateFunc.errors
   }
 }
 
 // Export functions for browserify bundle
 // Make them available globally for V8 R package
-global.create_validator = create_validator
-global.validate_yaml = validate_yaml
+global.createValidator = createValidator
+global.validateYaml = validateYaml
 
 }).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"ajv":2,"js-yaml":69}],2:[function(require,module,exports){

@@ -6,8 +6,8 @@ The `dev/entry.js` script uses the [ajv](https://ajv.js.org) and [js-yaml](https
 
 It exports the following functions that are used inside the R functions using the V8 package:
 
-1. `create_validator()`: Compiles AJV validator from schema string
-2. `validate_yaml()`: Validates YAML string using validator
+1. `createValidator()`: Compiles AJV validator from schema string
+2. `validateYaml()`: Validates YAML string using validator
 
 The script is bundled and put into `inst/bundle.js` in order for us to get a single `.js` file
 that can be loaded in V8 and contains all dependencies.

@@ -1,5 +1,6 @@
 {
   "Globs": [
-    "**/inst/bundle.js"
+    "**/inst/bundle.js",
+    "**/tests/testthat/schemas/simple.json"
   ]
 }

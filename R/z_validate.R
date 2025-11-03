@@ -64,3 +64,17 @@ validate_yaml <- function(x, schema) {
 S7::method(validate, S7::class_character) <- function(x, schema) {
   validate_yaml(x = x, schema = schema)
 }
+
+#' @noRd
+validate_S7schema <- function(x) {
+  use_validator(
+    validator = x@validator,
+    yaml_content = yaml::as.yaml(x)
+  )
+
+  invisible(x)
+}
+
+S7::method(validate, S7schema) <- function(x, schema) {
+  validate_S7schema(x)
+}

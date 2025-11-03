@@ -1,4 +1,4 @@
-#' Constructor function for the `schema_validator` class
+#' Constructor function for the internal `validator` class
 #'
 #' Does the following before:
 #' 1. Create a local V8 context to ensure variables etc. are local to the schema
@@ -7,10 +7,10 @@
 #' 3. Creates a validator object inside the V8 context for later use
 #' 4. Returns the context
 #' @noRd
-sv_constructor <- function(schema) {
+construct_validator <- function(schema) {
   schema_content <- schema |>
-    assert_schema() |>
-    readLines() |>
+    assert_file(ext = "json") |>
+    readLines(warn = FALSE) |>
     paste(collapse = "\n")
 
   ctx <- V8::v8()
@@ -26,23 +26,17 @@ sv_constructor <- function(schema) {
   )
 }
 
-#' Schema validator
-#' @details
-#' Utility validator class containing a V8 context ready to validate input data.
-#' @param schema description
-#' @export
-schema_validator <- S7::new_class(
-  name = "schema_validator",
+#' @noRd
+validator <- S7::new_class(
+  name = "validator",
   properties = list(
     context = S7::new_S3_class("V8")
   ),
-  constructor = sv_constructor
+  constructor = construct_validator
 )
 
 #' @noRd
-use_validator <- function(validator, content) {
-  yaml_content <- yaml::as.yaml(x = content)
-
+use_validator <- function(validator, yaml_content) {
   validator@context$assign(
     name = "yaml_str",
     value = yaml_content
@@ -60,16 +54,13 @@ use_validator <- function(validator, content) {
   )
 
   if (is.null(result$errors)) {
-    return(invisible(content))
+    return(invisible())
   }
 
   error <- result$errors[[1]]
   cli::cli_abort(
     message = c(
-      error$message,
-      if (nchar(error$instancePath)) {
-        "i" = paste0("Path: ", error$instancePath)
-      },
+      "{.file {error$instancePath}} {error$message}",
       rlang::set_names(
         x = paste(names(error$params), error$params, sep = ": "),
         nm = "x"

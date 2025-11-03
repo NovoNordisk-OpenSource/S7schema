@@ -3,6 +3,7 @@
 ^\.lintr$
 ^\.Rproj\.user$
 ^.cspell\.json$
+^.lycheeignore$
 ^dev$
 ^docs$
 ^LICENSE\.md$

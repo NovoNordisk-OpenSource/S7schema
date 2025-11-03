@@ -47,7 +47,7 @@ S7::method(validate, S7::class_list) <- function(x, schema) {
 }
 
 #' @noRd
-validateYaml <- function(x, schema) {
+validate_yaml <- function(x, schema) {
   content <- x |>
     assert_file(ext = c("yml", "yaml")) |>
     readLines(warn = FALSE) |>
@@ -62,5 +62,5 @@ validateYaml <- function(x, schema) {
 }
 
 S7::method(validate, S7::class_character) <- function(x, schema) {
-  validateYaml(x = x, schema = schema)
+  validate_yaml(x = x, schema = schema)
 }

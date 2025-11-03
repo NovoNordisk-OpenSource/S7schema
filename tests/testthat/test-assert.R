@@ -1,4 +1,4 @@
-test_that("file assertations are correct and consistent", {
+test_that("file assertions are correct and consistent", {
   schema <- withr::local_tempfile(fileext = ".json")
 
   assert_file(c("a.R", "b.R")) |>

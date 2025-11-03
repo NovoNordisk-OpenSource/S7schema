@@ -46,7 +46,7 @@ use_validator <- function(validator, yaml_content) {
     src = "var result = validate_yaml(validator, yaml_str);"
   )
 
-  # TODO: Only retireve errors
+  # TODO: Only retrieve errors
   # TODO: Can js script be simplified with exports etc.?
   result <- validator@context$get(
     name = "result",

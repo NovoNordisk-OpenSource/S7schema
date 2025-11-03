@@ -1,10 +1,14 @@
 Aksel
 CRAN
+emph
 knitr
 lintr
+nocov
 Nordisk
 pkgdown
 Pkgdown
+rlang
 Roxygen
 testthat
 Thomsen
+withr

@@ -25,7 +25,7 @@ test_that("simple validation on lists works", {
     )
 })
 
-test_that("simple valdiation of yaml files works", {
+test_that("simple validation of yaml files works", {
   validate(
     x = test_path("input", "simple.yml"),
     schema = test_path("schemas", "simple.json")

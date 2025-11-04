@@ -19,28 +19,30 @@ knitr::opts_chunk$set(
 [![R-CMD-check](https://github.com/NN-OpenSource/S7schema/actions/workflows/check_and_co.yaml/badge.svg)](https://github.com/NN-OpenSource/S7schema/actions/workflows/check_and_co.yaml)
 <!-- badges: end -->
 
-This package is a template for future R packages developed by the ATMOS team.
+The purpose of S7schema is to provide a generic way of working with yaml config files.
+The implementation will:
+1. Use S7 for easy downstream use in other packages (e.g. new child classes and methods).
+1. Use ['ajv'](https://ajv.js.org) for validation of the config file given JSON schema.
+1. S7 class will inherit from `list` ensuring a seamless integration into existing code.
 
-The template sets package development standards, and GitHub action workflows.
-For details see below.
+## Pseudo-code
 
-The repository is meant to be used via the [useatmos](https://github.com/NN-OpenSource/useatmos) package, but can also be applied manually by pressing the "Use this template" button.
+A new instance of an `S7schema` class can be initiated with:
 
-Note, that when the new repository is first created an initial workflow starts which updates package specific files, and creates a PR for your review and approval.
+```{r, eval=FALSE}
+config <- S7schema("path/to/my/config.yml", "path/to/my/schema.json")
+```
 
-## Standards
+Since config is a list it can be updated (here adding an "a" element):
 
-- Set license to Apache license version 2.0 with Novo Nordisk A/S as the copyright holder.
-- Use a README.Rmd
-- Use `testthat` for testing
-- Use `pkgdown` to create a documentation webpage
-- Setup `lintr` with default style
+```{r, eval=FALSE}
+config$a <- 2
+```
 
-## GitHub actions
+And it can be validated again:
 
-workflows using here are defined in the [`NovoNordisk-OpenSource/r.workflows`](https://github.com/NovoNordisk-OpenSource/r.workflows) repository.
+```{r, eval=FALSE}
+validate_schema(config)
+```
 
-- Styling using [MegaLinter](https://megalinter.io/) (calls `lintr` for R scripts)
-- R CMD Check. Both for CRAN version requirements, and for internal versions.
-- Test coverage.
-- Pkgdown webpage hosted on GitHub pages. Pages for pull requests are also hosted under "{base-url}/dev/{PR-number}".
+Which will now throw an error if `a = 2` is an illegal entry according to the schema in `"path/to/my/schema.json"`.

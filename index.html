@@ -5,14 +5,14 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Template repository for new ATMOS R packages • S7schema</title>
+<title>Generic S7 implementation of yaml config with schema based validation • S7schema</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Template repository for new ATMOS R packages">
-<meta name="description" content="Defines common standards, workflows, and actions for new R packages.">
-<meta property="og:description" content="Defines common standards, workflows, and actions for new R packages.">
+<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Generic S7 implementation of yaml config with schema based validation">
+<meta name="description" content="Provides a generic framework for working with yaml configuration files, including using ajv for validation.">
+<meta property="og:description" content="Provides a generic framework for working with yaml configuration files, including using ajv for validation.">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -49,31 +49,20 @@
 </h1></div>
 <!-- badges: start -->
 
-<p>This package is a template for future R packages developed by the ATMOS team.</p>
-<p>The template sets package development standards, and GitHub action workflows. For details see below.</p>
-<p>The repository is meant to be used via the <a href="https://github.com/NN-OpenSource/useatmos" class="external-link">useatmos</a> package, but can also be applied manually by pressing the “Use this template” button.</p>
-<p>Note, that when the new repository is first created an initial workflow starts which updates package specific files, and creates a PR for your review and approval.</p>
+<p>The purpose of S7schema is to provide a generic way of working with yaml config files. The implementation will: 1. Use S7 for easy downstream use in other packages (e.g. new child classes and methods). 1. Use <a href="https://ajv.js.org" class="external-link">‘ajv’</a> for validation of the config file given JSON schema. 1. S7 class will inherit from <code>list</code> ensuring a seamless integration into existing code.</p>
 <div class="section level2">
-<h2 id="standards">Standards<a class="anchor" aria-label="anchor" href="#standards"></a>
+<h2 id="pseudo-code">Pseudo-code<a class="anchor" aria-label="anchor" href="#pseudo-code"></a>
 </h2>
-<ul>
-<li>Set license to Apache license version 2.0 with Novo Nordisk A/S as the copyright holder.</li>
-<li>Use a README.Rmd</li>
-<li>Use <code>testthat</code> for testing</li>
-<li>Use <code>pkgdown</code> to create a documentation webpage</li>
-<li>Setup <code>lintr</code> with default style</li>
-</ul>
-</div>
-<div class="section level2">
-<h2 id="github-actions">GitHub actions<a class="anchor" aria-label="anchor" href="#github-actions"></a>
-</h2>
-<p>workflows using here are defined in the <a href="https://github.com/NovoNordisk-OpenSource/r.workflows" class="external-link"><code>NovoNordisk-OpenSource/r.workflows</code></a> repository.</p>
-<ul>
-<li>Styling using <a href="https://megalinter.io/" class="external-link">MegaLinter</a> (calls <code>lintr</code> for R scripts)</li>
-<li>R CMD Check. Both for CRAN version requirements, and for internal versions.</li>
-<li>Test coverage.</li>
-<li>Pkgdown webpage hosted on GitHub pages. Pages for pull requests are also hosted under “{base-url}/dev/{PR-number}”.</li>
-</ul>
+<p>A new instance of an <code>S7schema</code> class can be initiated with:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">config</span> <span class="op">&lt;-</span> <span class="fu">S7schema</span><span class="op">(</span><span class="st">"path/to/my/config.yml"</span>, <span class="st">"path/to/my/schema.json"</span><span class="op">)</span></span></code></pre></div>
+<p>Since config is a list it can be updated (here adding an “a” element):</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">config</span><span class="op">$</span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fl">2</span></span></code></pre></div>
+<p>And it can be validated again:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">validate_schema</span><span class="op">(</span><span class="va">config</span><span class="op">)</span></span></code></pre></div>
+<p>Which will now throw an error if <code>a = 2</code> is an illegal entry according to the schema in <code>"path/to/my/schema.json"</code>.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="license">
@@ -95,7 +84,7 @@
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>First Last <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/YOUR-ORCID-ID" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>  </li>
+<li>Aksel Thomsen <br><small class="roles"> Author, maintainer </small>   </li>
 <li><a href="authors.html">More about authors...</a></li>
 </ul>
 </div>
@@ -112,7 +101,7 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by First Last.</p>
+  <p>Developed by Aksel Thomsen.</p>
 </div>
 
 <div class="pkgdown-footer-right">

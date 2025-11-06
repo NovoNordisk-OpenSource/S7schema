@@ -26,7 +26,20 @@ construct_validator <- function(schema) {
   )
 }
 
-#' @noRd
+#' Internal validator based on a JSON schema
+#'
+#' Based on JSON schema 'ajv' is used to create a validator object
+#' in Javascript that can be used to check an input yaml.
+#' This is done in a [V8::v8()] context, and stored inside
+#' the `context` property of the the object.
+#'
+#' @param schema `character(1)` path to a JSON schema
+#' @returns New `validator` object
+#' @section Properties:
+#' \describe{
+#'   \item{context}{[V8::v8()] context with a validator object based on the schema}
+#' }
+#' @keywords internal
 validator <- S7::new_class(
   name = "validator",
   properties = list(

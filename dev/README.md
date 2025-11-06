@@ -17,19 +17,19 @@ config files. The implementation will:
 
 A new instance of an `S7schema` class can be initiated with:
 
-``` r
+```r
 config <- S7schema("path/to/my/config.yml", "path/to/my/schema.json")
 ```
 
 Since config is a list it can be updated (here adding an “a” element):
 
-``` r
+```r
 config$a <- 2
 ```
 
 And it can be validated again with:
 
-``` r
+```r
 S7::validate(config)
 ```
 
@@ -53,14 +53,14 @@ that can be loaded in V8 and contains all dependencies.
 
 A new bundled script is create with [Browserify](https://browserify.org):
 
-```
+```bash
 browserify dev/entry.js -o inst/bundle.js
 ```
 
 Note this requires that the dependencies of `dev/entry.js` are installed.
 Install them with:
 
-```
+```bash
 npm install ajv
 npm install js-yaml
 ```

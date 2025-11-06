@@ -2,10 +2,12 @@
 % Please edit documentation in R/y_schema.R
 \name{S7schema}
 \alias{S7schema}
-\title{Schema stuff}
+\title{Schema stuff
+TODO: Documentaion}
 \usage{
 S7schema(.data, schema)
 }
 \description{
 Schema stuff
+TODO: Documentaion
 }

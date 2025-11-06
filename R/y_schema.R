@@ -21,13 +21,14 @@ construct_S7schema <- function(.data, schema) {
 }
 
 #' Schema stuff
+#' TODO: Documentaion
 #' @export
 S7schema <- S7::new_class(
   name = "S7schema",
   parent = S7::class_list,
   properties = list(
     schema = prop_schema,
-    validator = validator
+    validator = validator # TODO: Update with schema!
   ),
   constructor = construct_S7schema,
   validator = \(self) {

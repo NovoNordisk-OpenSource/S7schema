@@ -25,6 +25,7 @@ NULL
 
 #' @rdname validate_config
 #' @return * `validate_list()`: `invisible(x)`
+#' @export
 validate_list <- function(x, schema) {
   UseMethod("validate_list")
 }

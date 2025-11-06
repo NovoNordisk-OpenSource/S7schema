@@ -2,4 +2,5 @@
 
 S3method(validate_list,list)
 S3method(validate_yaml,character)
+export(validate_list)
 export(validate_yaml)

@@ -10,13 +10,20 @@ prop_schema <- S7::new_property(
 )
 
 #' @noRd
+prop_validator <- S7::new_property(
+  class = validator,
+  getter = \(self) {
+    validator(schema = self@schema)
+  }
+)
+
+#' @noRd
 construct_S7schema <- function(.data, schema) {
   assert_file(file = .data, ext = c("yml", "yaml"))
 
   S7::new_object(
     .parent = yaml::read_yaml(.data),
-    schema = schema,
-    validator = validator(schema = schema)
+    schema = schema
   )
 }
 
@@ -28,7 +35,7 @@ S7schema <- S7::new_class(
   parent = S7::class_list,
   properties = list(
     schema = prop_schema,
-    validator = validator # TODO: Update with schema!
+    validator = prop_validator
   ),
   constructor = construct_S7schema,
   validator = \(self) {

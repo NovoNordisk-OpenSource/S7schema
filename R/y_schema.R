@@ -32,7 +32,9 @@ S7schema <- S7::new_class(
   ),
   constructor = construct_S7schema,
   validator = \(self) {
-    validate(self)
-    NULL
+    use_validator(
+      validator = self@validator,
+      yaml_content = yaml::as.yaml(self)
+    )
   }
 )

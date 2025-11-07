@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">S7schema</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9001</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,7 +49,12 @@
 </h1></div>
 <!-- badges: start -->
 
-<p>The purpose of S7schema is to provide a generic way of working with yaml config files. The implementation will: 1. Use S7 for easy downstream use in other packages (e.g. new child classes and methods). 1. Use <a href="https://ajv.js.org" class="external-link">‘ajv’</a> for validation of the config file given JSON schema. 1. S7 class will inherit from <code>list</code> ensuring a seamless integration into existing code.</p>
+<p>The purpose of S7schema is to provide a generic way of working with yaml config files. The implementation will:</p>
+<ol style="list-style-type: decimal">
+<li>Use S7 for easy downstream use in other packages (e.g. new child classes and methods).</li>
+<li>Use <a href="https://ajv.js.org" class="external-link">‘ajv’</a> for validation of the config file given JSON schema.</li>
+<li>S7 class will inherit from <code>list</code> ensuring a seamless integration into existing code.</li>
+</ol>
 <div class="section level2">
 <h2 id="pseudo-code">Pseudo-code<a class="anchor" aria-label="anchor" href="#pseudo-code"></a>
 </h2>
@@ -61,7 +66,7 @@
 <code class="sourceCode R"><span><span class="va">config</span><span class="op">$</span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fl">2</span></span></code></pre></div>
 <p>And it can be validated again:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">validate_schema</span><span class="op">(</span><span class="va">config</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">validate</span><span class="op">(</span><span class="va">config</span><span class="op">)</span></span></code></pre></div>
 <p>Which will now throw an error if <code>a = 2</code> is an illegal entry according to the schema in <code>"path/to/my/schema.json"</code>.</p>
 </div>
 </div>

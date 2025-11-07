@@ -1,0 +1,40 @@
+{
+  "version": "0.2",
+  "language": "en",
+  "ignorePaths": [
+    ".github/**",
+    "man/**",
+    "README.md",
+    ".gitignore",
+    ".Rbuildignore",
+    ".mega-linter.yml",
+    ".cspell.json",
+    ".lintr",
+    ".lycheeignore",
+    "inst/WORDLIST",
+    "docs/**",
+    "tests/testthat/*/**",
+    "inst/bundle.js"
+    ],
+  "patterns": [
+    {
+      "name": "code_chunk",
+      "pattern": "`{3}.*?`{3}"
+    }
+  ],
+  "ignoreRegExpList": [
+    "code_chunk"
+  ],
+  "words": [
+    "nolint"
+  ],
+  "dictionaries": [
+    "wordlist"
+  ],
+  "dictionaryDefinitions": [
+    {
+      "name": "wordlist",
+      "path": "inst/WORDLIST"
+    }
+  ]
+}

@@ -52,3 +52,6 @@ po/*~
 rsconnect/
 
 /.quarto/
+
+# Javascript modules
+node_modules/

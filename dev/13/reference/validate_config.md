@@ -48,17 +48,21 @@ documentation for more info on how the validation is done.
 ## Examples
 
 ``` r
-if (FALSE) {
 # Validate list object in memory
 validate_list(
-  x = list(a = 1),
-  schema = "path/to/my/schema.json"
-)
+  x = list(my_config_var = 1),
+  schema = system.file("examples/schema.json", package = "S7schema")
+) |>
+  print()
+#> $my_config_var
+#> [1] 1
+#> 
 
 # Validate yaml file on disk
 validate_yaml(
-  file = "path/to/my/config.yml",
-  schema = "path/to/my/schema.json"
-)
-}
+  file = system.file("examples/config.yml", package = "S7schema"),
+  schema = system.file("examples/schema.json", package = "S7schema")
+) |>
+  print()
+#> [1] "/home/runner/work/_temp/Library/S7schema/examples/config.yml"
 ```

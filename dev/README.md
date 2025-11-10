@@ -30,7 +30,7 @@ config$a <- 2
 And it can be validated again with:
 
 ```r
-validate(config)
+S7::validate(config)
 ```
 
 Which will now throw an error if `a = 2` is an illegal entry according

@@ -1,6 +1,7 @@
 {
   "Globs": [
+    "**README.md",
     "**/inst/bundle.js",
+    "**inst/examples/schema.json",
     "**/tests/testthat/schemas/simple.json"
-  ]
 }

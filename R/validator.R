@@ -73,7 +73,7 @@ use_validator <- function(validator, yaml_content) {
   error <- result$errors[[1]]
   cli::cli_abort(
     message = c(
-      "{.file {error$instancePath}} {error$message}",
+      "{.field {error$instancePath}} {error$message}",
       rlang::set_names(
         x = paste(names(error$params), error$params, sep = ": "),
         nm = "x"

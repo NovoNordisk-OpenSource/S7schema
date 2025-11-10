@@ -76,11 +76,11 @@ validate_S7schema <- function(self) {
 #'   \item{validator}{Internal [validator()] used to validate the content (read-only).}
 #' }
 #' @returns New `S7schema` object.
-#' @examplesIf FALSE
+#' @examples
 #' # Work with yaml configuration file:
 #' S7schema(
-#'   file = "path/to/my/config.yml",
-#'   schema = "path/to/my/schema.json"
+#'   file = system.file("examples/config.yml", package = "S7schema"),
+#'   schema = system.file("examples/schema.json", package = "S7schema")
 #' )
 #'
 #' @export

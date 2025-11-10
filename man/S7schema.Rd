@@ -46,11 +46,10 @@ See internal \code{\link[=validator]{validator()}} documentation for more info o
 }
 
 \examples{
-\dontshow{if (FALSE) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 # Work with yaml configuration file:
 S7schema(
-  file = "path/to/my/config.yml",
-  schema = "path/to/my/schema.json"
+  file = system.file("examples/config.yml", package = "S7schema"),
+  schema = system.file("examples/schema.json", package = "S7schema")
 )
-\dontshow{\}) # examplesIf}
+
 }

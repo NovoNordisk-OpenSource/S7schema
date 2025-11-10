@@ -8,18 +8,21 @@
 #' @inherit S7schema details
 #' @param x `list` object to validate
 #' @inheritParams S7schema
-#' @examplesIf FALSE
+#' @examples
 #' # Validate list object in memory
 #' validate_list(
-#'   x = list(a = 1),
-#'   schema = "path/to/my/schema.json"
-#' )
+#'   x = list(my_config_var = 1),
+#'   schema = system.file("examples/schema.json", package = "S7schema")
+#' ) |>
+#'   print()
 #'
 #' # Validate yaml file on disk
 #' validate_yaml(
-#'   file = "path/to/my/config.yml",
-#'   schema = "path/to/my/schema.json"
-#' )
+#'   file = system.file("examples/config.yml", package = "S7schema"),
+#'   schema = system.file("examples/schema.json", package = "S7schema")
+#' ) |>
+#'   print()
+#'
 #' @seealso [S7schema()]
 #' @name validate_config
 NULL

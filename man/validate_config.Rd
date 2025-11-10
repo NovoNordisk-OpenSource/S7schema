@@ -36,19 +36,20 @@ It is possible to either validate an existing \code{list} object in memory or an
 See internal \code{\link[=validator]{validator()}} documentation for more info on how the validation is done.
 }
 \examples{
-\dontshow{if (FALSE) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 # Validate list object in memory
 validate_list(
-  x = list(a = 1),
-  schema = "path/to/my/schema.json"
-)
+  x = list(my_config_var = 1),
+  schema = system.file("examples/schema.json", package = "S7schema")
+) |>
+  print()
 
 # Validate yaml file on disk
 validate_yaml(
-  file = "path/to/my/config.yml",
-  schema = "path/to/my/schema.json"
-)
-\dontshow{\}) # examplesIf}
+  file = system.file("examples/config.yml", package = "S7schema"),
+  schema = system.file("examples/schema.json", package = "S7schema")
+) |>
+  print()
+
 }
 \seealso{
 \code{\link[=S7schema]{S7schema()}}

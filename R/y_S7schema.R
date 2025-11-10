@@ -1,19 +1,29 @@
 #' @noRd
+validate_prop_schema <- function(value) {
+  val <- check_file(file = value, ext = "json")
+  if (!isTRUE(val)) {
+    return(val)
+  }
+}
+
+#' @noRd
 prop_schema <- S7::new_property(
   class = S7::class_character,
   validator = \(value) {
-    val <- check_file(file = value, ext = "json")
-    if (!isTRUE(val)) {
-      return(val)
-    }
+    validate_prop_schema(value)
   }
 )
+
+#' @noRd
+get_prop_validator <- function(self) {
+  validator(schema = self@schema)
+}
 
 #' @noRd
 prop_validator <- S7::new_property(
   class = validator,
   getter = \(self) {
-    validator(schema = self@schema)
+    get_prop_validator(self)
   }
 )
 
@@ -24,6 +34,14 @@ construct_S7schema <- function(file, schema) {
   S7::new_object(
     .parent = yaml::read_yaml(file = file),
     schema = schema
+  )
+}
+
+#' @noRd
+validate_S7schema <- function(self) {
+  use_validator(
+    validator = self@validator,
+    yaml_content = yaml::as.yaml(self)
   )
 }
 
@@ -60,9 +78,6 @@ S7schema <- S7::new_class(
   ),
   constructor = construct_S7schema,
   validator = \(self) {
-    use_validator(
-      validator = self@validator,
-      yaml_content = yaml::as.yaml(self)
-    )
+    validate_S7schema(self)
   }
 )

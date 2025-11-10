@@ -15,8 +15,24 @@ S7schema(file, schema)
 New \code{S7schema} object.
 }
 \description{
-\code{S7schema} provides a generic way of working with yaml configuration files.
-sds
+\code{S7schema()} provides a generic way of working with yaml configuration files.
+
+The object is created by supplying both an initial YAML configuration (\code{file})
+and the JSON schema defination (\code{schema}) of the configuration file.
+
+The initial configuration is validated before the new object is returned.
+If not valid the first error is thrown, together with a path to the entry in the YAML file,
+and a description of the error.
+
+The \code{S7schema} class inherits from \code{list}, ensuring that the content of the YAML
+file can be accessed as if read directly with \code{yaml::read_yaml()}, and supports
+the below workflow:
+\enumerate{
+\item Read and validate config file: \code{x <- S7schema(...)}
+\item Edit content as if it was a list: \code{x$new_entry <- "new_value"}
+\item Validate new content against the original schema: \code{validate(x)}
+\item Use values in downstream functions: \code{x$new_entry}
+}
 }
 \details{
 See internal \code{\link[=validator]{validator()}} documentation for more info on how the validation is done.
@@ -25,7 +41,7 @@ See internal \code{\link[=validator]{validator()}} documentation for more info o
 
 \describe{
 \item{schema}{\code{character(1)} path to JSON schema being used to validate against.}
-\item{validator}{Internal \code{\link[=validator]{validator()}} used to validate the content.}
+\item{validator}{Internal \code{\link[=validator]{validator()}} used to validate the content (read-only).}
 }
 }
 

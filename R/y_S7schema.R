@@ -47,8 +47,23 @@ validate_S7schema <- function(self) {
 
 #' Work with valid configurations
 #' @description
-#' `S7schema` provides a generic way of working with yaml configuration files.
-#' sds
+#' `S7schema()` provides a generic way of working with yaml configuration files.
+#'
+#' The object is created by supplying both an initial YAML configuration (`file`)
+#' and the JSON schema defination (`schema`) of the configuration file.
+#'
+#' The initial configuration is validated before the new object is returned.
+#' If not valid the first error is thrown, together with a path to the entry in the YAML file,
+#' and a description of the error.
+#'
+#' The `S7schema` class inherits from `list`, ensuring that the content of the YAML
+#' file can be accessed as if read directly with `yaml::read_yaml()`, and supports
+#' the below workflow:
+
+#' 1. Read and validate config file: `x <- S7schema(...)`
+#' 2. Edit content as if it was a list: `x$new_entry <- "new_value"`
+#' 3. Validate new content against the original schema: `validate(x)`
+#' 4. Use values in downstream functions: `x$new_entry`
 #'
 #' @details
 #' See internal [validator()] documentation for more info on how the validation is done.
@@ -58,7 +73,7 @@ validate_S7schema <- function(self) {
 #' @section Properties:
 #' \describe{
 #'   \item{schema}{`character(1)` path to JSON schema being used to validate against.}
-#'   \item{validator}{Internal [validator()] used to validate the content.}
+#'   \item{validator}{Internal [validator()] used to validate the content (read-only).}
 #' }
 #' @returns New `S7schema` object.
 #' @examplesIf FALSE

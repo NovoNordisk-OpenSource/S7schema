@@ -4,7 +4,7 @@
 \alias{validate_config}
 \alias{validate_list}
 \alias{validate_yaml}
-\title{Validate configuration}
+\title{One-shot validation of configurations}
 \usage{
 validate_list(x, schema)
 
@@ -13,9 +13,9 @@ validate_yaml(file, schema)
 \arguments{
 \item{x}{\code{list} object to validate}
 
-\item{schema}{\code{character(1)} path to a JSON schema}
+\item{schema}{\code{character(1)} path to a JSON schema.}
 
-\item{file}{\code{character(1)} path to a yaml file to be checked}
+\item{file}{\code{character(1)} path to a yaml file to be checked.}
 }
 \value{
 \itemize{
@@ -32,6 +32,9 @@ Check if a configuration is in accordance with a JSON schema definition.
 It is possible to either validate an existing \code{list} object in memory or an existing
 \code{yaml} configuration file.
 }
+\details{
+See internal \code{\link[=validator]{validator()}} documentation for more info on how the validation is done.
+}
 \examples{
 \dontshow{if (FALSE) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 # Validate list object in memory
@@ -46,4 +49,7 @@ validate_yaml(
   schema = "path/to/my/schema.json"
 )
 \dontshow{\}) # examplesIf}
+}
+\seealso{
+\code{\link[=S7schema]{S7schema()}}
 }

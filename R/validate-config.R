@@ -1,13 +1,13 @@
-#' Validate configuration
+#' One-shot validation of configurations
 #' @description
 #' Check if a configuration is in accordance with a JSON schema definition.
 #'
 #' It is possible to either validate an existing `list` object in memory or an existing
 #' `yaml` configuration file.
 #'
+#' @inherit S7schema details
 #' @param x `list` object to validate
-#' @param file `character(1)` path to a yaml file to be checked
-#' @param schema `character(1)` path to a JSON schema
+#' @inheritParams S7schema
 #' @examplesIf FALSE
 #' # Validate list object in memory
 #' validate_list(
@@ -20,6 +20,7 @@
 #'   file = "path/to/my/config.yml",
 #'   schema = "path/to/my/schema.json"
 #' )
+#' @seealso [S7schema()]
 #' @name validate_config
 NULL
 

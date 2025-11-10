@@ -3,7 +3,7 @@ pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
   S7schema: S7schema.html
-last_built: 2025-11-10T17:52Z
+last_built: 2025-11-10T17:55Z
 urls:
   reference: https://nn-opensource.github.io/S7schema/reference
   article: https://nn-opensource.github.io/S7schema/articles

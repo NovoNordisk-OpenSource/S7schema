@@ -55,3 +55,4 @@ rsconnect/
 
 # Javascript modules
 node_modules/
+inst/doc

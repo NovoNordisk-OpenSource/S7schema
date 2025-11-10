@@ -18,7 +18,7 @@ New \code{S7schema} object.
 \code{S7schema()} provides a generic way of working with yaml configuration files.
 
 The object is created by supplying both an initial YAML configuration (\code{file})
-and the JSON schema defination (\code{schema}) of the configuration file.
+and the JSON schema definition (\code{schema}) of the configuration file.
 
 The initial configuration is validated before the new object is returned.
 If not valid the first error is thrown, together with a path to the entry in the YAML file,

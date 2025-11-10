@@ -1,0 +1,92 @@
+---
+title: "S7schema"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{S7schema}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+library(S7schema)
+```
+
+## Introduction
+
+S7schema provides a generic way of working with yaml config files. 
+The main functionality is captured in the `S7schema()` which we will explore in this vignette.
+
+## Configuration and schema
+
+First we find the example configuration and schema files that will be used to
+demonstrate `S7schema()`.
+
+```{r}
+ex_config <- system.file("examples/config.yml", package = "S7schema")
+ex_schema <- system.file("examples/schema.json", package = "S7schema")
+```
+
+`schema.json` defines a very simple configuration file, that only
+consists of one entry (`my_config_var`) which is a single number:
+
+``` json
+`r paste(readLines(ex_schema), collapse = "\n")`
+```
+
+Our initial `config.yml` defines this entry to have the value `1`:
+``` yaml
+`r paste(readLines(ex_config), collapse = "\n")`
+```
+
+Which is obviously a valid configuration. But to check it programmatically
+we can also use the one-shot validation function `validate_yaml()`:
+
+```{r}
+validate_yaml(file = ex_config, schema = ex_schema)
+```
+
+## Work with a configuration
+
+Alternatively we can load and validate the configuration with the `S7schema()` class:
+
+```{r}
+config <- S7schema(file = ex_config, schema = ex_schema)
+print(config)
+```
+
+Here you can see that `config` is a S7 object, that itself is a `list` containing the
+content of `config.yml`. Which can be further seen by inspecting the class:
+
+```{r}
+class(config)
+```
+
+Since it is a list, it is very easy to access the value of `my_config_var` directly:
+
+```{r}
+config$my_config_var
+```
+
+And similarly to overwrite the value:
+
+```{r}
+config$my_config_var <- 2
+validate(config)
+print(config)
+```
+
+Note that validation is not automatically triggered when updating a value,
+which is why it is needed to call it explicitly.
+
+This is also why we can update with an illegal entry below,
+but then get an error when validating the updated object:
+
+```{r, error = TRUE}
+config$my_config_var <- "abc"
+validate(config)
+```

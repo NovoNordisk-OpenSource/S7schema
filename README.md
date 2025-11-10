@@ -11,8 +11,8 @@
 S7schema provides a generic way of working with yaml config files. The
 main functionality is captured in the `S7schema()` class that:
 
-1.  Uses S7 for easy downstream use in other packages (e.g. new child
-    classes and methods).
+1.  Uses [S7](https://rconsortium.github.io/S7/) for easy downstream use
+    in other packages (e.g. new child classes and methods).
 2.  Uses [‘ajv’](https://ajv.js.org) for validation of the config file
     given [JSON schema](https://json-schema.org).
 3.  Inherits from `list` ensuring a seamless integration into existing
@@ -26,6 +26,10 @@ pak::pak("NN-OpenSource/S7schema")
 ```
 
 ## Usage
+
+``` r
+library(S7schema)
+```
 
 A new instance of an `S7schema` class can be initiated with:
 

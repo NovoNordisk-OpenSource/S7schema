@@ -7,4 +7,5 @@ reference:
   - contents:
     - S7schema
     - validate_config
+    - write_config
     - reexports

@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">S7schema</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9002</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -31,6 +31,7 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
+<li class="nav-item"><a class="nav-link" href="articles/S7schema.html">Get started</a></li>
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
       </ul>
 <ul class="navbar-nav">
@@ -49,24 +50,33 @@
 </h1></div>
 <!-- badges: start -->
 
-<p>The purpose of S7schema is to provide a generic way of working with yaml config files. The implementation will:</p>
+<p>S7schema provides a generic way of working with yaml config files. The main functionality is captured in the <code><a href="reference/S7schema.html">S7schema()</a></code> class that:</p>
 <ol style="list-style-type: decimal">
-<li>Use S7 for easy downstream use in other packages (e.g. new child classes and methods).</li>
-<li>Use <a href="https://ajv.js.org" class="external-link">‘ajv’</a> for validation of the config file given JSON schema.</li>
-<li>S7 class will inherit from <code>list</code> ensuring a seamless integration into existing code.</li>
+<li>Uses <a href="https://rconsortium.github.io/S7/" class="external-link">S7</a> for easy downstream use in other packages (e.g. new child classes and methods).</li>
+<li>Uses <a href="https://ajv.js.org" class="external-link">‘ajv’</a> for validation of the config file given <a href="https://json-schema.org" class="external-link">JSON schema</a>.</li>
+<li>Inherits from <code>list</code> ensuring a seamless integration into existing code using the configuration entries.</li>
 </ol>
 <div class="section level2">
-<h2 id="pseudo-code">Pseudo-code<a class="anchor" aria-label="anchor" href="#pseudo-code"></a>
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>A new instance of an <code>S7schema</code> class can be initiated with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">config</span> <span class="op">&lt;-</span> <span class="fu">S7schema</span><span class="op">(</span><span class="st">"path/to/my/config.yml"</span>, <span class="st">"path/to/my/schema.json"</span><span class="op">)</span></span></code></pre></div>
-<p>Since config is a list it can be updated (here adding an “a” element):</p>
+<code class="sourceCode R"><span><span class="co"># Install the development version from GitHub:</span></span>
+<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"NN-OpenSource/S7schema"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
+</h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://nn-opensource.github.io/S7schema">S7schema</a></span><span class="op">)</span></span></code></pre></div>
+<p>A new instance of an <code>S7schema</code> class can be initiated with:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">config</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/S7schema.html">S7schema</a></span><span class="op">(</span><span class="st">"path/to/my/config.yml"</span>, <span class="st">"path/to/my/schema.json"</span><span class="op">)</span></span></code></pre></div>
+<p>Since config is a list it can be updated (here adding an “a” element):</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">config</span><span class="op">$</span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fl">2</span></span></code></pre></div>
 <p>And it can be validated again:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">validate</span><span class="op">(</span><span class="va">config</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rconsortium.github.io/S7/reference/validate.html" class="external-link">validate</a></span><span class="op">(</span><span class="va">config</span><span class="op">)</span></span></code></pre></div>
 <p>Which will now throw an error if <code>a = 2</code> is an illegal entry according to the schema in <code>"path/to/my/schema.json"</code>.</p>
 </div>
 </div>
@@ -110,7 +120,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

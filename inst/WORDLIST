@@ -10,8 +10,10 @@ pkgdown
 Pkgdown
 rdname
 rlang
+rmarkdown
 Roxygen
 Roxygenize
+seealso
 Sweave
 testthat
 Thomsen

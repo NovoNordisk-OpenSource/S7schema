@@ -7,16 +7,18 @@
 validator(schema)
 }
 \arguments{
-\item{schema}{\code{character(1)} path to a JSON schema}
+\item{schema}{\code{character(1)} path to a JSON schema.}
 }
 \value{
 New \code{validator} object
 }
 \description{
-Based on JSON schema 'ajv' is used to create a validator object
-in Javascript that can be used to check an input yaml.
+Based on a JSON schema, \href{https://ajv.js.org}{ajv} is used to create a validator
+object in Javascript that can be used to check an input yaml.
 This is done in a \code{\link[V8:V8]{V8::v8()}} context, and stored inside
 the \code{context} property of the the object.
+
+See \href{https://json-schema.org}{json-schema.org} on how to specify a JSON schema.
 }
 \section{Properties}{
 

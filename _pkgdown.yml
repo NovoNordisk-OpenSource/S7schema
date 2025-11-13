@@ -1,4 +1,10 @@
 url: https://nn-opensource.github.io/S7schema
+
 template:
   bootstrap: 5
 
+reference:
+  - contents:
+    - S7schema
+    - validate_config
+    - reexports

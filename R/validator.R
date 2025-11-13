@@ -27,13 +27,15 @@ construct_validator <- function(schema) {
 }
 
 #' Internal validator based on a JSON schema
-#'
-#' Based on JSON schema 'ajv' is used to create a validator object
-#' in Javascript that can be used to check an input yaml.
+#' @description
+#' Based on a JSON schema, [ajv](https://ajv.js.org) is used to create a validator
+#' object in Javascript that can be used to check an input yaml.
 #' This is done in a [V8::v8()] context, and stored inside
 #' the `context` property of the the object.
 #'
-#' @param schema `character(1)` path to a JSON schema
+#' See [json-schema.org](https://json-schema.org) on how to specify a JSON schema.
+#'
+#' @inheritParams S7schema
 #' @returns New `validator` object
 #' @section Properties:
 #' \describe{
@@ -71,7 +73,7 @@ use_validator <- function(validator, yaml_content) {
   error <- result$errors[[1]]
   cli::cli_abort(
     message = c(
-      "{.file {error$instancePath}} {error$message}",
+      "{.field {error$instancePath}} {error$message}",
       rlang::set_names(
         x = paste(names(error$params), error$params, sep = ": "),
         nm = "x"

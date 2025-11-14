@@ -2,7 +2,7 @@
 % Please edit documentation in R/z_write.R
 \name{write_config}
 \alias{write_config}
-\title{Write configuration file}
+\title{Write YAML configuration file}
 \usage{
 write_config(x, file, ...)
 }
@@ -15,7 +15,7 @@ write_config(x, file, ...)
 }
 \description{
 Thin wrapper around \code{yaml::write_yaml()} calling \code{validate()} before
-creating the file, ensuring that the saved configuration is valid.
+creating the YAML file, ensuring that the saved configuration is valid.
 }
 \examples{
 # Read configuration file:

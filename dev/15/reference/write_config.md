@@ -1,10 +1,10 @@
-# Write configuration file
+# Write YAML configuration file
 
 Thin wrapper around
 [`yaml::write_yaml()`](https://rdrr.io/pkg/yaml/man/write_yaml.html)
 calling
 [`validate()`](https://rconsortium.github.io/S7/reference/validate.html)
-before creating the file, ensuring that the saved configuration is
+before creating the YAML file, ensuring that the saved configuration is
 valid.
 
 ## Usage
@@ -42,7 +42,7 @@ print(x)
 #>  $ my_config_var: int 1
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x5576354bb4f8> 
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x5559a40f64e0> 
 
 # Edit content
 x$my_config_var <- 2

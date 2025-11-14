@@ -6,7 +6,7 @@
   [`validate_yaml()`](https://nn-opensource.github.io/S7schema/reference/validate_config.md)
   : One-shot validation of configurations
 - [`write_config()`](https://nn-opensource.github.io/S7schema/reference/write_config.md)
-  : Write configuration file
+  : Write YAML configuration file
 - [`reexports`](https://nn-opensource.github.io/S7schema/reference/reexports.md)
   [`validate`](https://nn-opensource.github.io/S7schema/reference/reexports.md)
   : Objects exported from other packages

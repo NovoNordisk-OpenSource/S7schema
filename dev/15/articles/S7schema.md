@@ -53,9 +53,11 @@ validate_yaml(file = ex_config, schema = ex_schema)
 
 ## Work with a configuration
 
-Alternatively we can load and validate the configuration with the
+Alternatively we can load, validate, and write the configuration with
+the
 [`S7schema()`](https://nn-opensource.github.io/S7schema/reference/S7schema.md)
-class:
+class. To load it simple create a new `S7schema` object based on the
+same config and schema files as above:
 
 ``` r
 config <- S7schema(file = ex_config, schema = ex_schema)
@@ -64,7 +66,7 @@ print(config)
 #>  $ my_config_var: int 1
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x55a1cc1260b8>
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x55b30c3bf068>
 ```
 
 Here you can see that `config` is a S7 object, that itself is a `list`
@@ -94,7 +96,7 @@ print(config)
 #>  $ my_config_var: num 2
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x55a1ccac5b88>
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x55b30cd566f0>
 ```
 
 Note that validation is not automatically triggered when updating a
@@ -110,3 +112,18 @@ validate(config)
 #> ! /my_config_var must be number
 #> ✖ type: number
 ```
+
+To save a configuration use
+[`write_config()`](https://nn-opensource.github.io/S7schema/reference/write_config.md):
+
+``` r
+write_config(
+  x = config,
+  file = "my/config.yml"
+)
+```
+
+This is just a wrapper around
+[`yaml::write_yaml()`](https://rdrr.io/pkg/yaml/man/write_yaml.html),
+but have the advantage that the `S7schema` input is always validated
+before the file is created.

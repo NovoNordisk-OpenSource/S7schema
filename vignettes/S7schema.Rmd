@@ -52,7 +52,8 @@ validate_yaml(file = ex_config, schema = ex_schema)
 
 ## Work with a configuration
 
-Alternatively we can load and validate the configuration with the `S7schema()` class:
+Alternatively we can load, validate, and write the configuration with the `S7schema()` class.
+To load it simple create a new `S7schema` object based on the same config and schema files as above:
 
 ```{r}
 config <- S7schema(file = ex_config, schema = ex_schema)
@@ -90,3 +91,15 @@ but then get an error when validating the updated object:
 config$my_config_var <- "abc"
 validate(config)
 ```
+
+To save a configuration use `write_config()`:
+
+```{r, eval = FALSE}
+write_config(
+  x = config,
+  file = "my/config.yml"
+)
+```
+
+This is just a wrapper around `yaml::write_yaml()`, but have the advantage
+that the `S7schema` input is always validated before the file is created.

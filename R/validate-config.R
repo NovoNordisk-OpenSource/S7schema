@@ -38,7 +38,7 @@ validate_list <- function(x, schema) {
 validate_list.list <- function(x, schema) {
   use_validator(
     validator = validator(schema = schema),
-    yaml_content = yaml::as.yaml(x)
+    yaml_content = to_yaml(x)
   )
 
   invisible(x)

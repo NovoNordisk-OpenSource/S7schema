@@ -8,7 +8,7 @@ to save a configuration.
 Underneath it is calling
 [`yaml::as.yaml()`](https://rdrr.io/pkg/yaml/man/as.yaml.html) to do the
 conversion, but all `logical` values are converted to `true`/`false`
-instead of `yes`/`no` respectivily for a more robust integration with
+instead of `yes`/`no` respectively for a more robust integration with
 other YAML parsers.
 
 It is rarely relevant to call this function directly except for
@@ -75,7 +75,7 @@ print(x)
 #>  $ my_config_var: int 1
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x5588bb23f180> 
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x55a5a051ccd8> 
 
 to_yaml(x) |>
   cat()

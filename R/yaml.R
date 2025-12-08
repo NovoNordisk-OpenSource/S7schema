@@ -5,7 +5,7 @@
 #' when using `write_config()` to save a configuration.
 #'
 #' Underneath it is calling `yaml::as.yaml()` to do the conversion, but all `logical` values
-#' are converted to `true`/`false` instead of `yes`/`no` respectivily for a more robust integration
+#' are converted to `true`/`false` instead of `yes`/`no` respectively for a more robust integration
 #' with other YAML parsers.
 #'
 #' It is rarely relevant to call this function directly except for debugging purposes, or when

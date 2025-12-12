@@ -66,7 +66,7 @@ print(config)
 #>  $ my_config_var: int 1
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x5653b0900668>
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x55d5364d8b18>
 ```
 
 Here you can see that `config` is a S7 object, that itself is a `list`
@@ -96,7 +96,7 @@ print(config)
 #>  $ my_config_var: num 2
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x5653b129c730>
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x55d536e78a70>
 ```
 
 Note that validation is not automatically triggered when updating a
@@ -124,6 +124,6 @@ write_config(
 ```
 
 This is just a wrapper around
-[`yaml::write_yaml()`](https://rdrr.io/pkg/yaml/man/write_yaml.html),
+[`yaml::write_yaml()`](https://yaml.r-lib.org/reference/write_yaml.html),
 but have the advantage that the `S7schema` input is always validated
 before the file is created.

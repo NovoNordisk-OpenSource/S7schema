@@ -68,7 +68,7 @@ and the JSON schema definition (<code>schema</code>) of the configuration file.<
 If not valid the first error is thrown, together with a path to the entry in the YAML file,
 and a description of the error.</p>
 <p>The <code>S7schema</code> class inherits from <code>list</code>, ensuring that the content of the YAML
-file can be accessed as if read directly with <code><a href="https://rdrr.io/pkg/yaml/man/read_yaml.html" class="external-link">yaml::read_yaml()</a></code>, and supports
+file can be accessed as if read directly with <code><a href="https://yaml.r-lib.org/reference/read_yaml.html" class="external-link">yaml::read_yaml()</a></code>, and supports
 the below workflow:</p><ol><li><p>Read and validate config file: <code>x &lt;- S7schema(...)</code></p></li>
 <li><p>Edit content as if it was a list: <code>x$new_entry &lt;- "new_value"</code></p></li>
 <li><p>Validate new content against the original schema: <code>validate(x)</code></p></li>
@@ -124,7 +124,7 @@ the below workflow:</p><ol><li><p>Read and validate config file: <code>x &lt;- S
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ my_config_var: int 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  @ validator: &lt;S7schema::validator&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  .. @ context:Classes 'V8', 'environment' &lt;environment: 0x55a59c4dfb90&gt; </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. @ context:Classes 'V8', 'environment' &lt;environment: 0x559e6a2ef680&gt; </span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

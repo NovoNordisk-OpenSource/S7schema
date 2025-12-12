@@ -6,8 +6,8 @@ objects, and when using
 to save a configuration.
 
 Underneath it is calling
-[`yaml::as.yaml()`](https://rdrr.io/pkg/yaml/man/as.yaml.html) to do the
-conversion, but all `logical` values are converted to `true`/`false`
+[`yaml::as.yaml()`](https://yaml.r-lib.org/reference/as.yaml.html) to do
+the conversion, but all `logical` values are converted to `true`/`false`
 instead of `yes`/`no` respectively for a more robust integration with
 other YAML parsers.
 
@@ -40,7 +40,7 @@ See
 for more information.
 
 The default method just uses
-[`yaml::verbatim_logical()`](https://rdrr.io/pkg/yaml/man/verbatim_logical.html)
+[`yaml::verbatim_logical()`](https://yaml.r-lib.org/reference/verbatim_logical.html)
 to overwrite the default behavior of handling `logical` values:
 
     function(x) {
@@ -75,7 +75,7 @@ print(x)
 #>  $ my_config_var: int 1
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x55a5a051ccd8> 
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x559e6e2abce8> 
 
 to_yaml(x) |>
   cat()

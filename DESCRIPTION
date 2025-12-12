@@ -18,7 +18,7 @@ Imports:
     S7,
     tools,
     V8,
-    yaml
+    yaml (>= 2.3.8)
 Suggests: 
     knitr,
     rmarkdown,

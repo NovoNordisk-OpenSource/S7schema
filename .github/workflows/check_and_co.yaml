@@ -19,7 +19,9 @@ jobs:
   check-nn-version:
     name: Check NN version
     uses: >-
-      NovoNordisk-OpenSource/r.workflows/.github/workflows/check_nn_versions.yaml@main
+      NovoNordisk-OpenSource/r.workflows/.github/workflows/check_nn_versions.yaml@feat/min-nn-lock-date
+    with:
+      min_lock_date: '2024-08-06'
   pkgdown:
     name: Pkgdown site
     uses: NovoNordisk-OpenSource/r.workflows/.github/workflows/pkgdown.yaml@main

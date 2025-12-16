@@ -19,7 +19,7 @@ jobs:
   check-nn-version:
     name: Check NN version
     uses: >-
-      NovoNordisk-OpenSource/r.workflows/.github/workflows/check_nn_versions.yaml@feat/min-nn-lock-date
+      NovoNordisk-OpenSource/r.workflows/.github/workflows/check_nn_versions.yaml@b33fff3e81e600f188d84b69154cb1e2c12dab1c
     with:
       min_lock_date: '2024-08-06'
   pkgdown:

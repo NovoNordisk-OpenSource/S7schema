@@ -35,7 +35,7 @@ Use values in downstream functions: x$new_entry
 
     <a class="navbar-brand me-2" href="../index.html">S7schema</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9003</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9004</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,7 +68,7 @@ and the JSON schema definition (<code>schema</code>) of the configuration file.<
 If not valid the first error is thrown, together with a path to the entry in the YAML file,
 and a description of the error.</p>
 <p>The <code>S7schema</code> class inherits from <code>list</code>, ensuring that the content of the YAML
-file can be accessed as if read directly with <code><a href="https://rdrr.io/pkg/yaml/man/read_yaml.html" class="external-link">yaml::read_yaml()</a></code>, and supports
+file can be accessed as if read directly with <code><a href="https://yaml.r-lib.org/reference/read_yaml.html" class="external-link">yaml::read_yaml()</a></code>, and supports
 the below workflow:</p><ol><li><p>Read and validate config file: <code>x &lt;- S7schema(...)</code></p></li>
 <li><p>Edit content as if it was a list: <code>x$new_entry &lt;- "new_value"</code></p></li>
 <li><p>Validate new content against the original schema: <code>validate(x)</code></p></li>
@@ -124,7 +124,7 @@ the below workflow:</p><ol><li><p>Read and validate config file: <code>x &lt;- S
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ my_config_var: int 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  @ validator: &lt;S7schema::validator&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  .. @ context:Classes 'V8', 'environment' &lt;environment: 0x56491d388ec8&gt; </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. @ context:Classes 'V8', 'environment' &lt;environment: 0x5590978a7880&gt; </span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

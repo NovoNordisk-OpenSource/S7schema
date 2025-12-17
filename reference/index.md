@@ -7,6 +7,8 @@
   : One-shot validation of configurations
 - [`write_config()`](https://nn-opensource.github.io/S7schema/reference/write_config.md)
   : Write YAML configuration file
+- [`to_yaml()`](https://nn-opensource.github.io/S7schema/reference/to_yaml.md)
+  : Convert an R object to YAML
 - [`reexports`](https://nn-opensource.github.io/S7schema/reference/reexports.md)
   [`validate`](https://nn-opensource.github.io/S7schema/reference/reexports.md)
   : Objects exported from other packages

@@ -13,8 +13,8 @@ to the entry in the YAML file, and a description of the error.
 
 The `S7schema` class inherits from `list`, ensuring that the content of
 the YAML file can be accessed as if read directly with
-[`yaml::read_yaml()`](https://rdrr.io/pkg/yaml/man/read_yaml.html), and
-supports the below workflow:
+[`yaml::read_yaml()`](https://yaml.r-lib.org/reference/read_yaml.html),
+and supports the below workflow:
 
 1.  Read and validate config file: `x <- S7schema(...)`
 
@@ -74,5 +74,5 @@ S7schema(
 #>  $ my_config_var: int 1
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x56491d388ec8> 
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x5590978a7880> 
 ```

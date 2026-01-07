@@ -1,0 +1,142 @@
+---
+title: "Untitled"
+format: html
+---
+
+```{r}
+doc_name_repair <- function(x) {
+  x |>
+    stringr::str_replace_all("^\\$ref$", "reference") |>
+    stringr::str_to_title()
+}
+
+doc_kable <- function(x) {
+  withr::local_options(.new = list(knitr.kable.NA = ""))
+  
+  x[] <- lapply(X = x, FUN = kableExtra::linebreak)
+
+  out <- knitr::kable(x)
+
+  collapsable_rows <- which(names(x) %in% c("name", "description"))
+  if (!length(collapsable_rows)) {
+    return(out)
+  }
+
+  out |> 
+    kableExtra::collapse_rows(columns = collapsable_rows, valign = "top")
+}
+
+as_character_1 <- function(x, collapse = "<br>") {
+  x |>
+    as.character() |>
+    paste(collapse = collapse)
+}
+
+as_character_named <- function(x) {
+  x |>
+    as.character() |>
+    setNames(nm = doc_name_repair(names(x)))
+}
+
+document_entry <- function(x) {
+  x |> 
+    purrr::map(as_character_1) |> 
+    as_character_named() |> 
+    tibble::enframe(name = "name") |> 
+    tidyr::pivot_wider()
+}
+
+document_properties <- function(x) {0
+  properties <- x[["properties"]] |>
+    tibble::enframe(name = "name") |>
+    tidyr::unnest_wider(
+      col = value,
+      names_repair = doc_name_repair
+    )
+
+    required <- unlist(x[["required"]])
+    if (!is.null(required)) {
+        properties$Required <- character(length = nrow(properties))
+        properties$Required[properties$Name %in% required] <- "Yes"
+    }
+
+    if ("Reference" %in% names(properties)) {
+        i <- which(!is.na(properties[["Reference"]]))
+        ref <- properties[["Reference"]][i]
+        ref_text <- stringr::str_remove_all(ref, "^.*definitions/")
+        ref_id <- stringr::str_remove(ref, "/") |> stringr::str_replace_all("/", "-")
+        properties[["Type"]][i] <- paste0("[", ref_text, "](", ref_id, ")")
+        properties[["Reference"]] <- NULL
+    }
+
+    properties
+}
+```
+
+Go to [keys](#definitions-keys)
+
+```{r}
+x <- jsonlite::read_json("/Users/oath/Projects/mighty.metadata/inst/schema/adam.json")
+
+x[["title"]]
+x[["description"]]
+
+# General properties
+document_properties(x) |>
+  doc_kable()
+
+# Object not properties
+x[["definitions"]][["parameter"]][-3] |>
+  document_entry() |> 
+  doc_kable()
+
+# Object properties
+x[["definitions"]][["parameter"]] |>
+  document_properties() |> 
+  doc_kable()
+
+# Description from definition
+
+x[["definitions"]][["cdisc"]][["description"]]
+
+# All definitions
+
+x[["definitions"]][["cdisc"]][-1] |> 
+    purrr::map(document_entry) |> 
+    dplyr::bind_rows(.id = "Name") |> 
+    doc_kable()
+
+x[["definitions"]][["mighty"]][-1] |> 
+    purrr::map(document_entry) |> 
+    dplyr::bind_rows(.id = "Name") |> 
+    dplyr::select(-Properties, -Oneof) |> 
+    doc_kable()
+```
+
+## Definitions
+
+```{r}
+y <- x$definitions
+
+i <- y |> 
+    purrr::map(\(x) any(c("type", "oneof") %in% tolower(names(x)))) |> 
+    unlist()
+
+y[i] |> 
+    purrr::map(document_entry) |> 
+    dplyr::bind_rows(.id = "Name") |> 
+    dplyr::select(-Properties) |> 
+    doc_kable()
+```
+
+### keys {#definitions-keys}
+
+```{r}
+x$definitions["keys"] |> 
+    tibble::enframe() |>
+    tidyr::unnest_wider(value) |> 
+    tidyr::unnest_longer(col = oneOf) |>
+    tidyr::unnest_wider(oneOf) |>
+    dplyr::mutate(items = purrr::map_chr(items, as_character_1)) |>
+    doc_kable()
+```

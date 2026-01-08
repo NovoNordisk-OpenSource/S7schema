@@ -1,9 +1,21 @@
 ---
-title: "Untitled"
+title: "Schema WIP docs"
 format: html
 ---
 
-```{r}
+```{r functions, include=FALSE}
+doc_header <- function(txt, level = 2) {
+    rep(x = "#", times = level) |> 
+    paste(collapse = "") |> 
+    paste(txt) |> 
+    knitr::asis_output()
+}
+
+doc_text <- function(txt) {
+    txt |> 
+        knitr::asis_output()
+}
+
 doc_name_repair <- function(x) {
   x |>
     stringr::str_replace_all("^\\$ref$", "reference") |>
@@ -73,18 +85,49 @@ document_properties <- function(x) {0
 }
 ```
 
-Go to [keys](#definitions-keys)
-
-```{r}
+```{r document, echo = FALSE}
 x <- jsonlite::read_json("/Users/oath/Projects/mighty.metadata/inst/schema/adam.json")
 
-x[["title"]]
-x[["description"]]
+header_level <- 2
 
-# General properties
+# General schema
+
+doc_header(txt = x[["title"]], level = header_level)
+
+doc_text(txt = x[["description"]])
+
+x |> 
+    document_entry() |> 
+    dplyr::select(
+        -tidyselect::starts_with(
+            c("$Schema", "$Id", "Title", "Description", "Properties", "Definitions"))) |> 
+    doc_kable()
+
+doc_header("Properties", header_level + 1)
+
 document_properties(x) |>
   doc_kable()
 
+doc_header("Definitions", header_level)
+
+purrr::map2(
+    .x = names(x$definitions),
+    .y = x$definitions,
+    .f = \(name, entry) {
+        c(
+        doc_header(name, header_level + 1),
+        doc_text(entry[["description"]])
+        )
+    }
+    ) |> 
+        unlist() |> 
+        paste(collapse = "\n\n") |> 
+        knitr::asis_output()
+```
+
+## Olds stuff
+
+```{r}
 # Object not properties
 x[["definitions"]][["parameter"]][-3] |>
   document_entry() |> 
@@ -113,7 +156,7 @@ x[["definitions"]][["mighty"]][-1] |>
     doc_kable()
 ```
 
-## Definitions
+## Definitions - old
 
 ```{r}
 y <- x$definitions

@@ -8,4 +8,5 @@ reference:
     - S7schema
     - validate_config
     - write_config
+    - document_schema
     - reexports

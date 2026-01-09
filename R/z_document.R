@@ -1,12 +1,44 @@
 x <- jsonlite::read_json("../mighty.metadata/inst/schema/adam.json")
 
+#' Document schema
 #' @export
-document_schema <- function(x, header_level = 2) {
-  header_level <- 2
+document_schema <- S7::new_generic(
+  name = "document_schema",
+  dispatch_args = "x",
+  fun = \(x) {
+    S7::S7_dispatch()
+  }
+)
 
-  doc_header(txt = x[["title"]], level = header_level)
+#' @noRd
+S7::method(document_schema, S7::class_list) <- function(x) {
+  document_schema_list(x)
+}
 
-  doc_text(txt = x[["description"]])
+#' @noRd
+S7::method(document_schema, S7::class_character) <- function(x) {
+  assert_file(file = x, ext = "json")
+
+  x |>
+    jsonlite::read_json() |>
+    document_schema(x)
+}
+
+#' @noRd
+S7::method(document_schema, S7schema) <- function(x) {
+  document_schema(x@schema)
+}
+
+#' @noRd
+document_schema_list <- function(x, header_level = 2) {
+  rlang::check_installed("knitr")
+
+  c(
+    document_entry(x, x$title),
+    document_entry(x$definitions, "Definitions")
+  ) |>
+    as_character_1(collapse = "\n\n") |>
+    knitr::asis_output()
 }
 
 #' @noRd
@@ -27,7 +59,21 @@ discard_entries <- function(
 }
 
 #' @noRd
-document_entry <- function(x) {
+document_entries <- function(entries, titles) {
+  res <- character(length = length(entries))
+
+  for (i in seq_along(res)) {
+    res[[i]] <- document_entry(
+      x = entries[[i]],
+      titles[[i]]
+    )
+  }
+
+  as_character_1(res, collapse = "\n\n")
+}
+
+#' @noRd
+document_entry <- function(x, title) {
   entry_type <- x$type
   if ("oneOf" %in% names(x)) {
     entry_type <- "oneOf"
@@ -37,17 +83,23 @@ document_entry <- function(x) {
     return(
       x |>
         discard_entries() |>
-        lapply(document_entry) |>
-        as_character_1(collapse = "\n\n")
+        document_entries(names(x))
     )
   }
 
-  switch(
+  txt <- switch(
     EXPR = entry_type,
     object = document_object(x),
     oneOf = document_oneOf(x),
     document_default(x)
   )
+
+  c(
+    doc_header(title),
+    doc_text(x$description),
+    txt
+  ) |>
+    as_character_1(collapse = "\n\n")
 }
 
 #' @noRd

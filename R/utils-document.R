@@ -1,10 +1,4 @@
 #' @noRd
-doc_asis <- function(x, ...) {
-  rlang::check_installed("knitr")
-  knitr::asis_output(x, ...)
-}
-
-#' @noRd
 doc_text <- function(txt) {
   if (is.null(txt)) {
     return(NULL)

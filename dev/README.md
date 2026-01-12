@@ -66,3 +66,37 @@ npm install js-yaml
 ```
 
 Read more in this the [Using NPM packages in V8](https://cran.r-project.org/web/packages/V8/vignettes/npm.html) vignette.
+
+### License
+
+Only embed javascript modules that are compatiable with the license og S7schema (APACHE 2.0).
+Currently using the following modules and licenses:
+
+| Package                          |License      |
+|:---------------------------------|:------------|
+|node_modules/ajv                  |MIT          |
+|node_modules/argparse             |Python-2.0   |
+|node_modules/fast-deep-equal      |MIT          |
+|node_modules/fast-uri             |BSD-3-Clause |
+|node_modules/js-yaml              |MIT          |
+|node_modules/json-schema-traverse |MIT          |
+|node_modules/require-from-string  |MIT          |
+
+Following the advice in [R Packages](https://r-pkgs.org/license.html#sec-code-you-bundle) we include the individual licenses in `inst/licenses` folder,
+mention them in `LICENSE.note` and includer their authors as copyright holders in `DESCRIPTION`.
+
+We have assesded the three licenses used (MIT, Python-2.0 , and BSD-3-Clause) to be compatible with Apache 2.0, and
+therefore they can be bundled into this R package.
+
+If new development introduces new packages or newer version, it is required to asses their license compatibility and update the files mentioned
+above as appropiate.
+
+To copy each license you can run the bash script below to copy all
+individual licenses:
+
+```bash
+for license in $(find node_modules -maxdepth 2 -iname "license*" | sort); do
+    package=$(dirname $license | xargs basename)
+    cp "$license" "../inst/licenses/${package}-LICENSE"
+  done
+```

@@ -3,7 +3,36 @@ Title: Generic 'S7' Implementation of YAML Config with Schema Based Validation
 Version: 0.0.0.9004
 Authors@R: c(
     person("Aksel", "Thomsen", , "oath@novonordisk.com", role = c("aut", "cre")),
-    person("Novo Nordisk A/S", role = "cph")
+    person("Novo Nordisk A/S", role = "cph"),
+    person(
+        given = "Evgeny",
+        family = "Poberezkin",
+        role = "cph",
+        comment = "Author of included ajv, fast-deep-equal, and json-schema-traverse libraries"
+    ),
+    person(
+        given = "Python Software Foundation",
+        role = "cph",
+        comment = "Copyright holder of Python argparse (included argparse library is a JavaScript port)"
+    ),    
+    person(
+        given = "Vladimir",
+        family = "Zapparov",
+        role = "cph",
+        comment = "Author of included js-yaml library"
+    ),
+    person(
+        given = "Vincent",
+        family = "Le Goff",
+        role = "cph",
+        comment = "Author of included fast-uri library"
+    ),
+    person(
+        given = "Vsevolod",
+        family = "Strukchinsky",
+        role = "cph",
+        comment = "Author of included require-from-string library"
+    )
   )
 Description: Provides a generic framework for working with YAML
     configuration files, including using 'ajv' for validation.
@@ -28,4 +57,4 @@ VignetteBuilder:
 Config/testthat/edition: 3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3

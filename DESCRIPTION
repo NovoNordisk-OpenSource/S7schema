@@ -1,5 +1,5 @@
 Package: S7schema
-Title: Generic 'S7' implementation of yaml config with schema based
+Title: Generic 'S7' Implementation of Yaml Config with Schema Based Validation
     validation
 Version: 0.0.0.9004
 Authors@R: c(

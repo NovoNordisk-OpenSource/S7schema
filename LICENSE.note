@@ -1,0 +1,13 @@
+The S7schema package as a whole is distributed under APACHE 2.0. 
+The S7schema package includes other open source software components.
+The following is a list of these components:
+
+* ajv: MIT
+* argparse: Python-2.0
+* fast-deep-equal: MIT
+* fast-uri: BSD-3-Clause
+* js-yaml: MIT
+* json-schema-traverse: MIT
+* require-from-string: MIT
+
+Full copies of the license agreements used by these components are included in `inst/licenses`.

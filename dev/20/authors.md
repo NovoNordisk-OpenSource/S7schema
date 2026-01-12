@@ -6,6 +6,23 @@
 
 - **Novo Nordisk A/S**. Copyright holder.
 
+- **Evgeny Poberezkin**. Copyright holder.  
+  Author of included ajv, fast-deep-equal, and json-schema-traverse
+  libraries
+
+- **Python Software Foundation**. Copyright holder.  
+  Copyright holder of Python argparse (included argparse library is a
+  JavaScript port)
+
+- **Vladimir Zapparov**. Copyright holder.  
+  Author of included js-yaml library
+
+- **Vincent Le Goff**. Copyright holder.  
+  Author of included fast-uri library
+
+- **Vsevolod Strukchinsky**. Copyright holder.  
+  Author of included require-from-string library
+
 ## Citation
 
 Thomsen A (2026). *S7schema: Generic 'S7' Implementation of YAML Config

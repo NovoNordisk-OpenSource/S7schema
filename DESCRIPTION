@@ -1,6 +1,5 @@
 Package: S7schema
-Title: Generic 'S7' implementation of yaml config with schema based
-    validation
+Title: Generic 'S7' Implementation of YAML Config with Schema Based Validation
 Version: 0.0.0.9004
 Authors@R: c(
     person("Aksel", "Thomsen", , "oath@novonordisk.com", role = c("aut", "cre")),
@@ -35,7 +34,7 @@ Authors@R: c(
         comment = "Author of included require-from-string library"
     )
   )
-Description: Provides a generic framework for working with 'yaml'
+Description: Provides a generic framework for working with YAML
     configuration files, including using 'ajv' for validation.
 License: Apache License (>= 2)
 URL: https://nn-opensource.github.io/S7schema

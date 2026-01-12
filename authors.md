@@ -8,14 +8,14 @@
 
 ## Citation
 
-Thomsen A (2025). *S7schema: Generic 'S7' implementation of yaml config
+Thomsen A (2026). *S7schema: Generic 'S7' implementation of yaml config
 with schema based validation*. R package version 0.0.0.9004,
 <https://nn-opensource.github.io/S7schema>.
 
     @Manual{,
       title = {S7schema: Generic 'S7' implementation of yaml config with schema based validation},
       author = {Aksel Thomsen},
-      year = {2025},
+      year = {2026},
       note = {R package version 0.0.0.9004},
       url = {https://nn-opensource.github.io/S7schema},
     }

@@ -47,7 +47,7 @@ New `S7schema` object.
 ## Details
 
 See internal
-[`validator()`](https://nn-opensource.github.io/S7schema/reference/validator.md)
+[`validator()`](https://NovoNordisk-OpenSource.github.io/S7schema/reference/validator.md)
 documentation for more info on how the validation is done.
 
 ## Properties
@@ -59,7 +59,7 @@ documentation for more info on how the validation is done.
 - validator:
 
   Internal
-  [`validator()`](https://nn-opensource.github.io/S7schema/reference/validator.md)
+  [`validator()`](https://NovoNordisk-OpenSource.github.io/S7schema/reference/validator.md)
   used to validate the content (read-only).
 
 ## Examples
@@ -74,5 +74,5 @@ S7schema(
 #>  $ my_config_var: int 1
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x55e3eb747f00> 
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x55a577fb6e70> 
 ```

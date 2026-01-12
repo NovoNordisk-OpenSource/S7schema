@@ -2,7 +2,7 @@
 
 S7schema provides a generic way of working with yaml config files. The
 main functionality is captured in the
-[`S7schema()`](https://nn-opensource.github.io/S7schema/reference/S7schema.md)
+[`S7schema()`](https://NovoNordisk-OpenSource.github.io/S7schema/reference/S7schema.md)
 class that:
 
 1.  Uses [S7](https://rconsortium.github.io/S7/) for easy downstream use
@@ -16,7 +16,7 @@ class that:
 
 ``` r
 # Install the development version from GitHub:
-pak::pak("NN-OpenSource/S7schema")
+pak::pak("NovoNordisk-OpenSource/S7schema")
 ```
 
 ## Usage

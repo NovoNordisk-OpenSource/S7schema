@@ -2,7 +2,7 @@
 
 This function is used internally when validating `list` or `S7schema`
 objects, and when using
-[`write_config()`](https://nn-opensource.github.io/S7schema/reference/write_config.md)
+[`write_config()`](https://NovoNordisk-OpenSource.github.io/S7schema/reference/write_config.md)
 to save a configuration.
 
 Underneath it is calling
@@ -75,7 +75,7 @@ print(x)
 #>  $ my_config_var: int 1
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x55e3f0ba8538> 
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x55a57d42d5c8> 
 
 to_yaml(x) |>
   cat()

@@ -5,7 +5,7 @@ Authors@R: c(
     person("Aksel", "Thomsen", , "oath@novonordisk.com", role = c("aut", "cre")),
     person("Novo Nordisk A/S", role = "cph")
   )
-Description: Provides a generic framework for working with 'yaml'
+Description: Provides a generic framework for working with YAML
     configuration files, including using 'ajv' for validation.
 License: Apache License (>= 2)
 URL: https://nn-opensource.github.io/S7schema

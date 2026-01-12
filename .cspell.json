@@ -14,7 +14,8 @@
     "inst/WORDLIST",
     "docs/**",
     "tests/testthat/*/**",
-    "inst/bundle.js"
+    "inst/bundle.js",
+    "inst/licenses/*"
     ],
   "patterns": [
     {

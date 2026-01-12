@@ -1,15 +1,43 @@
 Package: S7schema
-Title: Generic 'S7' implementation of yaml config with schema based
-    validation
-Version: 0.0.0.9003
+Title: Generic 'S7' Implementation of YAML Config with Schema Based Validation
+Version: 0.0.0.9005
 Authors@R: c(
     person("Aksel", "Thomsen", , "oath@novonordisk.com", role = c("aut", "cre")),
-    person("Novo Nordisk A/S", role = "cph")
+    person("Novo Nordisk A/S", role = "cph"),
+    person(
+        given = "Evgeny",
+        family = "Poberezkin",
+        role = "cph",
+        comment = "Author of included ajv, fast-deep-equal, and json-schema-traverse libraries"
+    ),
+    person(
+        given = "Python Software Foundation",
+        role = "cph",
+        comment = "Copyright holder of Python argparse (included argparse library is a JavaScript port)"
+    ),    
+    person(
+        given = "Vladimir",
+        family = "Zapparov",
+        role = "cph",
+        comment = "Author of included js-yaml library"
+    ),
+    person(
+        given = "Vincent",
+        family = "Le Goff",
+        role = "cph",
+        comment = "Author of included fast-uri library"
+    ),
+    person(
+        given = "Vsevolod",
+        family = "Strukchinsky",
+        role = "cph",
+        comment = "Author of included require-from-string library"
+    )
   )
-Description: Provides a generic framework for working with 'yaml'
+Description: Provides a generic framework for working with YAML
     configuration files, including using 'ajv' for validation.
 License: Apache License (>= 2)
-URL: https://nn-opensource.github.io/S7schema
+URL: https://NovoNordisk-OpenSource.github.io/S7schema
 Depends: 
     R (>= 4.1)
 Imports: 
@@ -18,7 +46,7 @@ Imports:
     S7,
     tools,
     V8,
-    yaml
+    yaml (>= 2.3.8)
 Suggests: 
     knitr,
     rmarkdown,

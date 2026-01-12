@@ -4,18 +4,16 @@
 \alias{write_config}
 \title{Write YAML configuration file}
 \usage{
-write_config(x, file, ...)
+write_config(x, file)
 }
 \arguments{
 \item{x}{\code{S7schema} object to write.}
 
 \item{file}{\code{character(1)} path to the file to write to.}
-
-\item{...}{Additional arguments passed along to \code{yaml::write_yaml()}.}
 }
 \description{
-Thin wrapper around \code{yaml::write_yaml()} calling \code{validate()} before
-creating the YAML file, ensuring that the saved configuration is valid.
+Thin wrapper around \code{to_yaml()} calling \code{validate()} before
+converting to YAML and creating the file, ensuring that the saved configuration is valid.
 }
 \examples{
 # Read configuration file:

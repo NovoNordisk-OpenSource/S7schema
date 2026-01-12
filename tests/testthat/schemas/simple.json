@@ -7,6 +7,10 @@
     "id": {
       "description": "ID",
       "type": "string"
+    },
+    "do_something": {
+      "description": "Boolean for testing",
+      "type": "boolean"
     }
   },
   "additionalProperties": false

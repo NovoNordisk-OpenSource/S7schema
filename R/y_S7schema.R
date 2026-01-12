@@ -41,7 +41,7 @@ construct_S7schema <- function(file, schema) {
 validate_S7schema <- function(self) {
   use_validator(
     validator = self@validator,
-    yaml_content = yaml::as.yaml(self)
+    yaml_content = to_yaml(self)
   )
 }
 

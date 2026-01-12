@@ -1,11 +1,10 @@
 #' Write YAML configuration file
 #'
-#' Thin wrapper around `yaml::write_yaml()` calling `validate()` before
-#' creating the YAML file, ensuring that the saved configuration is valid.
+#' Thin wrapper around `to_yaml()` calling `validate()` before
+#' converting to YAML and creating the file, ensuring that the saved configuration is valid.
 #'
 #' @param x `S7schema` object to write.
 #' @param file `character(1)` path to the file to write to.
-#' @param ... Additional arguments passed along to `yaml::write_yaml()`.
 #' @examples
 #' # Read configuration file:
 #' x <- S7schema(
@@ -28,23 +27,23 @@
 write_config <- S7::new_generic(
   name = "write_config",
   dispatch_args = "x",
-  fun = \(x, file, ...) {
+  fun = \(x, file) {
     S7::S7_dispatch()
   }
 )
 
 #' @noRd
-S7::method(write_config, S7schema) <- function(x, file, ...) {
-  write_valid_config(x, file, ...)
+S7::method(write_config, S7schema) <- function(x, file) {
+  write_valid_config(x, file)
 }
 
 #' @noRd
-write_valid_config <- function(x, file, ...) {
+write_valid_config <- function(x, file) {
   validate(x)
 
-  yaml::write_yaml(
-    x = x,
+  cat(
+    result = to_yaml(x),
     file = file,
-    ...
+    sep = ""
   )
 }

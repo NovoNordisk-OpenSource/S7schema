@@ -1,4 +1,4 @@
-url: https://nn-opensource.github.io/S7schema
+url: https://NovoNordisk-OpenSource.github.io/S7schema
 
 template:
   bootstrap: 5
@@ -9,4 +9,5 @@ reference:
     - validate_config
     - write_config
     - document_schema
+    - to_yaml
     - reexports

@@ -1,5 +1,5 @@
 Package: S7schema
-Title: Generic 'S7' Implementation of Yaml Config with Schema Based Validation
+Title: Generic 'S7' Implementation of YAML Config with Schema Based Validation
 Version: 0.0.0.9004
 Authors@R: c(
     person("Aksel", "Thomsen", , "oath@novonordisk.com", role = c("aut", "cre")),

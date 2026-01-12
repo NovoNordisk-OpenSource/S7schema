@@ -1,4 +1,4 @@
-x <- jsonlite::read_json("../mighty.metadata/inst/schema/adam.json")
+# x <- jsonlite::read_json("../mighty.metadata/inst/schema/adam.json")
 
 #' Document schema
 #' @export

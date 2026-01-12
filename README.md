@@ -5,7 +5,7 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/NN-OpenSource/S7schema/actions/workflows/check_and_co.yaml/badge.svg)](https://github.com/NN-OpenSource/S7schema/actions/workflows/check_and_co.yaml)
+[![R-CMD-check](https://github.com/NovoNordisk-OpenSource/S7schema/actions/workflows/check_and_co.yaml/badge.svg)](https://github.com/NovoNordisk-OpenSource/S7schema/actions/workflows/check_and_co.yaml)
 <!-- badges: end -->
 
 S7schema provides a generic way of working with yaml config files. The
@@ -22,7 +22,7 @@ main functionality is captured in the `S7schema()` class that:
 
 ``` r
 # Install the development version from GitHub:
-pak::pak("NN-OpenSource/S7schema")
+pak::pak("NovoNordisk-OpenSource/S7schema")
 ```
 
 ## Usage

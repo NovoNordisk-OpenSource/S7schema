@@ -37,7 +37,7 @@ Authors@R: c(
 Description: Provides a generic framework for working with YAML
     configuration files, including using 'ajv' for validation.
 License: Apache License (>= 2)
-URL: https://NovoNordisk-OpenSource.github.io/S7schema
+URL: https://novonordisk-opensource.github.io/S7schema/
 Depends: 
     R (>= 4.1)
 Imports: 

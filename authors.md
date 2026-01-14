@@ -27,12 +27,12 @@
 
 Thomsen A (2026). *S7schema: Generic 'S7' Implementation of YAML Config
 with Schema Based Validation*. R package version 0.0.0.9005,
-<https://NovoNordisk-OpenSource.github.io/S7schema>.
+<https://novonordisk-opensource.github.io/S7schema/>.
 
     @Manual{,
       title = {S7schema: Generic 'S7' Implementation of YAML Config with Schema Based Validation},
       author = {Aksel Thomsen},
       year = {2026},
       note = {R package version 0.0.0.9005},
-      url = {https://NovoNordisk-OpenSource.github.io/S7schema},
+      url = {https://novonordisk-opensource.github.io/S7schema/},
     }

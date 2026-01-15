@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# S7schema
+# S7schema <a href="https://NovoNordisk-OpenSource.github.io/S7schema"><img src="man/figures/logo.png" align="right" height="120" alt="S7schema website" /></a>
 
 <!-- badges: start -->
 

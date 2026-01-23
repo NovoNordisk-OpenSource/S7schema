@@ -4,23 +4,11 @@ doc_text <- function(txt) {
     return(NULL)
   }
 
-  as_character_1(txt)
+  as_character_1(x = txt, collapse = "\n\n")
 }
 
 #' @noRd
-doc_set_header_level <- function(level = NULL, .local_envir = parent.frame()) {
-  if (is.null(level)) {
-    level <- getOption("doc_header_level") + 1
-  }
-
-  withr::local_options(
-    .new = list(doc_header_level = level),
-    .local_envir = .local_envir
-  )
-}
-
-#' @noRd
-doc_header <- function(txt, level = getOption("doc_header_level")) {
+doc_header <- function(txt, level) {
   rep(x = "#", times = level) |>
     paste(collapse = "") |>
     paste(txt) |>
@@ -68,24 +56,17 @@ doc_ref_type <- function(x) {
 
 #' @noRd
 doc_ref_hyperlink <- function(x) {
-  if (!"$ref" %in% names(x)) {
+  if (length(x) > 1 || !is.character(x) || !stringr::str_detect(x, "^#")) {
     return(x)
   }
 
-  i <- which(!is.na(x[["$ref"]]))
-
-  ref <- x[["$ref"]][i]
-
-  ref_text <- ref |>
+  ref_text <- x |>
     stringr::str_remove_all("^.*definitions/")
 
-  ref_id <- ref |>
-    stringr::str_remove("/") |>
-    stringr::str_replace_all("/", "-")
+  ref_id <- x |>
+    stringr::str_remove("/.*/")
 
-  x[["$ref"]][i] <- paste0("[", ref_text, "](", ref_id, ")")
-
-  x
+  paste0("[", ref_text, "](", ref_id, ")")
 }
 
 #' @noRd
@@ -95,7 +76,6 @@ doc_kable <- function(x) {
   )
 
   x |>
-    doc_ref_hyperlink() |>
     doc_ref_type() |>
     doc_yesno() |>
     doc_repair_names() |>
@@ -104,7 +84,7 @@ doc_kable <- function(x) {
 }
 
 #' @noRd
-as_character_1 <- function(x, collapse = "<br>") {
+as_character_1 <- function(x, collapse) {
   if (is.logical(x)) {
     i <- which(x)
     x[] <- "No"

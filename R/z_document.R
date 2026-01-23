@@ -41,35 +41,18 @@ document_schema_character <- function(x, header_start_level) {
 document_schema_list <- function(x, header_start_level) {
   rlang::check_installed("knitr")
 
-  doc_set_header_level(level = header_start_level)
-
-  document_entry(
-    x = x,
-    title = x$title
-  ) |>
+  x |>
+    purrr::modify_depth(
+      .depth = -1,
+      .f = doc_ref_hyperlink,
+      .ragged = TRUE
+    ) |>
+    document_entry(
+      title = x$title,
+      h_level = header_start_level
+    ) |>
     knitr::asis_output()
 }
-
-# c(
-#   doc_header(txt = x$title, level = 2),
-#   x$description,
-#   document_default(x),
-#   doc_header("Properties", level = header_start_level + 1)
-# ) |>
-#   as_character_1(collapse = "\n\n") |>
-#   knitr::asis_output()
-
-# #' @noRd
-# document_schema_list <- function(x, header_level = 2) {
-#   rlang::check_installed("knitr")
-
-#   c(
-#     document_entry(x, x$title),
-#     document_entry(x$definitions, "Definitions")
-#   ) |>
-#     as_character_1(collapse = "\n\n") |>
-#     knitr::asis_output()
-# }
 
 #' @noRd
 document_entry <- function(x, title, h_level) {
@@ -83,11 +66,12 @@ document_entry <- function(x, title, h_level) {
 
   txt <- switch(
     EXPR = entry_type,
-    object = document_object(x),
+    object = document_object(x, h_level),
     oneOf = document_oneOf(x),
     NESTED = document_entries(
       entries = discard_entries(x),
-      titles = names(discard_entries(x))
+      titles = names(discard_entries(x)),
+      h_level = h_level
     ),
     document_default(x)
   )
@@ -99,7 +83,7 @@ document_entry <- function(x, title, h_level) {
     ),
     doc_text(txt = x$description),
     txt,
-    document_definitions(x = x)
+    document_definitions(x = x, h_level = h_level)
   ) |>
     as_character_1(collapse = "\n\n")
 }
@@ -122,24 +106,25 @@ discard_entries <- function(
 }
 
 #' @noRd
-document_entries <- function(entries, titles) {
+document_entries <- function(entries, titles, h_level) {
   res <- character(length = length(entries))
 
   for (i in seq_along(res)) {
     res[[i]] <- document_entry(
       x = entries[[i]],
-      titles[[i]]
+      titles[[i]],
+      h_level = h_level + 1
     )
   }
 
-  as_character_1(res, collapse = "\n\n")
+  as_character_1(x = res, collapse = "\n\n")
 }
 
 #' @noRd
 document_default <- function(x) {
   x |>
     discard_entries() |>
-    purrr::map(as_character_1) |>
+    purrr::map(as_character_1, collapse = "<br>") |>
     unlist() |>
     tibble::enframe(name = "name") |>
     tidyr::pivot_wider() |>
@@ -147,16 +132,16 @@ document_default <- function(x) {
 }
 
 #' @noRd
-document_object <- function(x) {
+document_object <- function(x, h_level) {
   c(
     document_default(x),
-    document_object_properties(x$properties, x$required)
+    document_object_properties(x$properties, x$required, h_level + 1)
   ) |>
     as_character_1(collapse = "\n\n")
 }
 
 #' @noRd
-document_object_properties <- function(properties, required = NULL) {
+document_object_properties <- function(properties, required = NULL, h_level) {
   if (is.null(properties)) {
     return(NULL)
   }
@@ -171,21 +156,22 @@ document_object_properties <- function(properties, required = NULL) {
     )
 
   c(
-    "**Properties:**",
-    "",
+    doc_header(txt = "Properties", level = h_level),
     doc_kable(p)
-  )
+  ) |>
+    as_character_1(collapse = "\n\n")
 }
 
 #' @noRd
-document_definitions <- function(x) {
+document_definitions <- function(x, h_level) {
   if (is.null(x$definitions)) {
     return(NULL)
   }
 
   document_entry(
     x = x$definitions,
-    title = "Definitions"
+    title = "Definitions",
+    h_level = h_level
   )
 }
 
@@ -196,7 +182,7 @@ document_oneOf <- function(x) {
       .f = \(x) {
         x |>
           discard_entries() |>
-          purrr::map(as_character_1) |>
+          purrr::map(as_character_1, collapse = "<br>") |>
           unlist() |>
           tibble::enframe(name = "name") |>
           tidyr::pivot_wider()

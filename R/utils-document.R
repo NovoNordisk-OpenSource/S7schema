@@ -9,10 +9,11 @@ doc_text <- function(txt) {
 
 #' @noRd
 doc_header <- function(txt, level) {
+  txt <- as_character_1(x = txt, collapse = " ")
+
   rep(x = "#", times = level) |>
     paste(collapse = "") |>
-    paste(txt) |>
-    doc_text()
+    paste(txt)
 }
 
 #' @noRd
@@ -30,14 +31,24 @@ doc_repair_names <- function(x) {
 
 #' @noRd
 doc_yesno <- function(x) {
+  if (is.logical(x)) {
+    return(doc_yesno_logical(x))
+  }
+
   is_logical <- vapply(X = x, FUN = is.logical, FUN.VALUE = logical(1))
 
   for (i in which(is_logical)) {
-    j <- which(x[[i]])
-    x[[i]][-j] <- "No"
-    x[[i]][j] <- "Yes"
+    x[[i]] <- doc_yesno_logical(x[[i]])
   }
 
+  x
+}
+
+#' @noRd
+doc_yesno_logical <- function(x) {
+  i <- which(x)
+  x[] <- "No"
+  x[i] <- "Yes"
   x
 }
 
@@ -55,7 +66,7 @@ doc_ref_type <- function(x) {
 }
 
 #' @noRd
-doc_ref_hyperlink <- function(x) {
+doc_hyperlink <- function(x) {
   if (length(x) > 1 || !is.character(x) || !stringr::str_detect(x, "^#")) {
     return(x)
   }
@@ -67,6 +78,16 @@ doc_ref_hyperlink <- function(x) {
     stringr::str_remove("/.*/")
 
   paste0("[", ref_text, "](", ref_id, ")")
+}
+
+#' @noRd
+doc_ref_hyperlinks <- function(x) {
+  purrr::modify_depth(
+    .x = x,
+    .depth = -1,
+    .f = doc_hyperlink,
+    .ragged = TRUE
+  )
 }
 
 #' @noRd
@@ -94,11 +115,4 @@ as_character_1 <- function(x, collapse) {
   x |>
     as.character() |>
     paste(collapse = collapse)
-}
-
-#' @noRd
-as_character_named <- function(x) {
-  x |>
-    as.character() |>
-    setNames(nm = names(x))
 }

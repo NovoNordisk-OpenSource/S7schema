@@ -48,11 +48,7 @@ document_schema_list <- function(x, header_start_level) {
   rlang::check_installed("knitr")
 
   x |>
-    purrr::modify_depth(
-      .depth = -1,
-      .f = doc_ref_hyperlink,
-      .ragged = TRUE
-    ) |>
+    doc_ref_hyperlinks() |>
     document_entry(
       title = x$title,
       h_level = header_start_level

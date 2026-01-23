@@ -4,7 +4,7 @@
 \alias{document_schema}
 \title{Document schema}
 \usage{
-document_schema(x)
+document_schema(x, header_start_level)
 }
 \description{
 Document schema

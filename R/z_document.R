@@ -5,40 +5,103 @@
 document_schema <- S7::new_generic(
   name = "document_schema",
   dispatch_args = "x",
-  fun = \(x) {
+  fun = \(x, header_start_level) {
     S7::S7_dispatch()
   }
 )
 
 #' @noRd
-S7::method(document_schema, S7::class_list) <- function(x) {
-  document_schema_list(x)
+S7::method(document_schema, S7::class_character) <- function(
+  x,
+  header_start_level
+) {
+  document_schema_character(x, header_start_level)
 }
 
 #' @noRd
-S7::method(document_schema, S7::class_character) <- function(x) {
+S7::method(document_schema, S7schema) <- function(x, header_start_level) {
+  document_schema(x@schema, header_start_level)
+}
+
+#' @noRd
+S7::method(document_schema, S7::class_list) <- function(x, header_start_level) {
+  document_schema_list(x, header_start_level)
+}
+
+#' @noRd
+document_schema_character <- function(x, header_start_level) {
   assert_file(file = x, ext = "json")
 
   x |>
     jsonlite::read_json() |>
-    document_schema(x)
+    document_schema(x, header_start_level)
 }
 
 #' @noRd
-S7::method(document_schema, S7schema) <- function(x) {
-  document_schema(x@schema)
-}
-
-#' @noRd
-document_schema_list <- function(x, header_level = 2) {
+document_schema_list <- function(x, header_start_level) {
   rlang::check_installed("knitr")
 
-  c(
-    document_entry(x, x$title),
-    document_entry(x$definitions, "Definitions")
+  doc_set_header_level(level = header_start_level)
+
+  document_entry(
+    x = x,
+    title = x$title
   ) |>
-    as_character_1(collapse = "\n\n") |>
     knitr::asis_output()
+}
+
+# c(
+#   doc_header(txt = x$title, level = 2),
+#   x$description,
+#   document_default(x),
+#   doc_header("Properties", level = header_start_level + 1)
+# ) |>
+#   as_character_1(collapse = "\n\n") |>
+#   knitr::asis_output()
+
+# #' @noRd
+# document_schema_list <- function(x, header_level = 2) {
+#   rlang::check_installed("knitr")
+
+#   c(
+#     document_entry(x, x$title),
+#     document_entry(x$definitions, "Definitions")
+#   ) |>
+#     as_character_1(collapse = "\n\n") |>
+#     knitr::asis_output()
+# }
+
+#' @noRd
+document_entry <- function(x, title, h_level) {
+  entry_type <- x$type
+
+  if ("oneOf" %in% names(x)) {
+    entry_type <- "oneOf"
+  } else if (is.null(entry_type)) {
+    entry_type <- "NESTED"
+  }
+
+  txt <- switch(
+    EXPR = entry_type,
+    object = document_object(x),
+    oneOf = document_oneOf(x),
+    NESTED = document_entries(
+      entries = discard_entries(x),
+      titles = names(discard_entries(x))
+    ),
+    document_default(x)
+  )
+
+  c(
+    doc_header(
+      txt = title,
+      level = h_level
+    ),
+    doc_text(txt = x$description),
+    txt,
+    document_definitions(x = x)
+  ) |>
+    as_character_1(collapse = "\n\n")
 }
 
 #' @noRd
@@ -73,41 +136,11 @@ document_entries <- function(entries, titles) {
 }
 
 #' @noRd
-document_entry <- function(x, title) {
-  entry_type <- x$type
-  if ("oneOf" %in% names(x)) {
-    entry_type <- "oneOf"
-  }
-
-  if (is.null(entry_type)) {
-    return(
-      x |>
-        discard_entries() |>
-        document_entries(names(x))
-    )
-  }
-
-  txt <- switch(
-    EXPR = entry_type,
-    object = document_object(x),
-    oneOf = document_oneOf(x),
-    document_default(x)
-  )
-
-  c(
-    doc_header(title),
-    doc_text(x$description),
-    txt
-  ) |>
-    as_character_1(collapse = "\n\n")
-}
-
-#' @noRd
 document_default <- function(x) {
   x |>
     discard_entries() |>
     purrr::map(as_character_1) |>
-    as_character_named() |>
+    unlist() |>
     tibble::enframe(name = "name") |>
     tidyr::pivot_wider() |>
     doc_kable()
@@ -117,10 +150,9 @@ document_default <- function(x) {
 document_object <- function(x) {
   c(
     document_default(x),
-    "",
     document_object_properties(x$properties, x$required)
   ) |>
-    as_character_1(collapse = "\n")
+    as_character_1(collapse = "\n\n")
 }
 
 #' @noRd
@@ -129,16 +161,32 @@ document_object_properties <- function(properties, required = NULL) {
     return(NULL)
   }
 
-  properties |>
+  p <- properties |>
     tibble::enframe(name = "name") |>
     tidyr::unnest_wider(
-      col = value,
-      names_repair = doc_name_repair
+      col = value
     ) |>
     dplyr::mutate(
       requried = name %in% required
-    ) |>
-    doc_kable()
+    )
+
+  c(
+    "**Properties:**",
+    "",
+    doc_kable(p)
+  )
+}
+
+#' @noRd
+document_definitions <- function(x) {
+  if (is.null(x$definitions)) {
+    return(NULL)
+  }
+
+  document_entry(
+    x = x$definitions,
+    title = "Definitions"
+  )
 }
 
 #' @noRd
@@ -149,7 +197,7 @@ document_oneOf <- function(x) {
         x |>
           discard_entries() |>
           purrr::map(as_character_1) |>
-          as_character_named() |>
+          unlist() |>
           tibble::enframe(name = "name") |>
           tidyr::pivot_wider()
       }
@@ -157,39 +205,3 @@ document_oneOf <- function(x) {
     dplyr::bind_rows() |>
     doc_kable()
 }
-
-# document_entry <- function(x) {
-#   x |>
-# purrr::map(as_character_1) |>
-#   as_character_named() |>
-#   tibble::enframe(name = "name") |>
-#   tidyr::pivot_wider()
-# }
-
-# document_properties <- function(x) {
-#
-#   properties <- x[["properties"]] |>
-#     tibble::enframe(name = "name") |>
-#     tidyr::unnest_wider(
-#       col = value,
-#       names_repair = doc_name_repair
-#     )
-
-#   required <- unlist(x[["required"]])
-#   if (!is.null(required)) {
-#     properties$Required <- character(length = nrow(properties))
-#     properties$Required[properties$Name %in% required] <- "Yes"
-#   }
-
-#   if ("Reference" %in% names(properties)) {
-#     i <- which(!is.na(properties[["Reference"]]))
-#     ref <- properties[["Reference"]][i]
-#     ref_text <- stringr::str_remove_all(ref, "^.*definitions/")
-#     ref_id <- stringr::str_remove(ref, "/") |>
-#       stringr::str_replace_all("/", "-")
-#     properties[["Type"]][i] <- paste0("[", ref_text, "](", ref_id, ")")
-#     properties[["Reference"]] <- NULL
-#   }
-
-#   properties
-# }

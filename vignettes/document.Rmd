@@ -14,12 +14,11 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r}
+```{r, echo=FALSE}
 library(S7schema)
 
-s <- "https://raw.githubusercontent.com/NN-OpenSource/mighty.metadata/refs/heads/main/inst/schema/adam.json?token=GHSAT0AAAAAADSY5J5ZQOGDFIAP2CY5YNL62LBEMQA"
+x <- "/Users/oath/Projects/mighty.metadata/inst/schema/adam.json" |> 
+  jsonlite::read_json()
 
-s |> 
-  jsonlite::read_json() |> 
-  document_schema()
+document_schema(x, 1)
 ```

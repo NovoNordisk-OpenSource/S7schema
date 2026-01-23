@@ -6,6 +6,17 @@
 \usage{
 document_schema(x, header_start_level)
 }
+\arguments{
+\item{x}{description}
+
+\item{header_start_level}{description}
+}
 \description{
 Document schema
+}
+\examples{
+system.file("examples/schema.json", package = "S7schema") |>
+  document_schema(2) |>
+  cat()
+
 }

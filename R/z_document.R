@@ -1,6 +1,11 @@
-# x <- jsonlite::read_json("../mighty.metadata/inst/schema/adam.json")
-
 #' Document schema
+#' @param x description
+#' @param header_start_level description
+#' @examples
+#' system.file("examples/schema.json", package = "S7schema") |>
+#'   document_schema(2) |>
+#'   cat()
+#'
 #' @export
 document_schema <- S7::new_generic(
   name = "document_schema",
@@ -32,9 +37,10 @@ S7::method(document_schema, S7::class_list) <- function(x, header_start_level) {
 document_schema_character <- function(x, header_start_level) {
   assert_file(file = x, ext = "json")
 
-  x |>
-    jsonlite::read_json() |>
-    document_schema(x, header_start_level)
+  document_schema(
+    x = jsonlite::read_json(x),
+    header_start_level = header_start_level
+  )
 }
 
 #' @noRd

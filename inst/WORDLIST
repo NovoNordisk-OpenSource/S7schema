@@ -3,6 +3,8 @@ argparse
 CRAN
 emph
 Evgeny
+jsonlite
+kable
 knitr
 lintr
 multiarch
@@ -11,6 +13,7 @@ Nordisk
 pkgdown
 Pkgdown
 Poberezkin
+purrr
 rdname
 rlang
 rmarkdown
@@ -18,9 +21,12 @@ Roxygen
 Roxygenize
 seealso
 Strukchinsky
+subheaders
 Sweave
 testthat
 Thomsen
+tibble
+tidyr
 Vsevolod
 withr
 Zapparov

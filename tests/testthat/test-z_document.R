@@ -1,4 +1,4 @@
-test_that("document_schema() - dispatch is concistent", {
+test_that("document_schema() - dispatch is consistent", {
   schema <- test_path("schemas", "simple.json")
   config <- test_path("input", "simple.yml")
 
@@ -18,7 +18,7 @@ test_that("document_schema() - dispatch is concistent", {
   expect_equal(b, c)
 })
 
-test_that("document_shema() - output is concistent", {
+test_that("document_shema() - output is consistent", {
   test_path("schemas", "simple.json") |>
     document_schema(1) |>
     expect_type("character") |>

@@ -1,4 +1,4 @@
-# document_shema() - output is concistent
+# document_shema() - output is consistent
 
     Code
       cat(expect_s3_class(expect_type(document_schema(test_path("schemas",
@@ -14,7 +14,7 @@
       
       ## Properties
       
-      |Name         |Description         |Type    |Requried |
+      |Name         |Description         |Type    |required |
       |:------------|:-------------------|:-------|:--------|
       |id           |ID                  |string  |No       |
       |do_something |Boolean for testing |boolean |No       |
@@ -35,7 +35,7 @@
       
       ## Properties
       
-      |Name         |Description                 |Type                |Requried |
+      |Name         |Description                 |Type                |required |
       |:------------|:---------------------------|:-------------------|:--------|
       |id           |ID                          |string              |Yes      |
       |keys         |Key variables               |[keys](#keys)       |Yes      |

@@ -5,7 +5,7 @@
 #' for users.
 #'
 #' @param x `character(1)` path to JSON schema, `list()` of already loaded specifications, or `S7schema()` object.
-#' @param header_start_level `numeric(1)` Level of initial header. All subheaders will continously he one level smaller.
+#' @param header_start_level `numeric(1)` Level of initial header. All subheaders will continuously he one level smaller.
 #' @return `character(1)`/`knitr::asis_output()` markdown with the documentation.
 #' @examples
 #' # Simple example schema
@@ -176,7 +176,7 @@ document_object_properties <- function(properties, required = NULL, h_level) {
       col = "value"
     )
 
-  p$requried <- p$name %in% required
+  p$required <- p$name %in% required
 
   c(
     doc_header(txt = "Properties", level = h_level),

@@ -14,7 +14,7 @@
       
       ## Properties
       
-      |Name         |Description         |Type    |required |
+      |Name         |Description         |Type    |Required |
       |:------------|:-------------------|:-------|:--------|
       |id           |ID                  |string  |No       |
       |do_something |Boolean for testing |boolean |No       |
@@ -35,7 +35,7 @@
       
       ## Properties
       
-      |Name         |Description                 |Type                |required |
+      |Name         |Description                 |Type                |Required |
       |:------------|:---------------------------|:-------------------|:--------|
       |id           |ID                          |string              |Yes      |
       |keys         |Key variables               |[keys](#keys)       |Yes      |

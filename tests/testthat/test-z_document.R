@@ -18,7 +18,7 @@ test_that("document_schema() - dispatch is consistent", {
   expect_equal(b, c)
 })
 
-test_that("document_shema() - output is consistent", {
+test_that("document_schema() - output is consistent", {
   test_path("schemas", "simple.json") |>
     document_schema(1) |>
     expect_type("character") |>

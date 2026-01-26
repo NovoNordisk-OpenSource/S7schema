@@ -1,4 +1,4 @@
-# document_shema() - output is consistent
+# document_schema() - output is consistent
 
     Code
       cat(expect_s3_class(expect_type(document_schema(test_path("schemas",

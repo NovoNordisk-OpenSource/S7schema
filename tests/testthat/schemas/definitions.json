@@ -1,0 +1,56 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "title": "Complicated example for testing",
+  "description": "Test example with different type of definitions",
+  "type": "object",
+  "properties": {
+    "id": {
+      "description": "ID",
+      "type": "string"
+    },
+    "keys": {
+      "description": "Key variables",
+      "$ref": "#/definitions/keys"
+    },
+    "do_something": {
+      "description": "Boolean for testing",
+      "$ref": "#/definitions/nested/do_something"
+    },
+    "extra": {
+      "description": "Additional named properties",
+      "$ref": "#/definitions/extra"
+    }
+  },
+  "required": [
+    "id",
+    "keys"
+  ],
+  "additionalProperties": true,
+  "definitions": {
+    "keys": {
+      "description": "Keys are either single string or array of strings",
+      "oneOf": [
+        {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        {
+          "type": "string"
+        }
+      ]
+    },
+    "extra": {
+      "type": "object"
+    },
+    "nested": {
+      "do_something": {
+        "description": "Nested definition",
+        "type": "boolean"
+      }
+    }
+  }
+}

@@ -2,20 +2,36 @@
 % Please edit documentation in R/z_document.R
 \name{document_schema}
 \alias{document_schema}
-\title{Document schema}
+\title{Document configuration schema}
 \usage{
 document_schema(x, header_start_level)
 }
 \arguments{
-\item{x}{description}
+\item{x}{\code{character(1)} path to JSON schema, \code{list()} of already loaded specifications, or \code{S7schema()} object.}
 
-\item{header_start_level}{description}
+\item{header_start_level}{\code{numeric(1)} Level of initial header. All subheaders will continously he one level smaller.}
+}
+\value{
+\code{character(1)}/\code{knitr::asis_output()} markdown with the documentation.
 }
 \description{
-Document schema
+Creates markdown documentation of a configuration suitable for
+use in e.g. vignettes to provide easy readable documentation
+for users.
 }
 \examples{
+# Simple example schema
 system.file("examples/schema.json", package = "S7schema") |>
+  document_schema(2) |>
+  cat()
+
+# Changing header start level to 1
+system.file("examples/schema.json", package = "S7schema") |>
+  document_schema(1) |>
+  cat()
+
+# Example with definitions
+system.file("examples/definitions.json", package = "S7schema") |>
   document_schema(2) |>
   cat()
 

@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "title": "Schema with definitions",
+  "description": "Simple example with definitions",
+  "type": "object",
+  "properties": {
+    "my_config_var": {
+      "description": "My only configuration variable",
+      "$ref": "#/definitions/my_config_var"
+    }
+  },
+  "required": [
+    "my_config_var"
+  ],
+  "additionalProperties": true,
+  "definitions": {
+    "my_config_var": {
+      "description": "More information on the variable",
+      "type": "number"
+    }
+  }
+}

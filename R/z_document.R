@@ -65,6 +65,9 @@ document_schema_character <- function(x, header_start_level) {
 #' @noRd
 document_schema_list <- function(x, header_start_level) {
   rlang::check_installed("knitr")
+  rlang::check_installed("tidyr")
+  rlang::check_installed("tibble")
+  rlang::check_installed("purrr")
 
   x |>
     doc_ref_hyperlinks() |>
@@ -170,11 +173,10 @@ document_object_properties <- function(properties, required = NULL, h_level) {
   p <- properties |>
     tibble::enframe(name = "name") |>
     tidyr::unnest_wider(
-      col = value
-    ) |>
-    dplyr::mutate(
-      requried = name %in% required
+      col = "value"
     )
+
+  p$requried <- p$name %in% required
 
   c(
     doc_header(txt = "Properties", level = h_level),
@@ -209,6 +211,6 @@ document_oneOf <- function(x) {
           tidyr::pivot_wider()
       }
     ) |>
-    dplyr::bind_rows() |>
+    purrr::list_rbind() |>
     doc_kable()
 }

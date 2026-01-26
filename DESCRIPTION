@@ -50,8 +50,11 @@ Imports:
 Suggests: 
     jsonlite,
     knitr,
+    purrr,
     rmarkdown,
     testthat (>= 3.0.0),
+    tibble,
+    tidyr,
     withr
 VignetteBuilder: 
     knitr

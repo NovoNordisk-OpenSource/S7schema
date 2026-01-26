@@ -36,32 +36,63 @@ markdown with the documentation.
 system.file("examples/schema.json", package = "S7schema") |>
   document_schema(2) |>
   cat()
-#> Error in map(vec_proxy(.x), .f, ...): ℹ In index: 1.
-#> ℹ With name: $schema.
-#> Caused by error in `map()`:
-#> ℹ In index: 1.
-#> Caused by error in `loadNamespace()`:
-#> ! there is no package called ‘stringr’
+#> ## My config schema
+#> 
+#> Simple example schema with one allowed entry
+#> 
+#> |Type   |Additional Properties |
+#> |:------|:---------------------|
+#> |object |No                    |
+#> 
+#> ### Properties
+#> 
+#> |Name          |Description                    |Type   |Requried |
+#> |:-------------|:------------------------------|:------|:--------|
+#> |my_config_var |My only configuration variable |number |No       |
 
 # Changing header start level to 1
 system.file("examples/schema.json", package = "S7schema") |>
   document_schema(1) |>
   cat()
-#> Error in map(vec_proxy(.x), .f, ...): ℹ In index: 1.
-#> ℹ With name: $schema.
-#> Caused by error in `map()`:
-#> ℹ In index: 1.
-#> Caused by error in `loadNamespace()`:
-#> ! there is no package called ‘stringr’
+#> # My config schema
+#> 
+#> Simple example schema with one allowed entry
+#> 
+#> |Type   |Additional Properties |
+#> |:------|:---------------------|
+#> |object |No                    |
+#> 
+#> ## Properties
+#> 
+#> |Name          |Description                    |Type   |Requried |
+#> |:-------------|:------------------------------|:------|:--------|
+#> |my_config_var |My only configuration variable |number |No       |
 
 # Example with definitions
 system.file("examples/definitions.json", package = "S7schema") |>
   document_schema(2) |>
   cat()
-#> Error in map(vec_proxy(.x), .f, ...): ℹ In index: 1.
-#> ℹ With name: $schema.
-#> Caused by error in `map()`:
-#> ℹ In index: 1.
-#> Caused by error in `loadNamespace()`:
-#> ! there is no package called ‘stringr’
+#> ## Schema with definitions
+#> 
+#> Simple example with definitions
+#> 
+#> |Type   |Required      |Additional Properties |
+#> |:------|:-------------|:---------------------|
+#> |object |my_config_var |Yes                   |
+#> 
+#> ### Properties
+#> 
+#> |Name          |Description                    |Requried |Type          |
+#> |:-------------|:------------------------------|:--------|:-------------|
+#> |my_config_var |My only configuration variable |Yes      |[my_config_var](#my_config_var)|
+#> 
+#> ## Definitions
+#> 
+#> ### my_config_var
+#> 
+#> More information on the variable
+#> 
+#> |Type   |
+#> |:------|
+#> |number |
 ```

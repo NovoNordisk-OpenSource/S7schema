@@ -54,6 +54,8 @@ S7::method(document_schema, S7::class_list) <- function(x, header_start_level) {
 document_schema_character <- function(x, header_start_level) {
   assert_file(file = x, ext = "json")
 
+  rlang::check_installed("jsonlite")
+
   document_schema(
     x = jsonlite::read_json(x),
     header_start_level = header_start_level

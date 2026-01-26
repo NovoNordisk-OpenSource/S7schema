@@ -21,7 +21,7 @@ document_schema(x, header_start_level)
 
 - header_start_level:
 
-  `numeric(1)` Level of initial header. All subheaders will continously
+  `numeric(1)` Level of initial header. All subheaders will continuously
   he one level smaller.
 
 ## Value
@@ -46,7 +46,7 @@ system.file("examples/schema.json", package = "S7schema") |>
 #> 
 #> ### Properties
 #> 
-#> |Name          |Description                    |Type   |Requried |
+#> |Name          |Description                    |Type   |Required |
 #> |:-------------|:------------------------------|:------|:--------|
 #> |my_config_var |My only configuration variable |number |No       |
 
@@ -64,7 +64,7 @@ system.file("examples/schema.json", package = "S7schema") |>
 #> 
 #> ## Properties
 #> 
-#> |Name          |Description                    |Type   |Requried |
+#> |Name          |Description                    |Type   |Required |
 #> |:-------------|:------------------------------|:------|:--------|
 #> |my_config_var |My only configuration variable |number |No       |
 
@@ -82,7 +82,7 @@ system.file("examples/definitions.json", package = "S7schema") |>
 #> 
 #> ### Properties
 #> 
-#> |Name          |Description                    |Requried |Type          |
+#> |Name          |Description                    |Required |Type          |
 #> |:-------------|:------------------------------|:--------|:-------------|
 #> |my_config_var |My only configuration variable |Yes      |[my_config_var](#my_config_var)|
 #> 

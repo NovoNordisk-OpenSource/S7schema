@@ -35,11 +35,12 @@
       
       ## Properties
       
-      |Name         |Description         |Type                |Requried |
-      |:------------|:-------------------|:-------------------|:--------|
-      |id           |ID                  |string              |Yes      |
-      |keys         |Key variables       |[keys](#keys)       |Yes      |
-      |do_something |Boolean for testing |[nested/do_something](#do_something)|No       |
+      |Name         |Description                 |Type                |Requried |
+      |:------------|:---------------------------|:-------------------|:--------|
+      |id           |ID                          |string              |Yes      |
+      |keys         |Key variables               |[keys](#keys)       |Yes      |
+      |do_something |Boolean for testing         |[nested/do_something](#do_something)|No       |
+      |extra        |Additional named properties |[extra](#extra)     |No       |
       
       # Definitions
       
@@ -51,6 +52,12 @@
       |:------|:------|:---------|:------------|
       |array  |string |1         |Yes          |
       |string |       |          |             |
+      
+      ## extra
+      
+      |Type   |
+      |:------|
+      |object |
       
       ## nested
       

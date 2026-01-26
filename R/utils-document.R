@@ -22,9 +22,22 @@ doc_repair_names <- function(x) {
     return(x)
   }
 
-  names(x) <- names(x) |>
-    stringr::str_replace_all("(?=[A-Z])", " ") |>
-    stringr::str_to_title()
+  nm <- gsub(
+    # camelCase => camel Case
+    pattern = "(?=[A-Z])",
+    replacement = " ",
+    x = names(x),
+    perl = TRUE
+  )
+  nm <- gsub(
+    # camel Case => Camel Case
+    pattern = "\\b([a-z|A-Z])(\\w*)\\b",
+    replacement = "\\U\\1\\L\\2",
+    x = nm,
+    perl = TRUE
+  )
+
+  names(x) <- nm
 
   x
 }
@@ -67,15 +80,21 @@ doc_ref_type <- function(x) {
 
 #' @noRd
 doc_hyperlink <- function(x) {
-  if (length(x) > 1 || !is.character(x) || !stringr::str_detect(x, "^#")) {
+  if (length(x) > 1 || !is.character(x) || !grepl(pattern = "^#", x = x)) {
     return(x)
   }
 
-  ref_text <- x |>
-    stringr::str_remove_all("^.*definitions/")
+  ref_text <- sub(
+    pattern = "^.*definitions/",
+    replacement = "",
+    x = x
+  )
 
-  ref_id <- x |>
-    stringr::str_remove("/.*/")
+  ref_id <- sub(
+    pattern = "/.*/",
+    replacement = "",
+    x = x
+  )
 
   paste0("[", ref_text, "](", ref_id, ")")
 }

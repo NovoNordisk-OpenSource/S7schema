@@ -7,7 +7,7 @@ test_that("document_schema() - dispatch is consistent", {
 
   b <- schema |>
     jsonlite::read_json() |>
-    document_schema((2)) |>
+    document_schema(2) |>
     expect_no_condition()
 
   c <- S7schema(config, schema) |>

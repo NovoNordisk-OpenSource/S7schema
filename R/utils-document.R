@@ -31,7 +31,7 @@ doc_repair_names <- function(x) {
   )
   nm <- gsub(
     # camel Case => Camel Case
-    pattern = "\\b([a-z|A-Z])(\\w*)\\b",
+    pattern = "\\b([a-zA-Z])(\\w*)\\b",
     replacement = "\\U\\1\\L\\2",
     x = nm,
     perl = TRUE
@@ -59,10 +59,7 @@ doc_yesno <- function(x) {
 
 #' @noRd
 doc_yesno_logical <- function(x) {
-  i <- which(x)
-  x[] <- "No"
-  x[i] <- "Yes"
-  x
+ c("No", "Yes")[x + 1L]
 }
 
 #' @noRd
@@ -126,9 +123,7 @@ doc_kable <- function(x) {
 #' @noRd
 as_character_1 <- function(x, collapse) {
   if (is.logical(x)) {
-    i <- which(x)
-    x[] <- "No"
-    x[i] <- "Yes"
+doc_yesno_logical(x)
   }
 
   x |>

@@ -10,7 +10,7 @@ document_schema(x, header_start_level)
 \item{x}{\code{character(1)} path to JSON schema, \code{list()} of already loaded specifications, or \code{S7schema()} object.}
 
 \item{header_start_level}{\code{numeric(1)} Level of initial header.
-All subheaders will continuously he one level smaller.}
+All subheaders will continuously be one level smaller.}
 }
 \value{
 \code{character(1)}/\code{knitr::asis_output()} markdown with the documentation.

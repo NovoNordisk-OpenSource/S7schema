@@ -59,7 +59,7 @@ doc_yesno <- function(x) {
 
 #' @noRd
 doc_yesno_logical <- function(x) {
- c("No", "Yes")[x + 1L]
+  c("No", "Yes")[x + 1L]
 }
 
 #' @noRd
@@ -123,7 +123,7 @@ doc_kable <- function(x) {
 #' @noRd
 as_character_1 <- function(x, collapse) {
   if (is.logical(x)) {
-doc_yesno_logical(x)
+    x <- doc_yesno_logical(x)
   }
 
   x |>

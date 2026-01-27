@@ -125,7 +125,7 @@ discard_entries <- function(
     "definitions"
   )
 ) {
-x[!names(x) %in% discard]
+  x[!names(x) %in% discard]
 }
 
 #' @noRd

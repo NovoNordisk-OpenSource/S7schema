@@ -146,12 +146,18 @@ document_entries <- function(entries, titles, h_level) {
 #' @noRd
 document_default <- function(x) {
   x |>
+    document_default_helper() |>
+    doc_kable()
+}
+
+#' @noRd
+document_default_helper <- function(x) {
+  x |>
     discard_entries() |>
     purrr::map(as_character_1, collapse = "<br>") |>
     unlist() |>
     tibble::enframe(name = "name") |>
-    tidyr::pivot_wider() |>
-    doc_kable()
+    tidyr::pivot_wider()
 }
 
 #' @noRd
@@ -200,16 +206,7 @@ document_definitions <- function(x, h_level) {
 #' @noRd
 document_oneOf <- function(x) {
   x[["oneOf"]] |>
-    purrr::map(
-      .f = \(x) {
-        x |>
-          discard_entries() |>
-          purrr::map(as_character_1, collapse = "<br>") |>
-          unlist() |>
-          tibble::enframe(name = "name") |>
-          tidyr::pivot_wider()
-      }
-    ) |>
+    purrr::map(document_default_helper) |>
     purrr::list_rbind() |>
     doc_kable()
 }

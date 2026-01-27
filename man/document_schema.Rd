@@ -4,7 +4,7 @@
 \alias{document_schema}
 \title{Document configuration schema}
 \usage{
-document_schema(x, header_start_level)
+document_schema(x, header_start_level = 1L)
 }
 \arguments{
 \item{x}{\code{character(1)} path to JSON schema, \code{list()} of already loaded specifications, or \code{S7schema()} object.}

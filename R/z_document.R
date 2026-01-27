@@ -28,7 +28,7 @@
 document_schema <- S7::new_generic(
   name = "document_schema",
   dispatch_args = "x",
-  fun = \(x, header_start_level) {
+  fun = \(x, header_start_level = 1L) {
     S7::S7_dispatch()
   }
 )
@@ -36,18 +36,21 @@ document_schema <- S7::new_generic(
 #' @noRd
 S7::method(document_schema, S7::class_character) <- function(
   x,
-  header_start_level
+  header_start_level = 1L
 ) {
   document_schema_character(x, header_start_level)
 }
 
 #' @noRd
-S7::method(document_schema, S7schema) <- function(x, header_start_level) {
+S7::method(document_schema, S7schema) <- function(x, header_start_level = 1L) {
   document_schema(x@schema, header_start_level)
 }
 
 #' @noRd
-S7::method(document_schema, S7::class_list) <- function(x, header_start_level) {
+S7::method(document_schema, S7::class_list) <- function(
+  x,
+  header_start_level = 1L
+) {
   document_schema_list(x, header_start_level)
 }
 

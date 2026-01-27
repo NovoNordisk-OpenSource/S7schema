@@ -38,12 +38,12 @@ validate_yaml(file, schema)
 ## Details
 
 See internal
-[`validator()`](https://NovoNordisk-OpenSource.github.io/S7schema/reference/validator.md)
+[`validator()`](https://novonordisk-opensource.github.io/S7schema/reference/validator.md)
 documentation for more info on how the validation is done.
 
 ## See also
 
-[`S7schema()`](https://NovoNordisk-OpenSource.github.io/S7schema/reference/S7schema.md)
+[`S7schema()`](https://novonordisk-opensource.github.io/S7schema/reference/S7schema.md)
 
 ## Examples
 

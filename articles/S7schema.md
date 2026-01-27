@@ -4,14 +4,14 @@
 
 S7schema provides a generic way of working with yaml config files. The
 main functionality is captured in the
-[`S7schema()`](https://NovoNordisk-OpenSource.github.io/S7schema/reference/S7schema.md)
+[`S7schema()`](https://novonordisk-opensource.github.io/S7schema/reference/S7schema.md)
 which we will explore in this vignette.
 
 ## Configuration and schema
 
 First we find the example configuration and schema files that will be
 used to demonstrate
-[`S7schema()`](https://NovoNordisk-OpenSource.github.io/S7schema/reference/S7schema.md).
+[`S7schema()`](https://novonordisk-opensource.github.io/S7schema/reference/S7schema.md).
 
 ``` r
 ex_config <- system.file("examples/config.yml", package = "S7schema")
@@ -45,7 +45,7 @@ my_config_var: 1
 
 Which is obviously a valid configuration. But to check it
 programmatically we can also use the one-shot validation function
-[`validate_yaml()`](https://NovoNordisk-OpenSource.github.io/S7schema/reference/validate_config.md):
+[`validate_yaml()`](https://novonordisk-opensource.github.io/S7schema/reference/validate_config.md):
 
 ``` r
 validate_yaml(file = ex_config, schema = ex_schema)
@@ -55,7 +55,7 @@ validate_yaml(file = ex_config, schema = ex_schema)
 
 Alternatively we can load, validate, and write the configuration with
 the
-[`S7schema()`](https://NovoNordisk-OpenSource.github.io/S7schema/reference/S7schema.md)
+[`S7schema()`](https://novonordisk-opensource.github.io/S7schema/reference/S7schema.md)
 class. To load it simple create a new `S7schema` object based on the
 same config and schema files as above:
 
@@ -66,7 +66,7 @@ print(config)
 #>  $ my_config_var: int 1
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x562331afdc60>
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x5565b3db2730>
 ```
 
 Here you can see that `config` is a S7 object, that itself is a `list`
@@ -96,7 +96,7 @@ print(config)
 #>  $ my_config_var: num 2
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x5623324a5988>
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x5565b475c188>
 ```
 
 Note that validation is not automatically triggered when updating a
@@ -114,7 +114,7 @@ validate(config)
 ```
 
 To save a configuration use
-[`write_config()`](https://NovoNordisk-OpenSource.github.io/S7schema/reference/write_config.md):
+[`write_config()`](https://novonordisk-opensource.github.io/S7schema/reference/write_config.md):
 
 ``` r
 write_config(

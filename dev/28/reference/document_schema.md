@@ -42,7 +42,7 @@ system.file("examples/schema.json", package = "S7schema") |>
 #> 
 #> |Type   |Additional Properties |
 #> |:------|:---------------------|
-#> |object |No                    |
+#> |object |FALSE                 |
 #> 
 #> ### Properties
 #> 
@@ -60,7 +60,7 @@ system.file("examples/schema.json", package = "S7schema") |>
 #> 
 #> |Type   |Additional Properties |
 #> |:------|:---------------------|
-#> |object |No                    |
+#> |object |FALSE                 |
 #> 
 #> ## Properties
 #> 
@@ -78,7 +78,7 @@ system.file("examples/definitions.json", package = "S7schema") |>
 #> 
 #> |Type   |Required      |Additional Properties |
 #> |:------|:-------------|:---------------------|
-#> |object |my_config_var |Yes                   |
+#> |object |my_config_var |TRUE                  |
 #> 
 #> ### Properties
 #> 

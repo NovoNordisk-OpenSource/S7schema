@@ -6,7 +6,7 @@ e.g. vignettes to provide easy readable documentation for users.
 ## Usage
 
 ``` r
-document_schema(x, header_start_level)
+document_schema(x, header_start_level = 1L)
 ```
 
 ## Arguments

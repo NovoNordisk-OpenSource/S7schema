@@ -125,9 +125,7 @@ discard_entries <- function(
     "definitions"
   )
 ) {
-  i <- which(names(x) %in% discard)
-  x[i] <- NULL
-  x
+x[!names(x) %in% discard]
 }
 
 #' @noRd

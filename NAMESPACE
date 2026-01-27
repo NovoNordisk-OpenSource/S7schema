@@ -3,6 +3,7 @@
 S3method(validate_list,list)
 S3method(validate_yaml,character)
 export(S7schema)
+export(document_schema)
 export(to_yaml)
 export(validate)
 export(validate_list)

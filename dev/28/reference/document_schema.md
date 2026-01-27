@@ -22,7 +22,7 @@ document_schema(x, header_start_level)
 - header_start_level:
 
   `numeric(1)` Level of initial header. All subheaders will continuously
-  he one level smaller.
+  be one level smaller.
 
 ## Value
 
@@ -42,7 +42,7 @@ system.file("examples/schema.json", package = "S7schema") |>
 #> 
 #> |Type   |Additional Properties |
 #> |:------|:---------------------|
-#> |object |FALSE                 |
+#> |object |No                    |
 #> 
 #> ### Properties
 #> 
@@ -60,7 +60,7 @@ system.file("examples/schema.json", package = "S7schema") |>
 #> 
 #> |Type   |Additional Properties |
 #> |:------|:---------------------|
-#> |object |FALSE                 |
+#> |object |No                    |
 #> 
 #> ## Properties
 #> 
@@ -78,7 +78,7 @@ system.file("examples/definitions.json", package = "S7schema") |>
 #> 
 #> |Type   |Required      |Additional Properties |
 #> |:------|:-------------|:---------------------|
-#> |object |my_config_var |TRUE                  |
+#> |object |my_config_var |Yes                   |
 #> 
 #> ### Properties
 #> 

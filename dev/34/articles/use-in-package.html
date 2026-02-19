@@ -73,7 +73,7 @@
 </h2>
 <p>If you maintain a package that requires a specific configuration
 format, S7schema lets you define a validated config class with minimal
-code. By subclassing <code>S7schema</code>, your package gets schema
+code. By extending <code>S7schema</code>, your package gets schema
 validation, YAML reading/writing, and schema documentation for free.</p>
 </div>
 <div class="section level2">
@@ -103,7 +103,7 @@ S7schema:</p>
 <span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="create-a-subclass">Create a subclass<a class="anchor" aria-label="anchor" href="#create-a-subclass"></a>
+<h2 id="create-a-child-class">Create a child class<a class="anchor" aria-label="anchor" href="#create-a-child-class"></a>
 </h2>
 <p>The core pattern is to create an S7 class that inherits from
 <code>S7schema</code> and hard-codes the schema path in its
@@ -125,7 +125,7 @@ constructor:</p>
 schema is handled internally.</p>
 </div>
 <div class="section level2">
-<h2 id="use-the-subclass">Use the subclass<a class="anchor" aria-label="anchor" href="#use-the-subclass"></a>
+<h2 id="use-the-child-class">Use the child class<a class="anchor" aria-label="anchor" href="#use-the-child-class"></a>
 </h2>
 <div class="section level3">
 <h3 id="construction">Construction<a class="anchor" aria-label="anchor" href="#construction"></a>
@@ -140,7 +140,7 @@ automatically:</p>
 <span><span class="co">#&gt;  $ my_config_var: int 1</span></span>
 <span><span class="co">#&gt;  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"</span></span>
 <span><span class="co">#&gt;  @ validator: &lt;S7schema::validator&gt;</span></span>
-<span><span class="co">#&gt;  .. @ context:Classes 'V8', 'environment' &lt;environment: 0x560bd44240b0&gt;</span></span></code></pre></div>
+<span><span class="co">#&gt;  .. @ context:Classes 'V8', 'environment' &lt;environment: 0x556d0c7396e0&gt;</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="accessing-values">Accessing values<a class="anchor" aria-label="anchor" href="#accessing-values"></a>
@@ -154,7 +154,7 @@ directly:</p>
 <div class="section level3">
 <h3 id="class-hierarchy">Class hierarchy<a class="anchor" aria-label="anchor" href="#class-hierarchy"></a>
 </h3>
-<p>The subclass inherits from <code>S7schema</code>:</p>
+<p>The child class inherits from <code>S7schema</code>:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "my_config_class"    "S7schema::S7schema" "list"              </span></span>
@@ -163,7 +163,7 @@ directly:</p>
 <div class="section level3">
 <h3 id="validation">Validation<a class="anchor" aria-label="anchor" href="#validation"></a>
 </h3>
-<p><code><a href="https://rconsortium.github.io/S7/reference/validate.html" class="external-link">S7::validate()</a></code> works on the subclass just like on the
+<p><code><a href="https://rconsortium.github.io/S7/reference/validate.html" class="external-link">S7::validate()</a></code> works on the child class just like on the
 parent:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x</span><span class="op">$</span><span class="va">my_config_var</span> <span class="op">&lt;-</span> <span class="st">"not a number"</span></span>
@@ -175,8 +175,8 @@ parent:</p>
 <div class="section level3">
 <h3 id="method-dispatch">Method dispatch<a class="anchor" aria-label="anchor" href="#method-dispatch"></a>
 </h3>
-<p>Methods defined for <code>S7schema</code> work on subclasses without
-extra code.</p>
+<p>Methods defined for <code>S7schema</code> work on child classes
+without extra code.</p>
 <p><code><a href="../reference/write_config.html">write_config()</a></code> validates and writes to YAML:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tmp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".yml"</span><span class="op">)</span></span>

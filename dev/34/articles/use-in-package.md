@@ -4,7 +4,7 @@
 
 If you maintain a package that requires a specific configuration format,
 S7schema lets you define a validated config class with minimal code. By
-subclassing `S7schema`, your package gets schema validation, YAML
+extending `S7schema`, your package gets schema validation, YAML
 reading/writing, and schema documentation for free.
 
 ## Define a schema
@@ -36,7 +36,7 @@ schema_path <- system.file("examples/schema.json", package = "S7schema")
 }
 ```
 
-## Create a subclass
+## Create a child class
 
 The core pattern is to create an S7 class that inherits from `S7schema`
 and hard-codes the schema path in its constructor:
@@ -59,7 +59,7 @@ my_config_class <- S7::new_class(
 Users of your package only need to supply the config file path — the
 schema is handled internally.
 
-## Use the subclass
+## Use the child class
 
 ### Construction
 
@@ -73,7 +73,7 @@ print(x)
 #>  $ my_config_var: int 1
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x560bd44240b0>
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x556d0c7396e0>
 ```
 
 ### Accessing values
@@ -87,7 +87,7 @@ x$my_config_var
 
 ### Class hierarchy
 
-The subclass inherits from `S7schema`:
+The child class inherits from `S7schema`:
 
 ``` r
 class(x)
@@ -98,7 +98,7 @@ class(x)
 ### Validation
 
 [`S7::validate()`](https://rconsortium.github.io/S7/reference/validate.html)
-works on the subclass just like on the parent:
+works on the child class just like on the parent:
 
 ``` r
 x$my_config_var <- "not a number"
@@ -110,7 +110,7 @@ S7::validate(x)
 
 ### Method dispatch
 
-Methods defined for `S7schema` work on subclasses without extra code.
+Methods defined for `S7schema` work on child classes without extra code.
 
 [`write_config()`](https://novonordisk-opensource.github.io/S7schema/reference/write_config.md)
 validates and writes to YAML:

@@ -43,3 +43,25 @@ test_that("simple validation of yaml files works", {
       "must NOT have additional properties.* additionalProperty: error"
     )
 })
+
+test_that("oneOf shows all sub-errors for invalid input", {
+  validate_list(
+    x = list(value = "ABC123"),
+    schema = test_path("schemas", "oneof_pattern.json")
+  ) |>
+    expect_error("must match exactly one schema in oneOf")
+})
+
+test_that("oneOf still validates correct input", {
+  validate_list(
+    x = list(value = "abc"),
+    schema = test_path("schemas", "oneof_pattern.json")
+  ) |>
+    expect_no_condition()
+
+  validate_list(
+    x = list(value = list("abc", "def")),
+    schema = test_path("schemas", "oneof_pattern.json")
+  ) |>
+    expect_no_condition()
+})

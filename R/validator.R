@@ -73,13 +73,12 @@ use_validator <- function(validator, yaml_content) {
   cli::cli_abort(message = format_errors(result$errors))
 }
 
-#' Format AJV validation errors for display
-#' @param errors List of AJV error objects
-#' @returns Named character vector suitable for cli::cli_abort
 #' @noRd
 format_errors <- function(errors) {
   is_oneof <- vapply(
-    errors, \(e) identical(e$keyword, "oneOf"), logical(1)
+    X = errors,
+    FUN = \(e) identical(e$keyword, "oneOf"),
+    FUN.VALUE = logical(1)
   )
 
   if (!any(is_oneof)) {
@@ -99,16 +98,15 @@ format_errors <- function(errors) {
   oneof_error <- errors[is_oneof][[1]]
 
   is_sub <- vapply(
-    errors,
-    \(e) grepl("/oneOf/", e$schemaPath, fixed = TRUE),
-    logical(1)
+    X = errors,
+    FUN = \(e) grepl("/oneOf/", e$schemaPath, fixed = TRUE),
+    FUN.VALUE = logical(1)
   )
-  sub_errors <- errors[is_sub]
 
   header <- cli::format_inline(
     "{.field {oneof_error$instancePath}} {oneof_error$message}"
   )
 
-  bullets <- vapply(sub_errors, \(e) e$message, character(1))
+  bullets <- vapply(errors[is_sub], \(e) e$message, character(1))
   c(header, rlang::set_names(bullets, rep("*", length(bullets))))
 }

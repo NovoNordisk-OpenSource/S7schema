@@ -51,6 +51,20 @@ validator <- S7::new_class(
 )
 
 #' @noRd
+fix_index <- function(path) {
+  m <- gregexpr(
+    pattern = "(?<=/)\\d+(?=/|$)",
+    text = path,
+    perl = TRUE
+  )
+  regmatches(x = path, m = m) <- lapply(
+    X = regmatches(x = path, m = m),
+    FUN = \(x) as.integer(x) + 1L
+  )
+  path
+}
+
+#' @noRd
 use_validator <- function(validator, yaml_content) {
   validator@context$assign(
     name = "yaml_str",
@@ -84,15 +98,14 @@ format_errors <- function(errors) {
   if (!any(is_oneof)) {
     error <- errors[[1]]
     header <- cli::format_inline(
-      "{.field {error$instancePath}} {error$message}"
+      "{.field {fix_index(error$instancePath)}} {error$message}"
     )
-    return(c(
-      header,
-      rlang::set_names(
+    bullets <- rlang::set_names(
         x = paste(names(error$params), error$params, sep = ": "),
         nm = "x"
       )
-    ))
+    
+    return(c(header,bullets))
   }
 
   oneof_error <- errors[is_oneof][[1]]
@@ -104,7 +117,7 @@ format_errors <- function(errors) {
   )
 
   header <- cli::format_inline(
-    "{.field {oneof_error$instancePath}} {oneof_error$message}"
+    "{.field {fix_index(oneof_error$instancePath)}} {oneof_error$message}"
   )
 
   bullets <- vapply(errors[is_sub], \(e) e$message, character(1))

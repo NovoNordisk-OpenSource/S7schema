@@ -86,23 +86,19 @@ use_validator <- function(validator, yaml_content, file = NULL) {
 
   error <- result$errors[[1]]
 
-  msg <- if (!is.null(file)) {
-    c(
-      "Validation failed for {.file (file)}",
-      "i" = "Full path: {.path {file}}",
-      "{.field {fix_index(error$instancePath)}} {error$message}",
-      rlang::set_names(
-        x = paste(names(error$params), error$params, sep = ": "),
-        nm = "x"
-      )
+  msg <- c(
+    "{.field {fix_index(error$instancePath)}} {error$message}",
+    rlang::set_names(
+      x = paste(names(error$params), error$params, sep = ": "),
+      nm = "x"
     )
-  } else {
-    c(
-      "{.field {fix_index(error$instancePath)}} {error$message}",
-      rlang::set_names(
-        x = paste(names(error$params), error$params, sep = ": "),
-        nm = "x"
-      )
+  )
+
+  if (!is.null(file)) {
+    msg <- c(
+      "Validation failed for {.file {file}}",
+      "i" = "Full path: {.path {file}}",
+      msg
     )
   }
 

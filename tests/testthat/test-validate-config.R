@@ -68,16 +68,23 @@ test_that("validate_yaml includes file path in error messages", {
   )
 })
 
-test_that("validate_list does not reference files", {
-  # Should error but not reference any file (no file context)
-  err <- tryCatch(
+test_that("validate_list does not reference files when no name provided", {
+  err <-
     validate_list(
       x = list(fake = "b"),
       schema = test_path("schemas", "simple.json")
-    ),
-    error = function(e) e
-  )
+    ) |>
+    expect_error()
+  expect_false(grepl("Full path", err$message))
+})
 
-  expect_match(conditionMessage(err), "must NOT have additional properties")
-  expect_false(grepl("\\.yml|\\.yaml", conditionMessage(err)))
+test_that("validate_list includes explicit name in error messages", {
+  expect_error(
+    validate_list(
+      x = list(fake = "b"),
+      schema = test_path("schemas", "simple.json"),
+      name = "dev_config"
+    ),
+    regexp = "dev_config"
+  )
 })

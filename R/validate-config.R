@@ -7,6 +7,8 @@
 #'
 #' @inherit S7schema details
 #' @param x `list` object to validate
+#' @param name `character(1)` or `NULL`. Optional name to identify this list in error
+#'   messages.
 #' @inheritParams S7schema
 #' @examples
 #' # Validate list object in memory
@@ -30,15 +32,16 @@ NULL
 #' @rdname validate_config
 #' @return * `validate_list()`: `invisible(x)`
 #' @export
-validate_list <- function(x, schema) {
+validate_list <- function(x, schema, name = NULL) {
   UseMethod("validate_list")
 }
 
 #' @export
-validate_list.list <- function(x, schema) {
+validate_list.list <- function(x, schema, name = NULL) {
   use_validator(
     validator = validator(schema = schema),
-    yaml_content = to_yaml(x)
+    yaml_content = to_yaml(x),
+    file = name
   )
 
   invisible(x)

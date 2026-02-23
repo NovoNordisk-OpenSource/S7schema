@@ -18,6 +18,7 @@ test_that("writing works", {
   ) |>
     expect_no_condition()
 
-  all.equal(x, y) |>
-    expect_true()
+  # Compare content and schema (excluding .file property which will differ)
+  expect_equal(x$id, y$id)
+  expect_equal(x@schema, y@schema)
 })

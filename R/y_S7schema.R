@@ -15,6 +15,17 @@ prop_schema <- S7::new_property(
 )
 
 #' @noRd
+prop_file <- S7::new_property(
+  class = S7::class_any,
+  default = NULL,
+  validator = function(value) {
+    if (!is.null(value) && !is.character(value)) {
+      "must be NULL or character"
+    }
+  }
+)
+
+#' @noRd
 get_prop_validator <- function(self) {
   validator(schema = self@schema)
 }
@@ -33,7 +44,8 @@ construct_S7schema <- function(file, schema) {
 
   S7::new_object(
     .parent = yaml::read_yaml(file = file),
-    schema = schema
+    schema = schema,
+    .file = file
   )
 }
 
@@ -41,7 +53,8 @@ construct_S7schema <- function(file, schema) {
 validate_S7schema <- function(self) {
   use_validator(
     validator = self@validator,
-    yaml_content = to_yaml(self)
+    yaml_content = to_yaml(self),
+    file = self@.file
   )
 }
 
@@ -68,12 +81,16 @@ validate_S7schema <- function(self) {
 #' @details
 #' See internal [validator()] documentation for more info on how the validation is done.
 #'
+#' When validation fails during construction or when calling `validate()`, error messages
+#' include the file path to help identify which configuration file has issues.
+#'
 #' @param file `character(1)` path to a yaml file to be checked.
 #' @param schema `character(1)` path to a JSON schema.
 #' @section Properties:
 #' \describe{
 #'   \item{schema}{`character(1)` path to JSON schema being used to validate against.}
 #'   \item{validator}{Internal [validator()] used to validate the content (read-only).}
+#'   \item{.file}{`character(1)` or `NULL` path to the source YAML file (read-only, used in error messages).}
 #' }
 #' @returns New `S7schema` object.
 #' @examples
@@ -89,7 +106,8 @@ S7schema <- S7::new_class(
   parent = S7::class_list,
   properties = list(
     schema = prop_schema,
-    validator = prop_validator
+    validator = prop_validator,
+    .file = prop_file
   ),
   constructor = construct_S7schema,
   validator = \(self) {

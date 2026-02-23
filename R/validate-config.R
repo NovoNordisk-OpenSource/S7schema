@@ -60,7 +60,8 @@ validate_yaml.character <- function(file, schema) {
 
   use_validator(
     validator = validator(schema = schema),
-    yaml_content = content
+    yaml_content = content,
+    file = file
   )
 
   invisible(file)

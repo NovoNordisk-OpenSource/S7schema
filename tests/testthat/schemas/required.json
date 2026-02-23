@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "title": "Required example",
+  "description": "Schema with a required property at root",
+  "type": "object",
+  "properties": {
+    "label": {
+      "description": "A required label",
+      "type": "string"
+    }
+  },
+  "required": ["label"],
+  "additionalProperties": false
+}

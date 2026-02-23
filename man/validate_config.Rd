@@ -6,7 +6,7 @@
 \alias{validate_yaml}
 \title{One-shot validation of configurations}
 \usage{
-validate_list(x, schema)
+validate_list(x, schema, name = NULL)
 
 validate_yaml(file, schema)
 }
@@ -14,6 +14,9 @@ validate_yaml(file, schema)
 \item{x}{\code{list} object to validate}
 
 \item{schema}{\code{character(1)} path to a JSON schema.}
+
+\item{name}{\code{character(1)} or \code{NULL}. Optional name to identify this list in error
+messages.}
 
 \item{file}{\code{character(1)} path to a yaml file to be checked.}
 }

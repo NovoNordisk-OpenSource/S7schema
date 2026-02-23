@@ -42,6 +42,7 @@ See internal \code{\link[=validator]{validator()}} documentation for more info o
 \describe{
 \item{schema}{\code{character(1)} path to JSON schema being used to validate against.}
 \item{validator}{Internal \code{\link[=validator]{validator()}} used to validate the content (read-only).}
+\item{.file}{\code{character(1)} or \code{NULL} path to the source YAML file (read-only, used in error messages).}
 }
 }
 

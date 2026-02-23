@@ -37,7 +37,7 @@ print(x)
 #>  $ my_config_var: int 1
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x55f46edff6b0> 
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x55ff23081b68> 
 #>  @ .file    : chr "/home/runner/work/_temp/Library/S7schema/examples/config.yml"
 
 # Edit content

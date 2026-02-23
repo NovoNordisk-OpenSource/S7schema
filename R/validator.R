@@ -88,7 +88,7 @@ use_validator <- function(validator, yaml_content, file = NULL) {
 
   msg <- if (!is.null(file)) {
     c(
-      "Validation failed for {.file {basename(file)}}",
+      "Validation failed for {.file (file)}",
       "i" = "Full path: {.path {file}}",
       "{.field {fix_index(error$instancePath)}} {error$message}",
       rlang::set_names(

@@ -100,12 +100,14 @@ format_errors <- function(errors) {
     header <- cli::format_inline(
       "{.field {fix_index(error$instancePath)}} {error$message}"
     )
-    bullets <- rlang::set_names(
-        x = paste(names(error$params), error$params, sep = ": "),
-        nm = "x"
+    bullets <- paste(names(error$params), error$params, sep = ": ")
+
+    return(
+      c(
+        header,
+        rlang::set_names(x = bullets, nm = rep("x", length(bullets)))
       )
-    
-    return(c(header,bullets))
+    )
   }
 
   oneof_error <- errors[is_oneof][[1]]
@@ -120,6 +122,14 @@ format_errors <- function(errors) {
     "{.field {fix_index(oneof_error$instancePath)}} {oneof_error$message}"
   )
 
-  bullets <- vapply(errors[is_sub], \(e) e$message, character(1))
-  c(header, rlang::set_names(bullets, rep("*", length(bullets))))
+  bullets <- vapply(
+    X = errors[is_sub],
+    FUN = \(e) e$message,
+    FUN.VALUE = character(1)
+  )
+
+  c(
+    header,
+    rlang::set_names(x = bullets, nm = rep("*", length(bullets)))
+  )
 }

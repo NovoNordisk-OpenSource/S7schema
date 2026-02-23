@@ -81,9 +81,6 @@ validate_S7schema <- function(self) {
 #' @details
 #' See internal [validator()] documentation for more info on how the validation is done.
 #'
-#' When validation fails during construction or when calling `validate()`, error messages
-#' include the file path to help identify which configuration file has issues.
-#'
 #' @param file `character(1)` path to a yaml file to be checked.
 #' @param schema `character(1)` path to a JSON schema.
 #' @section Properties:

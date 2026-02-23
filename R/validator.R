@@ -97,7 +97,6 @@ use_validator <- function(validator, yaml_content, file = NULL) {
   if (!is.null(file)) {
     msg <- c(
       "Validation failed for {.file {file}}",
-      "i" = "Full path: {.path {file}}",
       msg
     )
   }

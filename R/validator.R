@@ -51,6 +51,20 @@ validator <- S7::new_class(
 )
 
 #' @noRd
+fix_index <- function(path) {
+  m <- gregexpr(
+    pattern = "(?<=/)\\d+(?=/|$)",
+    text = path,
+    perl = TRUE
+  )
+  regmatches(x = path, m = m) <- lapply(
+    X = regmatches(x = path, m = m),
+    FUN = \(x) as.integer(x) + 1L
+  )
+  path
+}
+
+#' @noRd
 use_validator <- function(validator, yaml_content, file = NULL) {
   validator@context$assign(
     name = "yaml_str",
@@ -76,7 +90,7 @@ use_validator <- function(validator, yaml_content, file = NULL) {
     c(
       "Validation failed for {.file {basename(file)}}",
       "i" = "Full path: {.path {file}}",
-      "{.field {error$instancePath}} {error$message}",
+      "{.field {fix_index(error$instancePath)}} {error$message}",
       rlang::set_names(
         x = paste(names(error$params), error$params, sep = ": "),
         nm = "x"
@@ -84,7 +98,7 @@ use_validator <- function(validator, yaml_content, file = NULL) {
     )
   } else {
     c(
-      "{.field {error$instancePath}} {error$message}",
+      "{.field {fix_index(error$instancePath)}} {error$message}",
       rlang::set_names(
         x = paste(names(error$params), error$params, sep = ": "),
         nm = "x"

@@ -25,6 +25,20 @@ test_that("simple validation on lists works", {
     )
 })
 
+test_that("array validation errors use 1-based indexing", {
+  validate_list(
+    x = list(my_array = list("a", "b")),
+    schema = test_path("schemas", "array.json")
+  ) |>
+    expect_no_condition()
+
+  validate_list(
+    x = list(my_array = list("a", 1)),
+    schema = test_path("schemas", "array.json")
+  ) |>
+    expect_error("/my_array/2 must be string")
+})
+
 test_that("simple validation of yaml files works", {
   validate_yaml(
     file = test_path("input", "simple.yml"),

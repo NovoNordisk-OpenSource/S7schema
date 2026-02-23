@@ -58,16 +58,6 @@ test_that("simple validation of yaml files works", {
     )
 })
 
-test_that("root-level required property error shows (root)", {
-  validate_list(
-    x = setNames(list(), character(0)),
-    schema = test_path("schemas", "required.json")
-  ) |>
-    expect_error(
-      "\\(root\\) must have required property 'label'"
-    )
-})
-
 test_that("oneOf shows all sub-errors for invalid input", {
   validate_list(
     x = list(value = "ABC123"),

@@ -66,7 +66,7 @@ print(config)
 #>  $ my_config_var: int 1
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x562aac9acd78> 
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x55ed74671108> 
 #>  @ .file    : chr "/home/runner/work/_temp/Library/S7schema/examples/config.yml"
 ```
 
@@ -97,7 +97,7 @@ print(config)
 #>  $ my_config_var: num 2
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x562aad3622f8> 
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x55ed75024388> 
 #>  @ .file    : chr "/home/runner/work/_temp/Library/S7schema/examples/config.yml"
 ```
 
@@ -111,7 +111,9 @@ an error when validating the updated object:
 config$my_config_var <- "abc"
 validate(config)
 #> Error in `use_validator()`:
-#> ! /my_config_var must be number
+#> ! Validation failed for
+#>   /home/runner/work/_temp/Library/S7schema/examples/config.yml
+#> /my_config_var must be number
 #> ✖ type: number
 ```
 

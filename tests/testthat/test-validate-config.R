@@ -58,6 +58,7 @@ test_that("simple validation of yaml files works", {
     )
 })
 
+
 test_that("validate_yaml includes file path in error messages", {
   expect_error(
     validate_yaml(
@@ -87,4 +88,26 @@ test_that("validate_list includes explicit name in error messages", {
     ),
     regexp = "dev_config"
   )
+})
+
+test_that("oneOf shows all sub-errors for invalid input", {
+  validate_list(
+    x = list(value = "ABC123"),
+    schema = test_path("schemas", "oneof_pattern.json")
+  ) |>
+    expect_error("must match exactly one schema in oneOf")
+})
+
+test_that("oneOf still validates correct input", {
+  validate_list(
+    x = list(value = "abc"),
+    schema = test_path("schemas", "oneof_pattern.json")
+  ) |>
+    expect_no_condition()
+
+  validate_list(
+    x = list(value = list("abc", "def")),
+    schema = test_path("schemas", "oneof_pattern.json")
+  ) |>
+    expect_no_condition()
 })

@@ -84,14 +84,53 @@ use_validator <- function(validator, yaml_content, file = NULL) {
     return(invisible())
   }
 
-  error <- result$errors[[1]]
+  cli::cli_abort(message = format_errors(result$errors))
+}
 
-  msg <- c(
-    "{.field {fix_index(error$instancePath)}} {error$message}",
-    rlang::set_names(
-      x = paste(names(error$params), error$params, sep = ": "),
-      nm = "x"
+#' @noRd
+format_errors <- function(errors) {
+  is_oneof <- vapply(
+    X = errors,
+    FUN = \(e) identical(e$keyword, "oneOf"),
+    FUN.VALUE = logical(1)
+  )
+
+  if (!any(is_oneof)) {
+    error <- errors[[1]]
+    header <- cli::format_inline(
+      "{.field {fix_index(error$instancePath)}} {error$message}"
     )
+    bullets <- paste(names(error$params), error$params, sep = ": ")
+
+    return(
+      c(
+        header,
+        rlang::set_names(x = bullets, nm = rep("x", length(bullets)))
+      )
+    )
+  }
+
+  oneof_error <- errors[is_oneof][[1]]
+
+  is_sub <- vapply(
+    X = errors,
+    FUN = \(e) grepl("/oneOf/", e$schemaPath, fixed = TRUE),
+    FUN.VALUE = logical(1)
+  )
+
+  header <- cli::format_inline(
+    "{.field {fix_index(oneof_error$instancePath)}} {oneof_error$message}"
+  )
+
+  bullets <- vapply(
+    X = errors[is_sub],
+    FUN = \(e) e$message,
+    FUN.VALUE = character(1)
+  )
+
+  c(
+    header,
+    rlang::set_names(x = bullets, nm = rep("*", length(bullets)))
   )
 
   if (!is.null(file)) {

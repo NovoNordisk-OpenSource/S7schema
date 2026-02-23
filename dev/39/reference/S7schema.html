@@ -109,6 +109,9 @@ the below workflow:</p><ol><li><p>Read and validate config file: <code>x &lt;- S
 <dt>validator</dt>
 <dd><p>Internal <code><a href="validator.html">validator()</a></code> used to validate the content (read-only).</p></dd>
 
+<dt>.file</dt>
+<dd><p><code>character(1)</code> or <code>NULL</code> path to the source YAML file (read-only, used in error messages).</p></dd>
+
 
 </dl></div>
 
@@ -123,7 +126,7 @@ the below workflow:</p><ol><li><p>Read and validate config file: <code>x &lt;- S
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ my_config_var: int 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  @ validator: &lt;S7schema::validator&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  .. @ context:Classes 'V8', 'environment' &lt;environment: 0x5589502fc298&gt; </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. @ context:Classes 'V8', 'environment' &lt;environment: 0x56394def5b40&gt; </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  @ .file    : chr "/home/runner/work/_temp/Library/S7schema/examples/config.yml"</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

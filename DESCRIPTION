@@ -1,6 +1,6 @@
 Package: S7schema
-Title: Generic 'S7' Implementation of YAML Config with Schema Based Validation
-Version: 0.0.0.9012
+Title: 'S7' Framework for Schema-Validated YAML Configuration
+Version: 0.0.0.9010
 Authors@R: c(
     person("Aksel", "Thomsen", , "oath@novonordisk.com", role = c("aut", "cre")),
     person("Novo Nordisk A/S", role = "cph"),
@@ -35,9 +35,14 @@ Authors@R: c(
     )
   )
 Description: Provides a generic framework for working with YAML
-    configuration files, including using 'ajv' for validation.
+    (YAML Ain't Markup Language) configuration files. Uses 'ajv'
+    (Another JSON Schema Validator) via 'V8' to validate configurations
+    against JSON Schema definitions. Configuration objects inherit from
+    'S7' classes and base lists, supporting downstream extension through
+    custom classes and methods.
 License: Apache License (>= 2)
 URL: https://novonordisk-opensource.github.io/S7schema/
+BugReports: https://github.com/NovoNordisk-OpenSource/S7schema/issues
 Depends: 
     R (>= 4.1)
 Imports: 

@@ -73,7 +73,7 @@ print(x)
 #>  $ my_config_var: int 1
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x560d41c74848>
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x560f265afcd8>
 ```
 
 ### Accessing values

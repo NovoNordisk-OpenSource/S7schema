@@ -66,7 +66,7 @@ print(config)
 #>  $ my_config_var: int 1
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x557655571b60>
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x563e5a3ff9e0>
 ```
 
 Here you can see that `config` is a S7 object, that itself is a `list`
@@ -96,7 +96,7 @@ print(config)
 #>  $ my_config_var: num 2
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x557655f23ff8>
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x563e5adb3568>
 ```
 
 Note that validation is not automatically triggered when updating a

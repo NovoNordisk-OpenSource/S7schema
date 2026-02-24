@@ -10,7 +10,7 @@ configuration is valid.
 ## Usage
 
 ``` r
-write_config(x, file)
+write_config(x, file = x@file)
 ```
 
 ## Arguments
@@ -21,7 +21,8 @@ write_config(x, file)
 
 - file:
 
-  `character(1)` path to the file to write to.
+  `character(1)` path to the file to write to. Defaults to `x@file` if
+  not provided.
 
 ## Examples
 
@@ -37,8 +38,8 @@ print(x)
 #>  $ my_config_var: int 1
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x563952955a20> 
-#>  @ .file    : chr "/home/runner/work/_temp/Library/S7schema/examples/config.yml"
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x560bd569cb08> 
+#>  @ file     : chr "/home/runner/work/_temp/Library/S7schema/examples/config.yml"
 
 # Edit content
 x$my_config_var <- 2

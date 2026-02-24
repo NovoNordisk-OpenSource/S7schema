@@ -40,7 +40,7 @@ converting to YAML and creating the file, ensuring that the saved configuration 
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">write_config</span><span class="op">(</span><span class="va">x</span>, <span class="va">file</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">write_config</span><span class="op">(</span><span class="va">x</span>, file <span class="op">=</span> <span class="va">x</span><span class="op">@</span><span class="va">file</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -52,7 +52,7 @@ converting to YAML and creating the file, ensuring that the saved configuration 
 
 
 <dt id="arg-file">file<a class="anchor" aria-label="anchor" href="#arg-file"></a></dt>
-<dd><p><code>character(1)</code> path to the file to write to.</p></dd>
+<dd><p><code>character(1)</code> path to the file to write to. Defaults to <code>x@file</code> if not provided.</p></dd>
 
 </dl></div>
 
@@ -69,8 +69,8 @@ converting to YAML and creating the file, ensuring that the saved configuration 
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ my_config_var: int 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  @ validator: &lt;S7schema::validator&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  .. @ context:Classes 'V8', 'environment' &lt;environment: 0x563952955a20&gt; </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  @ .file    : chr "/home/runner/work/_temp/Library/S7schema/examples/config.yml"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. @ context:Classes 'V8', 'environment' &lt;environment: 0x560bd569cb08&gt; </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  @ file     : chr "/home/runner/work/_temp/Library/S7schema/examples/config.yml"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Edit content</span></span></span>
 <span class="r-in"><span><span class="va">x</span><span class="op">$</span><span class="va">my_config_var</span> <span class="op">&lt;-</span> <span class="fl">2</span></span></span>

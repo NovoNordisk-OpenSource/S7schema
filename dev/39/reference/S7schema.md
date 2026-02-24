@@ -62,10 +62,10 @@ documentation for more info on how the validation is done.
   [`validator()`](https://novonordisk-opensource.github.io/S7schema/reference/validator.md)
   used to validate the content (read-only).
 
-- .file:
+- file:
 
-  `character(1)` or `NULL` path to the source YAML file (read-only, used
-  in error messages).
+  `character(1)` or `NULL` path to the source YAML file (used in error
+  messages).
 
 ## Examples
 
@@ -79,6 +79,6 @@ S7schema(
 #>  $ my_config_var: int 1
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x56394def5b40> 
-#>  @ .file    : chr "/home/runner/work/_temp/Library/S7schema/examples/config.yml"
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x560bd0c37708> 
+#>  @ file     : chr "/home/runner/work/_temp/Library/S7schema/examples/config.yml"
 ```

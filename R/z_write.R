@@ -4,7 +4,7 @@
 #' converting to YAML and creating the file, ensuring that the saved configuration is valid.
 #'
 #' @param x `S7schema` object to write.
-#' @param file `character(1)` path to the file to write to.
+#' @param file `character(1)` path to the file to write to. Defaults to `x@file` if not provided.
 #' @examples
 #' # Read configuration file:
 #' x <- S7schema(
@@ -27,13 +27,13 @@
 write_config <- S7::new_generic(
   name = "write_config",
   dispatch_args = "x",
-  fun = \(x, file) {
+  fun = \(x, file = x@file) {
     S7::S7_dispatch()
   }
 )
 
 #' @noRd
-S7::method(write_config, S7schema) <- function(x, file) {
+S7::method(write_config, S7schema) <- function(x, file = x@file) {
   write_valid_config(x, file)
 }
 

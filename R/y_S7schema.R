@@ -45,7 +45,7 @@ construct_S7schema <- function(file, schema) {
   S7::new_object(
     .parent = yaml::read_yaml(file = file),
     schema = schema,
-    .file = file
+    file = file
   )
 }
 
@@ -54,7 +54,7 @@ validate_S7schema <- function(self) {
   use_validator(
     validator = self@validator,
     yaml_content = to_yaml(self),
-    file = self@.file
+    file = self@file
   )
 }
 
@@ -87,7 +87,7 @@ validate_S7schema <- function(self) {
 #' \describe{
 #'   \item{schema}{`character(1)` path to JSON schema being used to validate against.}
 #'   \item{validator}{Internal [validator()] used to validate the content (read-only).}
-#'   \item{.file}{`character(1)` or `NULL` path to the source YAML file (read-only, used in error messages).}
+#'   \item{file}{`character(1)` or `NULL` path to the source YAML file (used in error messages).}
 #' }
 #' @returns New `S7schema` object.
 #' @examples
@@ -104,7 +104,7 @@ S7schema <- S7::new_class(
   properties = list(
     schema = prop_schema,
     validator = prop_validator,
-    .file = prop_file
+    file = prop_file
   ),
   constructor = construct_S7schema,
   validator = \(self) {

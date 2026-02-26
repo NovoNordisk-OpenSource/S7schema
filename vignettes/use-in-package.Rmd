@@ -120,7 +120,7 @@ md <- document_schema(schema_path)
 cat(md)
 ```
 
-Note, that if printed directly the return of `document_schema()` is
+Note that if printed directly, the return of `document_schema()` is
 displayed as-is.
 
 The `header_start_level` parameter controls the depth of the generated

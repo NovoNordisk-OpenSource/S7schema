@@ -73,7 +73,7 @@ print(x)
 #>  $ my_config_var: int 1
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x555d0cd3ae18>
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x55f0f2ce3de8>
 ```
 
 ### Accessing values
@@ -144,7 +144,7 @@ cat(md)
 #> |my_config_var |My only configuration variable |number |No       |
 ```
 
-Note, that if printed directly the return of
+Note that if printed directly, the return of
 [`document_schema()`](https://novonordisk-opensource.github.io/S7schema/reference/document_schema.md)
 is displayed as-is.
 

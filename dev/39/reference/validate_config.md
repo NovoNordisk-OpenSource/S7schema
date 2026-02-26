@@ -8,7 +8,7 @@ an existing `yaml` configuration file.
 ## Usage
 
 ``` r
-validate_list(x, schema, name = NULL)
+validate_list(x, schema)
 
 validate_yaml(file, schema)
 ```
@@ -22,11 +22,6 @@ validate_yaml(file, schema)
 - schema:
 
   `character(1)` path to a JSON schema.
-
-- name:
-
-  `character(1)` or `NULL`. Optional name to identify this list in error
-  messages.
 
 - file:
 

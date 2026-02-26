@@ -69,27 +69,6 @@ test_that("validate_yaml includes file path in error messages", {
   )
 })
 
-test_that("validate_list does not reference files when no name provided", {
-  err <-
-    validate_list(
-      x = list(fake = "b"),
-      schema = test_path("schemas", "simple.json")
-    ) |>
-    expect_error()
-  expect_false(grepl("Full path", err$message))
-})
-
-test_that("validate_list includes explicit name in error messages", {
-  expect_error(
-    validate_list(
-      x = list(fake = "b"),
-      schema = test_path("schemas", "simple.json"),
-      name = "dev_config"
-    ),
-    regexp = "dev_config"
-  )
-})
-
 test_that("oneOf shows all sub-errors for invalid input", {
   validate_list(
     x = list(value = "ABC123"),

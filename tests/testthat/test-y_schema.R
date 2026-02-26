@@ -37,16 +37,17 @@ test_that("S7schema throws errors with wrong input", {
 })
 
 test_that("S7schema includes file path in validation error messages", {
-  expect_error(
+  err <- expect_error(
     S7schema(
       file = test_path("input", "simple_error.yml"),
       schema = test_path("schemas", "simple.json")
     ),
     regexp = "simple_error\\.yml"
   )
+  expect_match(deparse(err$call), "validate_yaml")
 })
 
-test_that("validate() on modified S7schema still includes file reference", {
+test_that("validate() on modified S7schema still does not include file reference", {
   x <- S7schema(
     file = test_path("input", "simple.yml"),
     schema = test_path("schemas", "simple.json")
@@ -54,8 +55,6 @@ test_that("validate() on modified S7schema still includes file reference", {
 
   x$illegal_entry <- 1
 
-  expect_error(
-    validate(x),
-    regexp = "simple\\.yml"
-  )
+  err <- expect_error(validate(x))
+  expect_no_match(conditionMessage(err), "simple\\.yml")
 })

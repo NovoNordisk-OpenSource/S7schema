@@ -65,7 +65,7 @@ fix_index <- function(path) {
 }
 
 #' @noRd
-use_validator <- function(validator, yaml_content, file = NULL) {
+use_validator <- function(validator, yaml_content, file = NULL, call = parent.frame()) {
   validator@context$assign(
     name = "yaml_str",
     value = yaml_content
@@ -93,7 +93,7 @@ use_validator <- function(validator, yaml_content, file = NULL) {
     )
   }
 
-  cli::cli_abort(message = msg)
+  cli::cli_abort(message = msg, call = call)
 }
 
 #' @noRd

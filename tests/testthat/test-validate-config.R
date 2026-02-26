@@ -13,7 +13,7 @@ test_that("simple validation on lists works", {
     schema = test_path("schemas", "simple.json")
   ) |>
     expect_error(
-      "must NOT have additional properties.* additionalProperty: fake"
+      "\\(root\\) must NOT have additional properties.* additionalProperty: fake"
     )
 
   validate_list(
@@ -54,7 +54,7 @@ test_that("simple validation of yaml files works", {
     schema = test_path("schemas", "simple.json")
   ) |>
     expect_error(
-      "must NOT have additional properties.* additionalProperty: error"
+      "\\(root\\) must NOT have additional properties.* additionalProperty: error"
     )
 })
 

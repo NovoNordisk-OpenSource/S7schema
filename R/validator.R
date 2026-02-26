@@ -51,7 +51,10 @@ validator <- S7::new_class(
 )
 
 #' @noRd
-fix_index <- function(path) {
+fix_path <- function(path) {
+  if (nchar(path) == 0L) {
+    return("(root)")
+  }
   m <- gregexpr(
     pattern = "(?<=/)\\d+(?=/|$)",
     text = path,
@@ -107,7 +110,7 @@ format_errors <- function(errors) {
   if (!any(is_oneof)) {
     error <- errors[[1]]
     header <- cli::format_inline(
-      "{.field {fix_index(error$instancePath)}} {error$message}"
+      "{.field {fix_path(error$instancePath)}} {error$message}"
     )
     bullets <- paste(names(error$params), error$params, sep = ": ")
 
@@ -128,7 +131,7 @@ format_errors <- function(errors) {
   )
 
   header <- cli::format_inline(
-    "{.field {fix_index(oneof_error$instancePath)}} {oneof_error$message}"
+    "{.field {fix_path(oneof_error$instancePath)}} {oneof_error$message}"
   )
 
   bullets <- vapply(

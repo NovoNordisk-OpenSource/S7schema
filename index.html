@@ -28,7 +28,7 @@
 
     <a class="navbar-brand me-2" href="index.html">S7schema</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9010</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9011</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,6 +39,12 @@
       <ul class="navbar-nav me-auto">
 <li class="nav-item"><a class="nav-link" href="articles/S7schema.html">Get started</a></li>
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
+<li><a class="dropdown-item" href="articles/use-in-package.html">Use in a package</a></li>
+  </ul>
+</li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
@@ -87,6 +93,16 @@
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rconsortium.github.io/S7/reference/validate.html" class="external-link">validate</a></span><span class="op">(</span><span class="va">config</span><span class="op">)</span></span></code></pre></div>
 <p>Which will now throw an error if <code>a = 2</code> is an illegal entry according to the schema in <code>"path/to/my/schema.json"</code>.</p>
+</div>
+<div class="section level2">
+<h2 id="learn-more">Learn more<a class="anchor" aria-label="anchor" href="#learn-more"></a>
+</h2>
+<ul>
+<li>
+<code><a href="articles/S7schema.html">vignette("S7schema")</a></code> — Getting started</li>
+<li>
+<code><a href="articles/use-in-package.html">vignette("use-in-package")</a></code> — Use in a package</li>
+</ul>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="license">

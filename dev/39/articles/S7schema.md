@@ -66,7 +66,7 @@ print(config)
 #>  $ my_config_var: int 1
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x563fd1e14720> 
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x55b77118ffd0> 
 #>  @ file     : chr "/home/runner/work/_temp/Library/S7schema/examples/config.yml"
 ```
 
@@ -97,7 +97,7 @@ print(config)
 #>  $ my_config_var: num 2
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x563fd27cbea0> 
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x55b771b49900> 
 #>  @ file     : chr "/home/runner/work/_temp/Library/S7schema/examples/config.yml"
 ```
 

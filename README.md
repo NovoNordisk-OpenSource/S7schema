@@ -55,4 +55,10 @@ And it can be validated again:
 validate(config)
 ```
 
-Which will now throw an error if `a = 2` is an illegal entry according to the schema in `"path/to/my/schema.json"`.
+Which will now throw an error if `a = 2` is an illegal entry according
+to the schema in `"path/to/my/schema.json"`.
+
+## Learn more
+
+- `vignette("S7schema")` — Getting started
+- `vignette("use-in-package")` — Use in a package

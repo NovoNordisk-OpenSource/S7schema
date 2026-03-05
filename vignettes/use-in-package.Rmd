@@ -1,0 +1,132 @@
+---
+title: "Use in a package"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Use in a package}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+library(S7schema)
+```
+
+## Introduction
+
+If you maintain a package that requires a specific configuration format,
+S7schema lets you define a validated config class with minimal code.
+By extending `S7schema`, your package gets schema validation,
+YAML reading/writing, and schema documentation for free.
+
+## Define a schema
+
+A JSON schema describes the structure and constraints of your configuration.
+In a real package, the schema should live in `inst/` (e.g.
+`inst/schema/my_schema.json`) so it ships with the package and can be
+found via `system.file()`.
+
+For this vignette we use the example schema bundled with S7schema:
+
+```{r}
+schema_path <- system.file("examples/schema.json", package = "S7schema")
+```
+
+``` json
+`r paste(readLines(schema_path), collapse = "\n")`
+```
+
+## Create a child class
+
+The core pattern is to create an S7 class that inherits from `S7schema`
+and hard-codes the schema path in its constructor:
+
+```{r}
+my_config_class <- S7::new_class(
+  name = "my_config_class",
+  parent = S7schema::S7schema,
+  constructor = function(file) {
+    S7::new_object(
+      .parent = S7schema::S7schema(
+        file = file,
+        schema = system.file("examples/schema.json", package = "S7schema")
+      )
+    )
+  }
+)
+```
+
+Users of your package only need to supply the config file path —
+the schema is handled internally.
+
+## Use the child class
+
+### Construction
+
+Creating an instance loads and validates the YAML file automatically:
+
+```{r}
+config_path <- system.file("examples/config.yml", package = "S7schema")
+x <- my_config_class(file = config_path)
+print(x)
+```
+
+### Accessing values
+
+Since `S7schema` objects are lists, values are accessed directly:
+
+```{r}
+x$my_config_var
+```
+
+### Class hierarchy
+
+The child class inherits from `S7schema`:
+
+```{r}
+class(x)
+```
+
+### Validation
+
+`S7::validate()` works on the child class just like on the parent:
+
+```{r, error = TRUE}
+x$my_config_var <- "not a number"
+S7::validate(x)
+```
+
+### Method dispatch
+
+Methods defined for `S7schema` work on child classes without extra code.
+
+`write_config()` validates and writes to YAML:
+
+```{r}
+tmp <- tempfile(fileext = ".yml")
+x$my_config_var <- 42
+write_config(x, file = tmp)
+readLines(tmp)
+```
+
+`document_schema()` generates markdown documentation from the schema:
+
+```{r}
+md <- document_schema(schema_path)
+cat(md)
+```
+
+Note that if printed directly, the return of `document_schema()` is
+displayed as-is.
+
+The `header_start_level` parameter controls the depth of the generated
+headings:
+
+```{r}
+md <- document_schema(schema_path, header_start_level = 3)
+cat(md)
+```

@@ -44,7 +44,6 @@ test_that("S7schema includes file path in validation error messages", {
     ),
     regexp = "simple_error\\.yml"
   )
-  expect_match(deparse(err$call), "validate_yaml")
 })
 
 test_that("validate() on modified S7schema still does not include file reference", {

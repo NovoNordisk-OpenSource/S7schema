@@ -15,12 +15,18 @@ prop_schema <- S7::new_property(
 )
 
 #' @noRd
+validate_prop_file <- function(value) {
+  val <- check_file(file = value, ext = c("yml", "yaml"))
+  if (!isTRUE(val)) {
+    return(val)
+  }
+}
+
+#' @noRd
 prop_file <- S7::new_property(
   class = S7::class_character,
-  validator = function(value) {
-    if (length(value) != 1L) {
-      "must be a single string"
-    }
+  validator = \(value) {
+    validate_prop_file(value)
   }
 )
 

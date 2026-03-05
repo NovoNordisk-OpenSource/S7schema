@@ -16,6 +16,14 @@ test_that("S7schema works", {
     expect_error()
 })
 
+test_that("validate_prop_schema() returns error for invalid input", {
+  expect_match(validate_prop_schema("not_a_file.json"), "File does not exist")
+})
+
+test_that("validate_prop_file() returns error for invalid input", {
+  expect_match(validate_prop_file("not_a_file.yml"), "File does not exist")
+})
+
 test_that("S7schema throws errors with wrong input", {
   S7schema(
     file = test_path("input", "simple.yml"),

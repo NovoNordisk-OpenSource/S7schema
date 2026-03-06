@@ -15,6 +15,22 @@ prop_schema <- S7::new_property(
 )
 
 #' @noRd
+validate_prop_file <- function(value) {
+  val <- check_file(file = value, ext = c("yml", "yaml"))
+  if (!isTRUE(val)) {
+    return(val)
+  }
+}
+
+#' @noRd
+prop_file <- S7::new_property(
+  class = S7::class_character,
+  validator = \(value) {
+    validate_prop_file(value)
+  }
+)
+
+#' @noRd
 get_prop_validator <- function(self) {
   validator(schema = self@schema)
 }
@@ -30,10 +46,11 @@ prop_validator <- S7::new_property(
 #' @noRd
 construct_S7schema <- function(file, schema) {
   assert_file(file = file, ext = c("yml", "yaml"))
-
+  validate_yaml(file, schema)
   S7::new_object(
     .parent = yaml::read_yaml(file = file),
-    schema = schema
+    schema = schema,
+    file = file
   )
 }
 
@@ -74,6 +91,7 @@ validate_S7schema <- function(self) {
 #' \describe{
 #'   \item{schema}{`character(1)` path to JSON schema being used to validate against.}
 #'   \item{validator}{Internal [validator()] used to validate the content (read-only).}
+#'   \item{file}{`character(1)` path to the source YAML file.}
 #' }
 #' @returns New `S7schema` object.
 #' @examples
@@ -89,7 +107,8 @@ S7schema <- S7::new_class(
   parent = S7::class_list,
   properties = list(
     schema = prop_schema,
-    validator = prop_validator
+    validator = prop_validator,
+    file = prop_file
   ),
   constructor = construct_S7schema,
   validator = \(self) {

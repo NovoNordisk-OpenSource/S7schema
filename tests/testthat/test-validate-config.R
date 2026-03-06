@@ -58,6 +58,17 @@ test_that("simple validation of yaml files works", {
     )
 })
 
+
+test_that("validate_yaml includes file path in error messages", {
+  expect_error(
+    validate_yaml(
+      file = test_path("input", "simple_error.yml"),
+      schema = test_path("schemas", "simple.json")
+    ),
+    regexp = "simple_error\\.yml"
+  )
+})
+
 test_that("oneOf shows all sub-errors for invalid input", {
   validate_list(
     x = list(value = "ABC123"),

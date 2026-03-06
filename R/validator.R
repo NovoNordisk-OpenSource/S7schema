@@ -68,7 +68,7 @@ fix_path <- function(path) {
 }
 
 #' @noRd
-use_validator <- function(validator, yaml_content) {
+use_validator <- function(validator, yaml_content, file = NULL, call = parent.frame()) {
   validator@context$assign(
     name = "yaml_str",
     value = yaml_content
@@ -87,7 +87,16 @@ use_validator <- function(validator, yaml_content) {
     return(invisible())
   }
 
-  cli::cli_abort(message = format_errors(result$errors))
+  msg <- format_errors(result$errors)
+
+  if (!is.null(file)) {
+    msg <- c(
+      "Validation failed for {.file {file}}",
+      msg
+    )
+  }
+
+  cli::cli_abort(message = msg, call = call)
 }
 
 #' @noRd

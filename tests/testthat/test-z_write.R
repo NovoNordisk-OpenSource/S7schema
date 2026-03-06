@@ -18,6 +18,6 @@ test_that("writing works", {
   ) |>
     expect_no_condition()
 
-  all.equal(x, y) |>
-    expect_true()
+  expect_equal(S7::S7_data(x), S7::S7_data(y))
+  expect_equal(x@schema, y@schema)
 })

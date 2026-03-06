@@ -73,7 +73,8 @@ print(x)
 #>  $ my_config_var: int 1
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x561209122ef8>
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x557faa62c368> 
+#>  @ file     : chr "/home/runner/work/_temp/Library/S7schema/examples/config.yml"
 ```
 
 ### Accessing values
@@ -103,7 +104,7 @@ works on the child class just like on the parent:
 ``` r
 x$my_config_var <- "not a number"
 S7::validate(x)
-#> Error in `use_validator()`:
+#> Error in `validate_S7schema()`:
 #> ! /my_config_var must be number
 #> ✖ type: number
 ```

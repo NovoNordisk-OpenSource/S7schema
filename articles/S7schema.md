@@ -66,7 +66,8 @@ print(config)
 #>  $ my_config_var: int 1
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x561e010862b0>
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x556c435d4190> 
+#>  @ file     : chr "/home/runner/work/_temp/Library/S7schema/examples/config.yml"
 ```
 
 Here you can see that `config` is a S7 object, that itself is a `list`
@@ -96,7 +97,8 @@ print(config)
 #>  $ my_config_var: num 2
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x561e01a35a08>
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x556c43f8d690> 
+#>  @ file     : chr "/home/runner/work/_temp/Library/S7schema/examples/config.yml"
 ```
 
 Note that validation is not automatically triggered when updating a
@@ -108,7 +110,7 @@ an error when validating the updated object:
 ``` r
 config$my_config_var <- "abc"
 validate(config)
-#> Error in `use_validator()`:
+#> Error in `validate_S7schema()`:
 #> ! /my_config_var must be number
 #> ✖ type: number
 ```

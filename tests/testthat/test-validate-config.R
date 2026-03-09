@@ -77,6 +77,17 @@ test_that("oneOf shows all sub-errors for invalid input", {
     expect_error("must match exactly one schema in oneOf")
 })
 
+test_that("oneOf with $ref shows all sub-errors", {
+  expect_error(
+    validate_list(
+      x = list(value = list("ABC")),
+      schema = test_path("schemas", "oneof_ref.json")
+    ),
+    regexp = "(?s)must be string.*must match pattern",
+    perl = TRUE
+  )
+})
+
 test_that("oneOf still validates correct input", {
   validate_list(
     x = list(value = "abc"),

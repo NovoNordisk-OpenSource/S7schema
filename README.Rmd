@@ -62,4 +62,4 @@ Which will now throw an error if `a = 2` is an illegal entry according to the sc
 ## Learn more
 
 - `vignette("S7schema")` — Getting started
-- `vignette("use-in-package")` — Use in a package
+- `vignette("use-in-package")` — Use S7schema in your package

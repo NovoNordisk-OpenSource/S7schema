@@ -55,4 +55,4 @@ to the schema in `"path/to/my/schema.json"`.
 ## Learn more
 
 - `vignette("S7schema")` — Getting started
-- `vignette("use-in-package")` — Use in a package
+- `vignette("use-in-package")` — Use S7schema in your package

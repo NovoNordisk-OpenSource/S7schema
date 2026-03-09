@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "type": "object",
+  "properties": {
+    "value": {
+      "oneOf": [
+        {
+          "$ref": "#/definitions/lower_string"
+        },
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/lower_string"
+          }
+        }
+      ]
+    }
+  },
+  "definitions": {
+    "lower_string": {
+      "type": "string",
+      "pattern": "^[a-z]+$"
+    }
+  },
+  "additionalProperties": false
+}

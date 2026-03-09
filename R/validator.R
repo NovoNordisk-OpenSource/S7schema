@@ -126,7 +126,10 @@ format_errors <- function(errors) {
 
   is_sub <- vapply(
     X = errors,
-    FUN = \(e) grepl("/oneOf/", e$schemaPath, fixed = TRUE),
+    FUN = \(e) {
+      !identical(e$keyword, "oneOf") &&
+        startsWith(e$instancePath, oneof_error$instancePath)
+    },
     FUN.VALUE = logical(1)
   )
 

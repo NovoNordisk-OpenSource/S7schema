@@ -11,6 +11,10 @@ write_config(x, file = x@file)
 
 \item{file}{\code{character(1)} path to the file to write to. Defaults to \code{x@file} if not provided.}
 }
+\value{
+Invisible \code{x} (the input \code{S7schema} object). Called for side effect
+of writing the file.
+}
 \description{
 Thin wrapper around \code{to_yaml()} calling \code{validate()} before
 converting to YAML and creating the file, ensuring that the saved configuration is valid.

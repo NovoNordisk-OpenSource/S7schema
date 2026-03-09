@@ -8,7 +8,7 @@
 #' @param header_start_level `numeric(1)` Level of initial header.
 #' All subheaders will continuously be one level smaller.
 #' @return `character(1)`/`knitr::asis_output()` markdown with the documentation.
-#' @examples
+#' @examplesIf requireNamespace("jsonlite", quietly = TRUE) && requireNamespace("knitr", quietly = TRUE)
 #' # Simple example schema
 #' system.file("examples/schema.json", package = "S7schema") |>
 #'   document_schema(2) |>

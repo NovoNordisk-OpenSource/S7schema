@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# S7schema <a href="https://NovoNordisk-OpenSource.github.io/S7schema"><img src="man/figures/logo.png" align="right" height="120" alt="S7schema website" /></a>
+# S7schema <a href="https://novonordisk-opensource.github.io/S7schema/"><img src="man/figures/logo.png" align="right" height="120" alt="S7schema website" /></a>
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/NovoNordisk-OpenSource/S7schema/actions/workflows/check_and_co.yaml/badge.svg)](https://github.com/NovoNordisk-OpenSource/S7schema/actions/workflows/check_and_co.yaml)
@@ -62,4 +62,4 @@ Which will now throw an error if `a = 2` is an illegal entry according to the sc
 ## Learn more
 
 - `vignette("S7schema")` — Getting started
-- `vignette("use-in-package")` — Use in a package
+- `vignette("use-in-package")` — Use S7schema in your package

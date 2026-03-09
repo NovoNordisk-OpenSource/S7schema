@@ -5,6 +5,8 @@
 #'
 #' @param x `S7schema` object to write.
 #' @param file `character(1)` path to the file to write to. Defaults to `x@file` if not provided.
+#' @return Invisible `x` (the input `S7schema` object). Called for side effect
+#'   of writing the file.
 #' @examples
 #' # Read configuration file:
 #' x <- S7schema(
@@ -46,4 +48,6 @@ write_valid_config <- function(x, file) {
     file = file,
     sep = ""
   )
+
+  invisible(x)
 }

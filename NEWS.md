@@ -1,3 +1,3 @@
-# S7schema 0.0.0.9010
+# S7schema (development version)
 
 * Prepare for initial CRAN submission.

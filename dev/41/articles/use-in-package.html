@@ -142,7 +142,7 @@ automatically:</p>
 <span><span class="co">#&gt;  $ my_config_var: int 1</span></span>
 <span><span class="co">#&gt;  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"</span></span>
 <span><span class="co">#&gt;  @ validator: &lt;S7schema::validator&gt;</span></span>
-<span><span class="co">#&gt;  .. @ context:Classes 'V8', 'environment' &lt;environment: 0x561fe35a4728&gt; </span></span>
+<span><span class="co">#&gt;  .. @ context:Classes 'V8', 'environment' &lt;environment: 0x5645b5959d70&gt; </span></span>
 <span><span class="co">#&gt;  @ file     : chr "/home/runner/work/_temp/Library/S7schema/examples/config.yml"</span></span></code></pre></div>
 </div>
 <div class="section level3">
@@ -172,9 +172,7 @@ parent:</p>
 <code class="sourceCode R"><span><span class="va">x</span><span class="op">$</span><span class="va">my_config_var</span> <span class="op">&lt;-</span> <span class="st">"not a number"</span></span>
 <span><span class="fu">S7</span><span class="fu">::</span><span class="fu"><a href="https://rconsortium.github.io/S7/reference/validate.html" class="external-link">validate</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #BBBB00; font-weight: bold;">Error</span><span style="font-weight: bold;"> in `validate_S7schema()`:</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> Validation failed for</span></span>
-<span><span class="co">#&gt;   <span style="color: #0000BB;">/home/runner/work/_temp/Library/S7schema/examples/config.yml</span></span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">/my_config_var</span> must be number</span></span>
+<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> <span style="color: #00BB00;">/my_config_var</span> must be number</span></span>
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> type: number</span></span></code></pre></div>
 </div>
 <div class="section level3">

@@ -29,13 +29,13 @@ Source:
 [`DESCRIPTION`](https://github.com/NovoNordisk-OpenSource/S7schema/blob/feat/init-cran-prep/DESCRIPTION)
 
 Thomsen A (2026). *S7schema: 'S7' Framework for Schema-Validated YAML
-Configuration*. R package version 0.0.0.9011,
+Configuration*. R package version 0.0.0.9014,
 <https://novonordisk-opensource.github.io/S7schema/>.
 
     @Manual{,
       title = {S7schema: 'S7' Framework for Schema-Validated YAML Configuration},
       author = {Aksel Thomsen},
       year = {2026},
-      note = {R package version 0.0.0.9011},
+      note = {R package version 0.0.0.9014},
       url = {https://novonordisk-opensource.github.io/S7schema/},
     }

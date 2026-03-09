@@ -142,7 +142,7 @@ automatically:</p>
 <span><span class="co">#&gt;  $ my_config_var: int 1</span></span>
 <span><span class="co">#&gt;  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"</span></span>
 <span><span class="co">#&gt;  @ validator: &lt;S7schema::validator&gt;</span></span>
-<span><span class="co">#&gt;  .. @ context:Classes 'V8', 'environment' &lt;environment: 0x560ee6bcaed0&gt; </span></span>
+<span><span class="co">#&gt;  .. @ context:Classes 'V8', 'environment' &lt;environment: 0x555fcfb87348&gt; </span></span>
 <span><span class="co">#&gt;  @ file     : chr "/home/runner/work/_temp/Library/S7schema/examples/config.yml"</span></span></code></pre></div>
 </div>
 <div class="section level3">
@@ -171,7 +171,7 @@ parent:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x</span><span class="op">$</span><span class="va">my_config_var</span> <span class="op">&lt;-</span> <span class="st">"not a number"</span></span>
 <span><span class="fu">S7</span><span class="fu">::</span><span class="fu"><a href="https://rconsortium.github.io/S7/reference/validate.html" class="external-link">validate</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #BBBB00; font-weight: bold;">Error</span><span style="font-weight: bold;"> in `use_validator()`:</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BBBB00; font-weight: bold;">Error</span><span style="font-weight: bold;"> in `validate_S7schema()`:</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> Validation failed for</span></span>
 <span><span class="co">#&gt;   <span style="color: #0000BB;">/home/runner/work/_temp/Library/S7schema/examples/config.yml</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">/my_config_var</span> must be number</span></span>
@@ -207,7 +207,7 @@ the schema:</p>
 <span><span class="co">#&gt; |Name          |Description                    |Type   |Required |</span></span>
 <span><span class="co">#&gt; |:-------------|:------------------------------|:------|:--------|</span></span>
 <span><span class="co">#&gt; |my_config_var |My only configuration variable |number |No       |</span></span></code></pre></div>
-<p>Note, that if printed directly the return of
+<p>Note that if printed directly, the return of
 <code><a href="../reference/document_schema.html">document_schema()</a></code> is displayed as-is.</p>
 <p>The <code>header_start_level</code> parameter controls the depth of
 the generated headings:</p>

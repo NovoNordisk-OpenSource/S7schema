@@ -64,8 +64,7 @@ documentation for more info on how the validation is done.
 
 - file:
 
-  `character(1)` or `NULL` path to the source YAML file (used in error
-  messages).
+  `character(1)` path to the source YAML file.
 
 ## Examples
 
@@ -79,6 +78,6 @@ S7schema(
 #>  $ my_config_var: int 1
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x564f83f7b978> 
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x558475e677c8> 
 #>  @ file     : chr "/home/runner/work/_temp/Library/S7schema/examples/config.yml"
 ```

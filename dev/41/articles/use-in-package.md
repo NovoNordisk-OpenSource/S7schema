@@ -1,4 +1,4 @@
-# Use in a package
+# Use S7schema in your package
 
 ## Introduction
 
@@ -73,7 +73,7 @@ print(x)
 #>  $ my_config_var: int 1
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x55cf711e50d0> 
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x55a73a9194a0> 
 #>  @ file     : chr "/home/runner/work/_temp/Library/S7schema/examples/config.yml"
 ```
 

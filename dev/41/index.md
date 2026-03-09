@@ -51,4 +51,4 @@ to the schema in `"path/to/my/schema.json"`.
 - [`vignette("S7schema")`](https://novonordisk-opensource.github.io/S7schema/articles/S7schema.md)
   — Getting started
 - [`vignette("use-in-package")`](https://novonordisk-opensource.github.io/S7schema/articles/use-in-package.md)
-  — Use in a package
+  — Use S7schema in your package

@@ -3,6 +3,7 @@ Title: 'S7' Framework for Schema-Validated YAML Configuration
 Version: 0.0.0.9014
 Authors@R: c(
     person("Aksel", "Thomsen", , "oath@novonordisk.com", role = c("aut", "cre")),
+    person("Matthew", "Phelps", , "mewp@novonordisk.com", role = "aut"),
     person("Novo Nordisk A/S", role = "cph"),
     person("Evgeny", "Poberezkin", role = "cph",
            comment = "Author of included ajv, fast-deep-equal, and json-schema-traverse libraries"),

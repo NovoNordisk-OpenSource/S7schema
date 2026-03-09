@@ -4,42 +4,23 @@ Version: 0.0.0.9014
 Authors@R: c(
     person("Aksel", "Thomsen", , "oath@novonordisk.com", role = c("aut", "cre")),
     person("Novo Nordisk A/S", role = "cph"),
-    person(
-        given = "Evgeny",
-        family = "Poberezkin",
-        role = "cph",
-        comment = "Author of included ajv, fast-deep-equal, and json-schema-traverse libraries"
-    ),
-    person(
-        given = "Python Software Foundation",
-        role = "cph",
-        comment = "Copyright holder of Python argparse (included argparse library is a JavaScript port)"
-    ),    
-    person(
-        given = "Vladimir",
-        family = "Zapparov",
-        role = "cph",
-        comment = "Author of included js-yaml library"
-    ),
-    person(
-        given = "Vincent",
-        family = "Le Goff",
-        role = "cph",
-        comment = "Author of included fast-uri library"
-    ),
-    person(
-        given = "Vsevolod",
-        family = "Strukchinsky",
-        role = "cph",
-        comment = "Author of included require-from-string library"
-    )
+    person("Evgeny", "Poberezkin", role = "cph",
+           comment = "Author of included ajv, fast-deep-equal, and json-schema-traverse libraries"),
+    person("Python Software Foundation", role = "cph",
+           comment = "Copyright holder of Python argparse (included argparse library is a JavaScript port)"),
+    person("Vladimir", "Zapparov", role = "cph",
+           comment = "Author of included js-yaml library"),
+    person("Vincent", "Le Goff", role = "cph",
+           comment = "Author of included fast-uri library"),
+    person("Vsevolod", "Strukchinsky", role = "cph",
+           comment = "Author of included require-from-string library")
   )
-Description: Provides a generic framework for working with YAML
-    (YAML Ain't Markup Language) configuration files. Uses 'ajv'
-    (Another JSON Schema Validator) via 'V8' to validate configurations
-    against JSON Schema definitions. Configuration objects inherit from
-    'S7' classes and base lists, supporting downstream extension through
-    custom classes and methods.
+Description: Provides a generic framework for working with YAML (YAML
+    Ain't Markup Language) configuration files. Uses 'ajv' (Another JSON
+    Schema Validator) via 'V8' to validate configurations against JSON
+    Schema definitions. Configuration objects inherit from 'S7' classes
+    and base lists, supporting downstream extension through custom classes
+    and methods.
 License: Apache License (>= 2)
 URL: https://novonordisk-opensource.github.io/S7schema/
 BugReports: https://github.com/NovoNordisk-OpenSource/S7schema/issues

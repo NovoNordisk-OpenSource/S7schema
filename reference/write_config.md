@@ -24,6 +24,11 @@ write_config(x, file = x@file)
   `character(1)` path to the file to write to. Defaults to `x@file` if
   not provided.
 
+## Value
+
+Invisible `x` (the input `S7schema` object). Called for side effect of
+writing the file.
+
 ## Examples
 
 ``` r
@@ -38,7 +43,7 @@ print(x)
 #>  $ my_config_var: int 1
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x55f91c18c3f8> 
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x5584a2c1ca38> 
 #>  @ file     : chr "/home/runner/work/_temp/Library/S7schema/examples/config.yml"
 
 # Edit content

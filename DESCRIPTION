@@ -22,7 +22,8 @@ Description: Provides a generic framework for working with YAML (YAML
     and base lists, supporting downstream extension through custom classes
     and methods.
 License: Apache License (>= 2)
-URL: https://novonordisk-opensource.github.io/S7schema/
+URL: https://novonordisk-opensource.github.io/S7schema/,
+    https://github.com/novonordisk-opensource/S7schema
 BugReports: https://github.com/NovoNordisk-OpenSource/S7schema/issues
 Depends: 
     R (>= 4.1)

@@ -15,6 +15,9 @@ class that:
 ## Installation
 
 ``` r
+# Install the latest released version from CRAN:
+install.packages("S7schema")
+
 # Install the development version from GitHub:
 pak::pak("NovoNordisk-OpenSource/S7schema")
 ```

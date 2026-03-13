@@ -72,6 +72,7 @@ document_schema_list <- function(x, header_start_level) {
   rlang::check_installed("tidyr")
   rlang::check_installed("tibble")
   rlang::check_installed("purrr")
+  rlang::check_installed("withr")
 
   x |>
     doc_ref_hyperlinks() |>

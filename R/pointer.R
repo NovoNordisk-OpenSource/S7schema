@@ -23,8 +23,8 @@
 read_pointer_value <- function(data, pointer) {
   if (
     is.null(data) ||
-    is.null(pointer) ||
-    !startsWith(pointer, "/")
+      is.null(pointer) ||
+      !startsWith(pointer, "/")
   ) {
     return(NULL)
   }

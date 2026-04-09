@@ -119,7 +119,7 @@ format_value_bullet <- function(value) {
     value_str <- utils::capture.output(str(value, give.attr = FALSE))[1L]
   }
 
-  paste0("value: ", value_str)
+  paste0("Erroneous value: ", value_str)
 }
 
 #' @noRd
@@ -146,17 +146,18 @@ format_errors <- function(errors, data = NULL) {
 
     params$value <- NULL
 
-    bullets <- paste(names(params), params, sep = ": ")
-    if (!is.null(value_bullet)) {
-      bullets <- c(value_bullet, bullets)
+    param_bullets <- rlang::set_names(
+      paste(names(params), params, sep = ": "),
+      rep("i", length(params))
+    )
+
+    named_bullets <- if (!is.null(value_bullet)) {
+      c(rlang::set_names(value_bullet, "x"), param_bullets)
+    } else {
+      param_bullets
     }
 
-    return(
-      c(
-        header,
-        rlang::set_names(x = bullets, nm = rep("x", length(bullets)))
-      )
-    )
+    return(c(header, named_bullets))
   }
 
   oneof_error <- errors[is_oneof][[1]]

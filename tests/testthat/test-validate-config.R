@@ -75,7 +75,7 @@ test_that("validation errors include failing value for list input", {
       x = list(id = "adsl"),
       schema = test_path("schemas", "pattern_upper.json")
     ),
-    regexp = "value: \"adsl\""
+    regexp = "Erroneous value: \"adsl\""
   )
 })
 
@@ -85,7 +85,7 @@ test_that("validation errors include failing value for yaml input", {
       file = test_path("input", "pattern_upper_error.yml"),
       schema = test_path("schemas", "pattern_upper.json")
     ),
-    regexp = "value: \"adsl\""
+    regexp = "Erroneous value: \"adsl\""
   )
 })
 
@@ -101,7 +101,7 @@ test_that("validation errors include value bullet exactly once", {
     error = function(e) conditionMessage(e)
   )
 
-  value_hits <- gregexpr('value: "adsl"', msg, fixed = TRUE)[[1]]
+  value_hits <- gregexpr('Erroneous value: "adsl"', msg, fixed = TRUE)[[1]]
   expect_true(length(value_hits) == 1)
 })
 

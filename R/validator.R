@@ -87,7 +87,12 @@ use_validator <- function(validator, yaml_content, file = NULL, call = parent.fr
     return(invisible())
   }
 
-  msg <- format_errors(result$errors)
+  parsed_data <- tryCatch(
+    yaml::yaml.load(yaml_content, eval.expr = FALSE),
+    error = function(...) NULL
+  )
+
+  msg <- format_errors(result$errors, data = parsed_data)
 
   if (!is.null(file)) {
     msg <- c(
@@ -100,7 +105,25 @@ use_validator <- function(validator, yaml_content, file = NULL, call = parent.fr
 }
 
 #' @noRd
-format_errors <- function(errors) {
+format_error_value <- function(data, instance_path) {
+  value <- read_pointer_value(data, fix_path(instance_path))
+  if (is.null(value)) return(NULL)
+  format_value_bullet(value)
+}
+
+#' @noRd
+format_value_bullet <- function(value) {
+  if (is.atomic(value) && length(value) == 1L) {
+    value_str <- paste0('"', as.character(value), '"')
+  } else {
+    value_str <- utils::capture.output(str(value, give.attr = FALSE))[1L]
+  }
+
+  paste0("value: ", value_str)
+}
+
+#' @noRd
+format_errors <- function(errors, data = NULL) {
   is_oneof <- vapply(
     X = errors,
     FUN = \(e) identical(e$keyword, "oneOf"),
@@ -112,7 +135,21 @@ format_errors <- function(errors) {
     header <- cli::format_inline(
       "{.field {fix_path(error$instancePath)}} {error$message}"
     )
-    bullets <- paste(names(error$params), error$params, sep = ": ")
+
+    params <- error$params
+
+    value_bullet <- if (!is.null(params$value)) {
+      format_value_bullet(params$value)
+    } else {
+      format_error_value(data, error$instancePath)
+    }
+
+    params$value <- NULL
+
+    bullets <- paste(names(params), params, sep = ": ")
+    if (!is.null(value_bullet)) {
+      bullets <- c(value_bullet, bullets)
+    }
 
     return(
       c(

@@ -1,26 +1,32 @@
-#' Read a value from a nested list using a JSON Pointer
+#' Traverse a nested R list using a JSON Pointer string
 #'
-#' Traverses a nested R list following a JSON Pointer string.
+#' Follows a JSON Pointer (RFC 6901) to retrieve a value from a nested
+#' R list. Tilde-escaping (`~0` -> `~`, `~1` -> `/`) is handled per
+#' the spec before each token is used for lookup.
+#'
 #' S7schema converts AJV 0-based array indices to 1-based via
-#' `fix_path()` before embedding them in error messages, so the
-#' pointer strings this function receives use 1-based indices and
-#' can be used directly as R list positions. Tilde-escaping
-#' (`~0` -> `~`, `~1` -> `/`) is handled per RFC 6901.
+#' `fix_path()` before passing pointers to this function, so integer
+#' tokens are used directly as R list positions without adjustment.
 #'
-#' @param data A named list to traverse.
-#' @param pointer A JSON Pointer string with 1-based array indices
-#'   (as produced by S7schema error messages),
-#'   e.g. `"/columns/1/origin"`.
+#' @param data A named (or unnamed) R list to traverse.
+#' @param pointer A JSON Pointer string starting with `/`, e.g.
+#'   `"/columns/1/origin"`. Integer tokens address list elements by
+#'   1-based position; string tokens address named elements.
 #'
 #' @return The value at the pointer location, or `NULL` if the pointer
-#'   is invalid or the path does not exist in `data`.
+#'   is `NULL`, does not start with `/`, or the path does not exist in
+#'   `data`.
 #'
 #' @examples
 #' data <- list(columns = list(list(origin = "Derived")))
-#' read_pointer_value(data, "/columns/1/origin")
+#' .read_pointer_value(data, "/columns/1/origin")
+#' # [1] "Derived"
 #'
-#' @export
-read_pointer_value <- function(data, pointer) {
+#' .read_pointer_value(data, "/columns/99/origin")
+#' # NULL
+#'
+#' @noRd
+.read_pointer_value <- function(data, pointer) {
   if (
     is.null(data) ||
       is.null(pointer) ||
@@ -29,27 +35,17 @@ read_pointer_value <- function(data, pointer) {
     return(NULL)
   }
   tokens <- strsplit(
-    sub("^/", "", pointer), "/",
+    sub("^/", "", pointer),
+    "/",
     fixed = FALSE
   )[[1L]]
-  current <- data
-  for (token in tokens) {
+  pluck_args <- lapply(tokens, function(token) {
     token <- gsub(
       "~1", "/",
       gsub("~0", "~", token, fixed = TRUE),
       fixed = TRUE
     )
-    if (!is.list(current)) return(NULL)
-    if (grepl("^[0-9]+$", token)) {
-      idx <- as.integer(token)
-      if (is.na(idx) || idx < 1L || idx > length(current)) {
-        return(NULL)
-      }
-      current <- current[[idx]]
-    } else {
-      if (!(token %in% names(current))) return(NULL)
-      current <- current[[token]]
-    }
-  }
-  current
+    if (grepl("^[0-9]+$", token)) as.integer(token) else token
+  })
+  do.call(purrr::pluck, c(list(data), pluck_args, list(.default = NULL)))
 }

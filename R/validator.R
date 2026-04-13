@@ -106,7 +106,7 @@ use_validator <- function(validator, yaml_content, file = NULL, call = parent.fr
 
 #' @noRd
 format_error_value <- function(data, instance_path) {
-  value <- read_pointer_value(data, fix_path(instance_path))
+  value <- .read_pointer_value(data, fix_path(instance_path))
   if (is.null(value)) return(NULL)
   format_value_bullet(value)
 }

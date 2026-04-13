@@ -72,36 +72,42 @@ test_that("validate_yaml includes file path in error messages", {
 test_that("validation errors include failing value for list input", {
   expect_error(
     validate_list(
-      x = list(id = "adsl"),
-      schema = test_path("schemas", "pattern_upper.json")
+      x = list(id = 1),
+      schema = test_path("schemas", "simple.json")
     ),
-    regexp = "Erroneous value: \"adsl\""
+    regexp = "Erroneous value: \"1\""
   )
 })
 
 test_that("validation errors include failing value for yaml input", {
+  bad_yaml <- withr::local_tempfile(fileext = ".yml")
+  writeLines("id: 1", con = bad_yaml)
+
   expect_error(
     validate_yaml(
-      file = test_path("input", "pattern_upper_error.yml"),
-      schema = test_path("schemas", "pattern_upper.json")
+      file = bad_yaml,
+      schema = test_path("schemas", "simple.json")
     ),
-    regexp = "Erroneous value: \"adsl\""
+    regexp = "Erroneous value: \"1\""
   )
 })
 
 test_that("validation errors include value bullet exactly once", {
+  bad_yaml <- withr::local_tempfile(fileext = ".yml")
+  writeLines("id: 1", con = bad_yaml)
+
   msg <- tryCatch(
     {
       validate_yaml(
-        file = test_path("input", "pattern_upper_error.yml"),
-        schema = test_path("schemas", "pattern_upper.json")
+        file = bad_yaml,
+        schema = test_path("schemas", "simple.json")
       )
       ""
     },
     error = function(e) conditionMessage(e)
   )
 
-  value_hits <- gregexpr('Erroneous value: "adsl"', msg, fixed = TRUE)[[1]]
+  value_hits <- gregexpr('Erroneous value: "1"', msg, fixed = TRUE)[[1]]
   expect_true(length(value_hits) == 1)
 })
 

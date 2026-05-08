@@ -21,3 +21,29 @@ test_that("writing works", {
   expect_equal(S7::S7_data(x), S7::S7_data(y))
   expect_equal(x@schema, y@schema)
 })
+
+test_that("default for S7schema class", {
+  tmpfile <- withr::local_tempfile(
+    lines = readLines(test_path("input", "simple.yml")),
+    fileext = ".yml"
+  )
+
+  x <- S7schema(
+    file = tmpfile,
+    schema = test_path("schemas", "simple.json")
+  )
+
+  expect_equal(x$id, "abc")
+
+  x$id <- "d"
+
+  write_config(x) |>
+    expect_no_condition()
+
+  y <- S7schema(
+    file = tmpfile,
+    schema = test_path("schemas", "simple.json")
+  )
+
+  expect_equal(y$id, "d")
+})

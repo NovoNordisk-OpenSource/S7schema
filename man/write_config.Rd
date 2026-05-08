@@ -4,7 +4,7 @@
 \alias{write_config}
 \title{Write YAML configuration file}
 \usage{
-write_config(x, file = x@file)
+write_config(x, file = NULL)
 }
 \arguments{
 \item{x}{\code{S7schema} object to write.}

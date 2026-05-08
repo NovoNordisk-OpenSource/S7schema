@@ -29,19 +29,23 @@
 write_config <- S7::new_generic(
   name = "write_config",
   dispatch_args = "x",
-  fun = \(x, file = x@file) {
+  fun = \(x, file = NULL) {
     S7::S7_dispatch()
   }
 )
 
 #' @noRd
-S7::method(write_config, S7schema) <- function(x, file = x@file) {
+S7::method(write_config, S7schema) <- function(x, file = NULL) {
   write_valid_config(x, file)
 }
 
 #' @noRd
 write_valid_config <- function(x, file) {
   validate(x)
+
+  if (is.null(file)) {
+    file <- x@file
+  }
 
   cat(
     result = to_yaml(x),

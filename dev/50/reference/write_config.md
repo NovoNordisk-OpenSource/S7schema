@@ -10,7 +10,7 @@ configuration is valid.
 ## Usage
 
 ``` r
-write_config(x, file = NULL)
+write_config(x, path = NULL)
 ```
 
 ## Arguments
@@ -19,10 +19,12 @@ write_config(x, file = NULL)
 
   `S7schema` object to write.
 
-- file:
+- path:
 
-  `character(1)` path to the file to write to. Defaults to `x@file` if
-  not provided.
+  `character(1)` path to the file to write to. Default `NULL` uses
+  `x@file` for
+  [`S7schema()`](https://novonordisk-opensource.github.io/S7schema/reference/S7schema.md)
+  objects.
 
 ## Value
 
@@ -43,7 +45,7 @@ print(x)
 #>  $ my_config_var: int 1
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x558cad24f080> 
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x5654151d4600> 
 #>  @ file     : chr "/home/runner/work/_temp/Library/S7schema/examples/config.yml"
 
 # Edit content
@@ -52,6 +54,6 @@ x$my_config_var <- 2
 # Save new file
 write_config(
   x = x,
-  file = tempfile(fileext = ".yml")
+  path = tempfile(fileext = ".yml")
 )
 ```

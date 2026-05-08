@@ -76,7 +76,7 @@ print(x)
 #>  $ my_config_var: int 1
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x55acef451c70> 
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x555f39ecee90> 
 #>  @ file     : chr "/home/runner/work/_temp/Library/S7schema/examples/config.yml"
 ```
 
@@ -126,7 +126,7 @@ validates and writes to YAML:
 
 tmp <- tempfile(fileext = ".yml")
 x$my_config_var <- 42
-write_config(x, file = tmp)
+write_config(x, path = tmp)
 readLines(tmp)
 #> [1] "my_config_var: 42.0"
 ```

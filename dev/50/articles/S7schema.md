@@ -69,7 +69,7 @@ print(config)
 #>  $ my_config_var: int 1
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x564c370343f0> 
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x5581a8fefd00> 
 #>  @ file     : chr "/home/runner/work/_temp/Library/S7schema/examples/config.yml"
 ```
 
@@ -103,7 +103,7 @@ print(config)
 #>  $ my_config_var: num 2
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x564c3398cd08> 
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x5581a59486b0> 
 #>  @ file     : chr "/home/runner/work/_temp/Library/S7schema/examples/config.yml"
 ```
 
@@ -129,7 +129,7 @@ To save a configuration use
 
 write_config(
   x = config,
-  file = "my/config.yml"
+  path = "my/config.yml"
 )
 ```
 

@@ -21,10 +21,8 @@ write_config(x, file = NULL)
 
 - file:
 
-  `character(1)` path to the file to write to. Default `NULL` uses
-  `x@file` for
-  [`S7schema()`](https://novonordisk-opensource.github.io/S7schema/reference/S7schema.md)
-  objects.
+  `character(1)` path to the file to write to. Defaults to `x@file` if
+  not provided.
 
 ## Value
 
@@ -45,7 +43,7 @@ print(x)
 #>  $ my_config_var: int 1
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x5568440247c0> 
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x558cad24f080> 
 #>  @ file     : chr "/home/runner/work/_temp/Library/S7schema/examples/config.yml"
 
 # Edit content

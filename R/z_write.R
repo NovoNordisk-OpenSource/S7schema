@@ -4,7 +4,7 @@
 #' converting to YAML and creating the file, ensuring that the saved configuration is valid.
 #'
 #' @param x `S7schema` object to write.
-#' @param file `character(1)` path to the file to write to. Defaults to `x@file` if not provided.
+#' @param file `character(1)` path to the file to write to. Default `NULL` uses `x@file` for `S7schema()` objects.
 #' @return Invisible `x` (the input `S7schema` object). Called for side effect
 #'   of writing the file.
 #' @examples

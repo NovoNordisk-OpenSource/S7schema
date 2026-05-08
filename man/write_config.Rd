@@ -9,7 +9,7 @@ write_config(x, file = NULL)
 \arguments{
 \item{x}{\code{S7schema} object to write.}
 
-\item{file}{\code{character(1)} path to the file to write to. Defaults to \code{x@file} if not provided.}
+\item{file}{\code{character(1)} path to the file to write to. Default \code{NULL} uses \code{x@file} for \code{S7schema()} objects.}
 }
 \value{
 Invisible \code{x} (the input \code{S7schema} object). Called for side effect

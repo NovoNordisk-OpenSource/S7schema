@@ -6,7 +6,7 @@ test_that("writing works", {
 
   tmpfile <- withr::local_tempfile(fileext = ".yml")
 
-  write_config(x = x, file = tmpfile) |>
+  write_config(x = x, path = tmpfile) |>
     expect_no_condition()
 
   file.exists(tmpfile) |>

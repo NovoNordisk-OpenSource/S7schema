@@ -4,7 +4,7 @@
 #' converting to YAML and creating the file, ensuring that the saved configuration is valid.
 #'
 #' @param x `S7schema` object to write.
-#' @param file `character(1)` path to the file to write to. Defaults to `x@file` if not provided.
+#' @param path `character(1)` path to the file to write to. Default `NULL` uses `x@file` for `S7schema()` objects.
 #' @return Invisible `x` (the input `S7schema` object). Called for side effect
 #'   of writing the file.
 #' @examples
@@ -22,30 +22,34 @@
 #' # Save new file
 #' write_config(
 #'   x = x,
-#'   file = tempfile(fileext = ".yml")
+#'   path = tempfile(fileext = ".yml")
 #' )
 #'
 #' @export
 write_config <- S7::new_generic(
   name = "write_config",
   dispatch_args = "x",
-  fun = \(x, file = x@file) {
+  fun = \(x, path = NULL) {
     S7::S7_dispatch()
   }
 )
 
 #' @noRd
-S7::method(write_config, S7schema) <- function(x, file = x@file) {
-  write_valid_config(x, file)
+S7::method(write_config, S7schema) <- function(x, path = NULL) {
+  write_valid_config(x, path)
 }
 
 #' @noRd
-write_valid_config <- function(x, file) {
+write_valid_config <- function(x, path) {
   validate(x)
+
+  if (is.null(path)) {
+    path <- x@file
+  }
 
   cat(
     result = to_yaml(x),
-    file = file,
+    file = path,
     sep = ""
   )
 

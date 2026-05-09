@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">S7schema</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -124,7 +124,7 @@ as above:</p>
 <span><span class="co">#&gt;  $ my_config_var: int 1</span></span>
 <span><span class="co">#&gt;  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"</span></span>
 <span><span class="co">#&gt;  @ validator: &lt;S7schema::validator&gt;</span></span>
-<span><span class="co">#&gt;  .. @ context:Classes 'V8', 'environment' &lt;environment: 0x55a7cff2bac0&gt; </span></span>
+<span><span class="co">#&gt;  .. @ context:Classes 'V8', 'environment' &lt;environment: 0x55d4dca21090&gt; </span></span>
 <span><span class="co">#&gt;  @ file     : chr "/home/runner/work/_temp/Library/S7schema/examples/config.yml"</span></span></code></pre></div>
 <p>Here you can see that <code>config</code> is a S7 object, that itself
 is a <code>list</code> containing the content of
@@ -147,7 +147,7 @@ class:</p>
 <span><span class="co">#&gt;  $ my_config_var: num 2</span></span>
 <span><span class="co">#&gt;  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"</span></span>
 <span><span class="co">#&gt;  @ validator: &lt;S7schema::validator&gt;</span></span>
-<span><span class="co">#&gt;  .. @ context:Classes 'V8', 'environment' &lt;environment: 0x55a7d08e20b0&gt; </span></span>
+<span><span class="co">#&gt;  .. @ context:Classes 'V8', 'environment' &lt;environment: 0x55d4d937a678&gt; </span></span>
 <span><span class="co">#&gt;  @ file     : chr "/home/runner/work/_temp/Library/S7schema/examples/config.yml"</span></span></code></pre></div>
 <p>Note that validation is not automatically triggered when updating a
 value, which is why it is needed to call it explicitly.</p>
@@ -163,7 +163,7 @@ get an error when validating the updated object:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/write_config.html">write_config</a></span><span class="op">(</span></span>
 <span>  x <span class="op">=</span> <span class="va">config</span>,</span>
-<span>  file <span class="op">=</span> <span class="st">"my/config.yml"</span></span>
+<span>  path <span class="op">=</span> <span class="st">"my/config.yml"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>This is just a wrapper around <code><a href="https://yaml.r-lib.org/reference/write_yaml.html" class="external-link">yaml::write_yaml()</a></code>, but
 have the advantage that the <code>S7schema</code> input is always

@@ -15,6 +15,7 @@ class that:
 ## Installation
 
 ``` r
+
 # Install the latest released version from CRAN:
 install.packages("S7schema")
 
@@ -25,24 +26,28 @@ pak::pak("NovoNordisk-OpenSource/S7schema")
 ## Usage
 
 ``` r
+
 library(S7schema)
 ```
 
 A new instance of an `S7schema` class can be initiated with:
 
 ``` r
+
 config <- S7schema("path/to/my/config.yml", "path/to/my/schema.json")
 ```
 
 Since config is a list it can be updated (here adding an “a” element):
 
 ``` r
+
 config$a <- 2
 ```
 
 And it can be validated again:
 
 ``` r
+
 validate(config)
 ```
 

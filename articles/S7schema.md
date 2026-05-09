@@ -14,6 +14,7 @@ used to demonstrate
 [`S7schema()`](https://novonordisk-opensource.github.io/S7schema/reference/S7schema.md).
 
 ``` r
+
 ex_config <- system.file("examples/config.yml", package = "S7schema")
 ex_schema <- system.file("examples/schema.json", package = "S7schema")
 ```
@@ -48,6 +49,7 @@ programmatically we can also use the one-shot validation function
 [`validate_yaml()`](https://novonordisk-opensource.github.io/S7schema/reference/validate_config.md):
 
 ``` r
+
 validate_yaml(file = ex_config, schema = ex_schema)
 ```
 
@@ -60,13 +62,14 @@ class. To load it simple create a new `S7schema` object based on the
 same config and schema files as above:
 
 ``` r
+
 config <- S7schema(file = ex_config, schema = ex_schema)
 print(config)
 #> <S7schema::S7schema> List of 1
 #>  $ my_config_var: int 1
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x55a7cff2bac0> 
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x55d4dca21090> 
 #>  @ file     : chr "/home/runner/work/_temp/Library/S7schema/examples/config.yml"
 ```
 
@@ -75,6 +78,7 @@ containing the content of `config.yml`. Which can be further seen by
 inspecting the class:
 
 ``` r
+
 class(config)
 #> [1] "S7schema::S7schema" "list"               "S7_object"
 ```
@@ -83,6 +87,7 @@ Since it is a list, it is very easy to access the value of
 `my_config_var` directly:
 
 ``` r
+
 config$my_config_var
 #> [1] 1
 ```
@@ -90,6 +95,7 @@ config$my_config_var
 And similarly to overwrite the value:
 
 ``` r
+
 config$my_config_var <- 2
 validate(config)
 print(config)
@@ -97,7 +103,7 @@ print(config)
 #>  $ my_config_var: num 2
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x55a7d08e20b0> 
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x55d4d937a678> 
 #>  @ file     : chr "/home/runner/work/_temp/Library/S7schema/examples/config.yml"
 ```
 
@@ -108,6 +114,7 @@ This is also why we can update with an illegal entry below, but then get
 an error when validating the updated object:
 
 ``` r
+
 config$my_config_var <- "abc"
 validate(config)
 #> Error in `validate_S7schema()`:
@@ -119,9 +126,10 @@ To save a configuration use
 [`write_config()`](https://novonordisk-opensource.github.io/S7schema/reference/write_config.md):
 
 ``` r
+
 write_config(
   x = config,
-  file = "my/config.yml"
+  path = "my/config.yml"
 )
 ```
 

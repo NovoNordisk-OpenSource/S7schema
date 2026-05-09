@@ -17,6 +17,7 @@ be found via [`system.file()`](https://rdrr.io/r/base/system.file.html).
 For this vignette we use the example schema bundled with S7schema:
 
 ``` r
+
 schema_path <- system.file("examples/schema.json", package = "S7schema")
 ```
 
@@ -42,6 +43,7 @@ The core pattern is to create an S7 class that inherits from `S7schema`
 and hard-codes the schema path in its constructor:
 
 ``` r
+
 my_config_class <- S7::new_class(
   name = "my_config_class",
   parent = S7schema::S7schema,
@@ -66,6 +68,7 @@ schema is handled internally.
 Creating an instance loads and validates the YAML file automatically:
 
 ``` r
+
 config_path <- system.file("examples/config.yml", package = "S7schema")
 x <- my_config_class(file = config_path)
 print(x)
@@ -73,7 +76,7 @@ print(x)
 #>  $ my_config_var: int 1
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x564ef2449d00> 
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x55f6f93fa040> 
 #>  @ file     : chr "/home/runner/work/_temp/Library/S7schema/examples/config.yml"
 ```
 
@@ -82,6 +85,7 @@ print(x)
 Since `S7schema` objects are lists, values are accessed directly:
 
 ``` r
+
 x$my_config_var
 #> [1] 1
 ```
@@ -91,6 +95,7 @@ x$my_config_var
 The child class inherits from `S7schema`:
 
 ``` r
+
 class(x)
 #> [1] "my_config_class"    "S7schema::S7schema" "list"              
 #> [4] "S7_object"
@@ -102,6 +107,7 @@ class(x)
 works on the child class just like on the parent:
 
 ``` r
+
 x$my_config_var <- "not a number"
 S7::validate(x)
 #> Error in `validate_S7schema()`:
@@ -117,9 +123,10 @@ Methods defined for `S7schema` work on child classes without extra code.
 validates and writes to YAML:
 
 ``` r
+
 tmp <- tempfile(fileext = ".yml")
 x$my_config_var <- 42
-write_config(x, file = tmp)
+write_config(x, path = tmp)
 readLines(tmp)
 #> [1] "my_config_var: 42.0"
 ```
@@ -128,6 +135,7 @@ readLines(tmp)
 generates markdown documentation from the schema:
 
 ``` r
+
 md <- document_schema(schema_path)
 cat(md)
 #> # My config schema
@@ -153,6 +161,7 @@ The `header_start_level` parameter controls the depth of the generated
 headings:
 
 ``` r
+
 md <- document_schema(schema_path, header_start_level = 3)
 cat(md)
 #> ### My config schema

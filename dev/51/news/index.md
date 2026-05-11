@@ -2,6 +2,8 @@
 
 ## S7schema 0.1.1
 
+CRAN release: 2026-05-09
+
 - Fixed
   [`write_config()`](https://novonordisk-opensource.github.io/S7schema/reference/write_config.md)
   to use `NULL` as the default for the output path instead of `x@file`,

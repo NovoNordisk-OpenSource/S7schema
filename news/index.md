@@ -1,6 +1,8 @@
 # Changelog
 
-## S7schema (development version)
+## S7schema 0.1.1
+
+CRAN release: 2026-05-09
 
 - Fixed
   [`write_config()`](https://novonordisk-opensource.github.io/S7schema/reference/write_config.md)

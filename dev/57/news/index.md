@@ -3,7 +3,7 @@
 ## S7schema (development version)
 
 - Rebundled `inst/bundle.js` with updated JavaScript dependencies: `ajv`
-  8.17.1 → 8.18.0, `js-yaml` 4.1.0 → 4.2.0, and `fast-uri` → 3.1.3.
+  8.17.1 → 8.18.0, `js-yaml` 4.1.0 → 4.2.0, and `fast-uri` → 3.1.4.
 
 ## S7schema 0.1.1
 

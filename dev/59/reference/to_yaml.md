@@ -75,7 +75,7 @@ print(x)
 #>  $ my_config_var: int 1
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x55d9eef66aa8> 
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x555b53919198> 
 #>  @ file     : chr "/home/runner/work/_temp/Library/S7schema/examples/config.yml"
 
 to_yaml(x) |>

@@ -82,26 +82,29 @@ jobs:
     permissions:
       contents: write
     runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      BRANCH: ${{ needs.build.outputs.branch }}
     steps:
-      - name: Checkout PR branch
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          ref: ${{ needs.build.outputs.sha }}
-
       - name: Download build artifacts
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           name: rebuild-output
-          path: .
+          path: rebuild-output
 
-      - name: Commit rebuild outputs
+      - name: Commit rebuild outputs via API
         run: |
-          git config user.name  "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          if git diff --quiet -- inst/bundle.js dev/package-lock.json; then
-            echo "No changes to rebuild outputs"
-            exit 0
-          fi
-          git add inst/bundle.js dev/package-lock.json
-          git commit -m "chore: rebuild inst/bundle.js"
-          git push origin HEAD:${{ needs.build.outputs.branch }}
+          set -euo pipefail
+          put_file() {
+            local repo_path="$1" local_path="$2"
+            local current_sha
+            current_sha=$(gh api "repos/$GH_REPO/contents/$repo_path?ref=$BRANCH" --jq .sha)
+            gh api --method PUT "repos/$GH_REPO/contents/$repo_path" \
+              -f "message=chore: rebuild $repo_path" \
+              -f "branch=$BRANCH" \
+              -f "sha=$current_sha" \
+              -f "content=$(base64 < "$local_path" | tr -d '\n')" >/dev/null
+          }
+          put_file inst/bundle.js        rebuild-output/inst/bundle.js
+          put_file dev/package-lock.json rebuild-output/dev/package-lock.json

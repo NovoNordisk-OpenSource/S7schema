@@ -1,0 +1,59 @@
+name: PR Rebuild Bundle
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions: {}
+
+jobs:
+  rebuild-bundle:
+    permissions:
+      pull-requests: write
+      contents: write
+    if: >
+      github.event.issue.pull_request &&
+      (github.event.comment.body == '/rebuild-bundle' ||
+       startsWith(github.event.comment.body, '/rebuild-bundle ')) &&
+      contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.comment.author_association)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Add reaction to comment
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            await github.rest.reactions.createForIssueComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: context.payload.comment.id,
+              content: 'rocket'
+            })
+
+      - name: Checkout PR branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: refs/pull/${{ github.event.issue.number }}/head
+
+      - name: Setup Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '20'
+
+      - name: Rebuild inst/bundle.js
+        working-directory: dev
+        run: |
+          npm install
+          npx browserify entry.js -o ../inst/bundle.js
+
+      - name: Commit bundle
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet -- inst/bundle.js; then
+            echo "No changes to inst/bundle.js"
+            exit 0
+          fi
+          git add inst/bundle.js
+          git commit -m "chore: rebuild inst/bundle.js"
+          git push

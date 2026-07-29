@@ -51,21 +51,24 @@ It exports the following functions that are used inside the R functions using th
 The script is bundled and put into `inst/bundle.js` in order for us to get a single `.js` file
 that can be loaded in V8 and contains all dependencies.
 
-A new bundled script is create with [Browserify](https://browserify.org):
+A new bundled script is created with [Browserify](https://browserify.org):
 
 ```bash
-browserify dev/entry.js -o inst/bundle.js
+cd dev
+npm install
+npx browserify entry.js -o ../inst/bundle.js
+cd ..
 ```
 
-Note this requires that the dependencies of `dev/entry.js` are installed.
-Install them with:
+Read more in the [Using NPM packages in V8](https://cran.r-project.org/web/packages/V8/vignettes/npm.html) vignette.
 
-```bash
-npm install ajv
-npm install js-yaml
-```
+### Automated rebuild via PR comment
 
-Read more in this the [Using NPM packages in V8](https://cran.r-project.org/web/packages/V8/vignettes/npm.html) vignette.
+On an open PR, a maintainer (OWNER/MEMBER/COLLABORATOR) can trigger a rebuild
+by commenting `/rebuild-bundle`. The workflow
+(`.github/workflows/pr-rebuild-bundle.yml`) runs browserify on the PR head and
+commits the updated `inst/bundle.js` back to the branch. Only works on
+same-repo PRs.
 
 ### License
 

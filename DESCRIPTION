@@ -1,6 +1,6 @@
 Package: S7schema
 Title: 'S7' Framework for Schema-Validated YAML Configuration
-Version: 0.1.1.9000
+Version: 0.1.1.9001
 Authors@R: c(
     person("Aksel", "Thomsen", , "oath@novonordisk.com", role = c("aut", "cre")),
     person("Matthew", "Phelps", , "mewp@novonordisk.com", role = "aut"),

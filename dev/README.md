@@ -61,8 +61,9 @@ Note this requires that the dependencies of `dev/entry.js` are installed.
 Install them with:
 
 ```bash
-npm install ajv
-npm install js-yaml
+cd dev
+npm install
+cd ..
 ```
 
 Read more in this the [Using NPM packages in V8](https://cran.r-project.org/web/packages/V8/vignettes/npm.html) vignette.

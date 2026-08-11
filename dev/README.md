@@ -77,15 +77,15 @@ V8](https://cran.r-project.org/web/packages/V8/vignettes/npm.html) vignette.
 Only embed javascript modules that are compatiable with the license og S7schema
 (APACHE 2.0). Currently using the following modules and licenses:
 
-| Package                          |License      |
-|:---------------------------------|:------------|
-|node_modules/ajv                  |MIT          |
-|node_modules/argparse             |Python-2.0   |
-|node_modules/fast-deep-equal      |MIT          |
-|node_modules/fast-uri             |BSD-3-Clause |
-|node_modules/js-yaml              |MIT          |
-|node_modules/json-schema-traverse |MIT          |
-|node_modules/require-from-string  |MIT          |
+| Package                           | License      |
+|:----------------------------------|:-------------|
+| node_modules/ajv                  | MIT          |
+| node_modules/argparse             | Python-2.0   |
+| node_modules/fast-deep-equal      | MIT          |
+| node_modules/fast-uri             | BSD-3-Clause |
+| node_modules/js-yaml              | MIT          |
+| node_modules/json-schema-traverse | MIT          |
+| node_modules/require-from-string  | MIT          |
 
 Following the advice in [R
 Packages](https://r-pkgs.org/license.html#sec-code-you-bundle) we include the

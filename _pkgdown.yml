@@ -5,9 +5,9 @@ template:
 
 reference:
   - contents:
-    - S7schema
-    - validate_config
-    - write_config
-    - document_schema
-    - to_yaml
-    - reexports
+      - S7schema
+      - validate_config
+      - write_config
+      - document_schema
+      - to_yaml
+      - reexports

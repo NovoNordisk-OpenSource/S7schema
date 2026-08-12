@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">S7schema</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1.9002</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -103,7 +103,8 @@ single number:</p>
 <span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
 <p>Our initial <code>config.yml</code> defines this entry to have the
 value <code>1</code>:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">my_config_var</span><span class="kw">:</span><span class="at"> </span><span class="dv">1</span><span class="at"> </span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="pp">---</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">my_config_var</span><span class="kw">:</span><span class="at"> </span><span class="dv">1</span></span></code></pre></div>
 <p>Which is obviously a valid configuration. But to check it
 programmatically we can also use the one-shot validation function
 <code><a href="../reference/validate_config.html">validate_yaml()</a></code>:</p>
@@ -124,7 +125,7 @@ as above:</p>
 <span><span class="co">#&gt;  $ my_config_var: int 1</span></span>
 <span><span class="co">#&gt;  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"</span></span>
 <span><span class="co">#&gt;  @ validator: &lt;S7schema::validator&gt;</span></span>
-<span><span class="co">#&gt;  .. @ context:Classes 'V8', 'environment' &lt;environment: 0x55f0c380a250&gt; </span></span>
+<span><span class="co">#&gt;  .. @ context:Classes 'V8', 'environment' &lt;environment: 0x5561f8b85750&gt; </span></span>
 <span><span class="co">#&gt;  @ file     : chr "/home/runner/work/_temp/Library/S7schema/examples/config.yml"</span></span></code></pre></div>
 <p>Here you can see that <code>config</code> is a S7 object, that itself
 is a <code>list</code> containing the content of
@@ -147,7 +148,7 @@ class:</p>
 <span><span class="co">#&gt;  $ my_config_var: num 2</span></span>
 <span><span class="co">#&gt;  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"</span></span>
 <span><span class="co">#&gt;  @ validator: &lt;S7schema::validator&gt;</span></span>
-<span><span class="co">#&gt;  .. @ context:Classes 'V8', 'environment' &lt;environment: 0x55f0bfdf7658&gt; </span></span>
+<span><span class="co">#&gt;  .. @ context:Classes 'V8', 'environment' &lt;environment: 0x5561f5170690&gt; </span></span>
 <span><span class="co">#&gt;  @ file     : chr "/home/runner/work/_temp/Library/S7schema/examples/config.yml"</span></span></code></pre></div>
 <p>Note that validation is not automatically triggered when updating a
 value, which is why it is needed to call it explicitly.</p>

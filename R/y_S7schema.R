@@ -16,6 +16,10 @@ prop_schema <- S7::new_property(
 
 #' @noRd
 validate_prop_file <- function(value) {
+  if (value == "") {
+    return()
+  }
+
   val <- check_file(file = value, ext = c("yml", "yaml"))
   if (!isTRUE(val)) {
     return(val)
@@ -44,7 +48,19 @@ prop_validator <- S7::new_property(
 )
 
 #' @noRd
-construct_S7schema <- function(file, schema) {
+construct_S7schema <- function(file, schema, .data) {
+  rlang::check_exclusive(file, .data)
+
+  if (!rlang::is_missing(.data)) {
+    return(
+      S7::new_object(
+        .parent = .data,
+        schema = schema,
+        file = ""
+      )
+    )
+  }
+
   assert_file(file = file, ext = c("yml", "yaml"))
   validate_yaml(file, schema)
   S7::new_object(
@@ -87,6 +103,7 @@ validate_S7schema <- function(self) {
 #'
 #' @param file `character(1)` path to a yaml file to be checked.
 #' @param schema `character(1)` path to a JSON schema.
+#' @param .data `list()` input to create the object. Mutually exclusive with `file`.
 #' @section Properties:
 #' \describe{
 #'   \item{schema}{`character(1)` path to JSON schema being used to validate against.}
@@ -101,6 +118,11 @@ validate_S7schema <- function(self) {
 #'   schema = system.file("examples/schema.json", package = "S7schema")
 #' )
 #'
+#' # Create object in memory
+#' S7schema(
+#'   .data = list(my_config_var = 6),
+#'   schema = system.file("examples/schema.json", package = "S7schema")
+#' )
 #' @export
 S7schema <- S7::new_class(
   name = "S7schema",

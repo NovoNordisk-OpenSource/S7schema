@@ -4,12 +4,14 @@
 \alias{S7schema}
 \title{Work with valid configurations}
 \usage{
-S7schema(file, schema)
+S7schema(file, schema, .data)
 }
 \arguments{
 \item{file}{\code{character(1)} path to a yaml file to be checked.}
 
 \item{schema}{\code{character(1)} path to a JSON schema.}
+
+\item{.data}{\code{list()} input to create the object. Mutually exclusive with \code{file}.}
 }
 \value{
 New \code{S7schema} object.
@@ -53,4 +55,9 @@ S7schema(
   schema = system.file("examples/schema.json", package = "S7schema")
 )
 
+# Create object in memory
+S7schema(
+  .data = list(my_config_var = 6),
+  schema = system.file("examples/schema.json", package = "S7schema")
+)
 }

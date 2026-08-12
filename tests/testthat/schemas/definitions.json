@@ -21,10 +21,7 @@
       "$ref": "#/definitions/extra"
     }
   },
-  "required": [
-    "id",
-    "keys"
-  ],
+  "required": ["id", "keys"],
   "additionalProperties": true,
   "definitions": {
     "keys": {

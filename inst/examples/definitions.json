@@ -9,9 +9,7 @@
       "$ref": "#/definitions/my_config_var"
     }
   },
-  "required": [
-    "my_config_var"
-  ],
+  "required": ["my_config_var"],
   "additionalProperties": true,
   "definitions": {
     "my_config_var": {

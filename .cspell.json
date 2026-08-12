@@ -16,22 +16,16 @@
     "tests/testthat/*/**",
     "inst/bundle.js",
     "inst/licenses/*"
-    ],
+  ],
   "patterns": [
     {
       "name": "code_chunk",
       "pattern": "`{3}.*?`{3}"
     }
   ],
-  "ignoreRegExpList": [
-    "code_chunk"
-  ],
-  "words": [
-    "nolint"
-  ],
-  "dictionaries": [
-    "wordlist"
-  ],
+  "ignoreRegExpList": ["code_chunk"],
+  "words": ["nolint"],
+  "dictionaries": ["wordlist"],
   "dictionaryDefinitions": [
     {
       "name": "wordlist",

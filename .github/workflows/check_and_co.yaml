@@ -1,3 +1,4 @@
+---
 on:
   push:
     branches:
@@ -14,12 +15,12 @@ jobs:
     name: Check current version
     permissions:
       contents: read
-    uses: NovoNordisk-OpenSource/r.workflows/.github/workflows/check_current_version.yaml@fa1f70cce8b5544ddb31d8ea31dc2b917af1a4b3 # v0.1.0
+    uses: NovoNordisk-OpenSource/r.workflows/.github/workflows/check_current_version.yaml@fa1f70cce8b5544ddb31d8ea31dc2b917af1a4b3  # v0.1.0
   check-nn-version:
     name: Check NN version
     permissions:
       contents: read
-    uses: NovoNordisk-OpenSource/r.workflows/.github/workflows/check_nn_versions.yaml@fa1f70cce8b5544ddb31d8ea31dc2b917af1a4b3 # v0.1.0
+    uses: NovoNordisk-OpenSource/r.workflows/.github/workflows/check_nn_versions.yaml@fa1f70cce8b5544ddb31d8ea31dc2b917af1a4b3  # v0.1.0
     with:
       min_lock_date: "2024-08-06"
   pkgdown:
@@ -27,13 +28,13 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
-    uses: NovoNordisk-OpenSource/r.workflows/.github/workflows/pkgdown.yaml@fa1f70cce8b5544ddb31d8ea31dc2b917af1a4b3 # v0.1.0
+    uses: NovoNordisk-OpenSource/r.workflows/.github/workflows/pkgdown.yaml@fa1f70cce8b5544ddb31d8ea31dc2b917af1a4b3  # v0.1.0
   coverage:
     name: Coverage report
     permissions:
       contents: read
       pull-requests: write
-    uses: NovoNordisk-OpenSource/r.workflows/.github/workflows/coverage.yaml@fa1f70cce8b5544ddb31d8ea31dc2b917af1a4b3 # v0.1.0
+    uses: NovoNordisk-OpenSource/r.workflows/.github/workflows/coverage.yaml@fa1f70cce8b5544ddb31d8ea31dc2b917af1a4b3  # v0.1.0
     secrets:
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
     with:
@@ -43,4 +44,4 @@ jobs:
     permissions:
       contents: read
       pull-requests: write
-    uses: NovoNordisk-OpenSource/r.workflows/.github/workflows/megalinter.yaml@fa1f70cce8b5544ddb31d8ea31dc2b917af1a4b3 # v0.1.0
+    uses: NovoNordisk-OpenSource/r.workflows/.github/workflows/megalinter.yaml@fa1f70cce8b5544ddb31d8ea31dc2b917af1a4b3  # v0.1.0

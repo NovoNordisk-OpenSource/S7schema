@@ -6,12 +6,12 @@ The purpose of S7schema is to provide a generic way of working with yaml
 config files. The implementation will:
 
 1. Use S7 for easy downstream use in other packages (e.g. new child
-   classes and methods).
+    classes and methods).
 2. Use [‘ajv’](https://ajv.js.org) for validation of the config file
-   given JSON schema.
+    given JSON schema.
 3. S7 class will inherit from `list` ensuring a seamless integration
-   into existing code using yaml metadata, such as whirl, connector, and
-   mighty.
+    into existing code using yaml metadata, such as whirl, connector, and
+    mighty.
 
 ### Pseudo-code
 
@@ -90,19 +90,18 @@ S7schema (APACHE 2.0). Currently using the following modules and licenses:
 | node_modules/json-schema-traverse | MIT          |
 | node_modules/require-from-string  | MIT          |
 
-Following the advice in [R Packages][r-pkgs-license] we include the individual
-licenses in `inst/licenses` folder, mention them in `LICENSE.note` and include
-their authors as copyright holders in `DESCRIPTION`.
+Following the advice in [R
+Packages](https://r-pkgs.org/license.html#sec-code-you-bundle) we include the
+individual licenses in `inst/licenses` folder, mention them in `LICENSE.note`
+and includer their authors as copyright holders in `DESCRIPTION`.
 
-[r-pkgs-license]: https://r-pkgs.org/license.html#sec-code-you-bundle
+We have assesded the three licenses used (MIT, Python-2.0 , and BSD-3-Clause)
+to be compatible with Apache 2.0, and therefore they can be bundled into this R
+package.
 
-We have assessed the three licenses used (MIT, Python-2.0, and BSD-3-Clause)
-to be compatible with Apache 2.0, and therefore they can be bundled into this
-R package.
-
-If new development introduces new packages or newer versions, it is required
-to assess their license compatibility and update the files mentioned above as
-appropriate.
+If new development introduces new packages or newer version, it is required to
+asses their license compatibility and update the files mentioned above as
+appropiate.
 
 To copy each license you can run the bash script below to copy all
 individual licenses:

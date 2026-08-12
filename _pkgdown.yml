@@ -1,3 +1,4 @@
+---
 url: https://novonordisk-opensource.github.io/S7schema/
 
 template:
@@ -5,9 +6,9 @@ template:
 
 reference:
   - contents:
-    - S7schema
-    - validate_config
-    - write_config
-    - document_schema
-    - to_yaml
-    - reexports
+      - S7schema
+      - validate_config
+      - write_config
+      - document_schema
+      - to_yaml
+      - reexports

@@ -41,7 +41,8 @@ consists of one entry (`my_config_var`) which is a single number:
 Our initial `config.yml` defines this entry to have the value `1`:
 
 ``` yaml
-my_config_var: 1 
+---
+my_config_var: 1
 ```
 
 Which is obviously a valid configuration. But to check it
@@ -69,7 +70,7 @@ print(config)
 #>  $ my_config_var: int 1
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x55eb07455180> 
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x557e703bbab0> 
 #>  @ file     : chr "/home/runner/work/_temp/Library/S7schema/examples/config.yml"
 ```
 
@@ -103,7 +104,7 @@ print(config)
 #>  $ my_config_var: num 2
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x55eb03a42308> 
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x557e6c9a6690> 
 #>  @ file     : chr "/home/runner/work/_temp/Library/S7schema/examples/config.yml"
 ```
 

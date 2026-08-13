@@ -16,7 +16,7 @@ test_that("S7schema works", {
     expect_error()
 })
 
-test_that("S7schema can be initiated witout YAML", {
+test_that("S7schema can be initiated without YAML", {
   x <- S7schema(
     .data = list(id = "test"),
     schema = test_path("schemas", "simple.json")

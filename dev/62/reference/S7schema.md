@@ -34,7 +34,8 @@ S7schema(file, schema, .data)
 
 - file:
 
-  `character(1)` path to a yaml file to be checked.
+  `character(1)` path to a yaml file to be checked. Or `NULL` if created
+  using `.data`.
 
 - schema:
 
@@ -69,7 +70,7 @@ documentation for more info on how the validation is done.
 
 - file:
 
-  `character(1)` path to the source YAML file.
+  `character(1)` path to the source YAML file (or `NULL` if not set).
 
 ## Examples
 
@@ -83,7 +84,7 @@ S7schema(
 #>  $ my_config_var: int 1
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x55a1c919d690> 
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x563f10876370> 
 #>  @ file     : chr "/home/runner/work/_temp/Library/S7schema/examples/config.yml"
 
 # Create object in memory
@@ -95,6 +96,6 @@ S7schema(
 #>  $ my_config_var: num 6
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x55a1c949bc18> 
-#>  @ file     : chr ""
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x563f10b65b50> 
+#>  @ file     : NULL
 ```

@@ -47,3 +47,30 @@ test_that("default for S7schema class", {
 
   expect_equal(y$id, "d")
 })
+
+test_that("object created in memory", {
+  x <- S7schema(
+    .data = list(id = "test"),
+    schema = test_path("schemas", "simple.json")
+  ) |>
+    expect_no_condition()
+
+  write_config(x) |>
+    expect_error("`path` must be provided")
+
+  tmpfile <- withr::local_tempfile(
+    fileext = ".yml"
+  )
+
+  x$id <- "d"
+
+  write_config(x, tmpfile) |>
+    expect_no_condition()
+
+  y <- S7schema(
+    file = tmpfile,
+    schema = test_path("schemas", "simple.json")
+  )
+
+  expect_equal(y$id, "d")
+})

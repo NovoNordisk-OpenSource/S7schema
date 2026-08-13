@@ -23,9 +23,6 @@ test_that("S7schema can be initiated witout YAML", {
   ) |>
     expect_no_condition()
 
-  write_config(x) |>
-    expect_snapshot()
-
   S7schema(
     .data = list(illegal = "entry"),
     schema = test_path("schemas", "simple.json")

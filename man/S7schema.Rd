@@ -7,7 +7,7 @@
 S7schema(file, schema, .data)
 }
 \arguments{
-\item{file}{\code{character(1)} path to a yaml file to be checked.}
+\item{file}{\code{character(1)} path to a yaml file to be checked. Or \code{NULL} if created using \code{.data}.}
 
 \item{schema}{\code{character(1)} path to a JSON schema.}
 
@@ -44,7 +44,7 @@ See internal \code{\link[=validator]{validator()}} documentation for more info o
 \describe{
 \item{schema}{\code{character(1)} path to JSON schema being used to validate against.}
 \item{validator}{Internal \code{\link[=validator]{validator()}} used to validate the content (read-only).}
-\item{file}{\code{character(1)} path to the source YAML file.}
+\item{file}{\code{character(1)} path to the source YAML file (or \code{NULL} if not set).}
 }
 }
 

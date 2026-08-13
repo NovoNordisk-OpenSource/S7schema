@@ -21,14 +21,14 @@
 #' @details
 #' See internal [validator()] documentation for more info on how the validation is done.
 #'
-#' @param file `character(1)` path to a yaml file to be checked.
+#' @param file `character(1)` path to a yaml file to be checked. Or `NULL` if created using `.data`.
 #' @param schema `character(1)` path to a JSON schema.
 #' @param .data `list()` input to create the object. Mutually exclusive with `file`.
 #' @section Properties:
 #' \describe{
 #'   \item{schema}{`character(1)` path to JSON schema being used to validate against.}
 #'   \item{validator}{Internal [validator()] used to validate the content (read-only).}
-#'   \item{file}{`character(1)` path to the source YAML file.}
+#'   \item{file}{`character(1)` path to the source YAML file (or `NULL` if not set).}
 #' }
 #' @returns New `S7schema` object.
 #' @examples
@@ -64,7 +64,7 @@ prop_schema <- S7::new_property(
 
 #' @noRd
 validate_prop_file <- function(value) {
-  if (value == "") {
+  if (is.null(value)) {
     return()
   }
 
@@ -76,7 +76,7 @@ validate_prop_file <- function(value) {
 
 #' @noRd
 prop_file <- S7::new_property(
-  class = S7::class_character,
+  class = NULL | S7::class_character,
   validator = \(value) {
     validate_prop_file(value)
   }
@@ -104,7 +104,7 @@ construct_S7schema <- function(file, schema, .data) {
       S7::new_object(
         .parent = .data,
         schema = schema,
-        file = ""
+        file = NULL
       )
     )
   }

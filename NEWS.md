@@ -1,6 +1,6 @@
 # S7schema (development version)
 
-* Validation error messages now include the current value that failed validation.
+* Validation error messages now include the current value that failed validation (#63).
 
 * Rebundled `inst/bundle.js` with updated JavaScript dependencies: `ajv` 8.17.1 → 8.18.0, `js-yaml` 4.1.0 → 4.3.1, and `fast-uri` → 3.1.5.
 

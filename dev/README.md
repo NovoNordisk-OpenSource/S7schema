@@ -54,23 +54,18 @@ the V8 package:
 The script is bundled and put into `inst/bundle.js` in order for us to get a
 single `.js` file that can be loaded in V8 and contains all dependencies.
 
-A new bundled script is create with [Browserify](https://browserify.org):
-
-```bash
-browserify dev/entry.js -o inst/bundle.js
-```
-
-Note this requires that the dependencies of `dev/entry.js` are installed.
-Install them with:
+A new bundled script is created with [Browserify](https://browserify.org):
 
 ```bash
 cd dev
 npm install
+npx browserify entry.js -o ../inst/bundle.js
 cd ..
 ```
 
-Read more in this the [Using NPM packages in
-V8](https://cran.r-project.org/web/packages/V8/vignettes/npm.html) vignette.
+Read more in the [Using NPM packages in V8][v8-npm] vignette.
+
+[v8-npm]: https://cran.r-project.org/web/packages/V8/vignettes/npm.html
 
 ### License
 

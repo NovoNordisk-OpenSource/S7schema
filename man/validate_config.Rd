@@ -15,7 +15,7 @@ validate_yaml(file, schema)
 
 \item{schema}{\code{character(1)} path to a JSON schema.}
 
-\item{file}{\code{character(1)} path to a yaml file to be checked.}
+\item{file}{\code{character(1)} path to a yaml file to be checked. Or \code{NULL} if created using \code{.data}.}
 }
 \value{
 \itemize{

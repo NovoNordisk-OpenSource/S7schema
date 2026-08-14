@@ -69,6 +69,50 @@ test_that("validate_yaml includes file path in error messages", {
   )
 })
 
+test_that("errors include the current value when it is a scalar", {
+  # numeric value shown unquoted
+  validate_list(
+    x = list(id = 1),
+    schema = test_path("schemas", "simple.json")
+  ) |>
+    expect_error("current value: 1")
+
+  # string value shown quoted, so the type is visible
+  validate_list(
+    x = list(do_something = "yes"),
+    schema = test_path("schemas", "simple.json")
+  ) |>
+    expect_error('current value: "yes"')
+
+  # array element reports the element, not the whole array
+  validate_list(
+    x = list(my_array = list("a", 1)),
+    schema = test_path("schemas", "array.json")
+  ) |>
+    expect_error("current value: 1")
+
+  # oneOf errors also report the value
+  validate_list(
+    x = list(value = "ABC123"),
+    schema = test_path("schemas", "oneof_pattern.json")
+  ) |>
+    expect_error('current value: "ABC123"')
+})
+
+test_that("errors omit the current value when it is not a scalar", {
+  # object-level keywords report the whole object as the failing value, which
+  # would dump the entire config into the error message
+  expect_error(
+    validate_list(
+      x = list(fake = "b"),
+      schema = test_path("schemas", "simple.json")
+    ),
+    regexp = "must NOT have additional properties"
+  ) |>
+    conditionMessage() |>
+    expect_no_match("current value")
+})
+
 test_that("oneOf shows all sub-errors for invalid input", {
   validate_list(
     x = list(value = "ABC123"),

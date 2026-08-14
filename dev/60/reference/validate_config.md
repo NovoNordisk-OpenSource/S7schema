@@ -25,7 +25,8 @@ validate_yaml(file, schema)
 
 - file:
 
-  `character(1)` path to a yaml file to be checked.
+  `character(1)` path to a yaml file to be checked. Or `NULL` if created
+  using `.data`.
 
 ## Value
 

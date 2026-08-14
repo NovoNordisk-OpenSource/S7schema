@@ -5,4 +5,4 @@ to see their documentation.
 
 - S7:
 
-  [`validate`](https://rconsortium.github.io/S7/reference/validate.html)
+  [`validate()`](https://rconsortium.github.io/S7/reference/validate.html)

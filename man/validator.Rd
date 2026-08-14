@@ -15,7 +15,7 @@ New \code{validator} object
 \description{
 Based on a JSON schema, \href{https://ajv.js.org}{ajv} is used to create a validator
 object in Javascript that can be used to check an input yaml.
-This is done in a \code{\link[V8:V8]{V8::v8()}} context, and stored inside
+This is done in a \code{\link[V8:v8]{V8::v8()}} context, and stored inside
 the \code{context} property of the the object.
 
 See \href{https://json-schema.org}{json-schema.org} on how to specify a JSON schema.
@@ -23,7 +23,7 @@ See \href{https://json-schema.org}{json-schema.org} on how to specify a JSON sch
 \section{Properties}{
 
 \describe{
-\item{context}{\code{\link[V8:V8]{V8::v8()}} context with a validator object based on the schema}
+\item{context}{\code{\link[V8:v8]{V8::v8()}} context with a validator object based on the schema}
 }
 }
 

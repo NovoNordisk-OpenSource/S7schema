@@ -3,7 +3,7 @@
 const Ajv = require('ajv')
 const yaml = require('js-yaml')
 
-const ajv = new Ajv()
+const ajv = new Ajv({ verbose: true })
 
 // Define createValidator function that compiles AJV validator from schema string
 function createValidator (schemaString) {

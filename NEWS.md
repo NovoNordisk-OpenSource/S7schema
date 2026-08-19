@@ -1,4 +1,4 @@
-# S7schema (development version)
+# S7schema 0.1.2
 
 * Validation error messages now include the current value that failed validation (#63).
 * Now possible to create a `S7schema()` object in memory using the new `.data` argument (#62).

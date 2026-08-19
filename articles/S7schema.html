@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">S7schema</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1.9003</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1.9004</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -125,7 +125,7 @@ as above:</p>
 <span><span class="co">#&gt;  $ my_config_var: int 1</span></span>
 <span><span class="co">#&gt;  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"</span></span>
 <span><span class="co">#&gt;  @ validator: &lt;S7schema::validator&gt;</span></span>
-<span><span class="co">#&gt;  .. @ context:Classes 'V8', 'environment' &lt;environment: 0x56510bb6f9b8&gt; </span></span>
+<span><span class="co">#&gt;  .. @ context:Classes 'V8', 'environment' &lt;environment: 0x5594b973b960&gt; </span></span>
 <span><span class="co">#&gt;  @ file     : chr "/home/runner/work/_temp/Library/S7schema/examples/config.yml"</span></span></code></pre></div>
 <p>Here you can see that <code>config</code> is a S7 object, that itself
 is a <code>list</code> containing the content of
@@ -148,7 +148,7 @@ class:</p>
 <span><span class="co">#&gt;  $ my_config_var: num 2</span></span>
 <span><span class="co">#&gt;  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"</span></span>
 <span><span class="co">#&gt;  @ validator: &lt;S7schema::validator&gt;</span></span>
-<span><span class="co">#&gt;  .. @ context:Classes 'V8', 'environment' &lt;environment: 0x56510802b8a0&gt; </span></span>
+<span><span class="co">#&gt;  .. @ context:Classes 'V8', 'environment' &lt;environment: 0x5594b5bfc568&gt; </span></span>
 <span><span class="co">#&gt;  @ file     : chr "/home/runner/work/_temp/Library/S7schema/examples/config.yml"</span></span></code></pre></div>
 <p>Note that validation is not automatically triggered when updating a
 value, which is why it is needed to call it explicitly.</p>
@@ -159,7 +159,8 @@ get an error when validating the updated object:</p>
 <span><span class="fu"><a href="https://rconsortium.github.io/S7/reference/validate.html" class="external-link">validate</a></span><span class="op">(</span><span class="va">config</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #BBBB00; font-weight: bold;">Error</span><span style="font-weight: bold;"> in `validate_S7schema()`:</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> <span style="color: #00BB00;">/my_config_var</span> must be number</span></span>
-<span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> type: number</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> type: number</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> current value: <span style="color: #0000BB;">"abc"</span></span></span></code></pre></div>
 <p>To save a configuration use <code><a href="../reference/write_config.html">write_config()</a></code>:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/write_config.html">write_config</a></span><span class="op">(</span></span>

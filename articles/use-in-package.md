@@ -76,7 +76,7 @@ print(x)
 #>  $ my_config_var: int 1
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x55ebe74be6f8> 
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x56122fd1e5e0> 
 #>  @ file     : chr "/home/runner/work/_temp/Library/S7schema/examples/config.yml"
 ```
 
@@ -113,6 +113,7 @@ S7::validate(x)
 #> Error in `validate_S7schema()`:
 #> ! /my_config_var must be number
 #> ✖ type: number
+#> ℹ current value: "not a number"
 ```
 
 ### Method dispatch

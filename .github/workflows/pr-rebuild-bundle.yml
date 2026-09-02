@@ -1,0 +1,111 @@
+name: PR Rebuild Bundle
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions: {}
+
+jobs:
+  build:
+    permissions:
+      pull-requests: write
+      contents: read
+    if: >
+      github.event.issue.pull_request &&
+      (github.event.comment.body == '/rebuild-bundle' ||
+       startsWith(github.event.comment.body, '/rebuild-bundle ')) &&
+      contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.comment.author_association)
+    runs-on: ubuntu-latest
+    outputs:
+      branch: ${{ steps.pr.outputs.branch }}
+
+    steps:
+      - name: Add reaction to comment
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            await github.rest.reactions.createForIssueComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: context.payload.comment.id,
+              content: 'rocket'
+            })
+
+      - name: Resolve PR head
+        id: pr
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            const { data: pr } = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.issue.number,
+            })
+            if (pr.head.repo.full_name !== `${context.repo.owner}/${context.repo.repo}`) {
+              core.setFailed('Fork PRs are not supported')
+              return
+            }
+            core.setOutput('branch', pr.head.ref)
+            core.setOutput('sha', pr.head.sha)
+
+      - name: Checkout PR branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ steps.pr.outputs.sha }}
+          persist-credentials: false
+
+      - name: Setup Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: dev/package-lock.json
+
+      - name: Rebuild inst/bundle.js
+        working-directory: dev
+        run: |
+          npm install --ignore-scripts
+          npx --no --ignore-scripts browserify entry.js -o ../inst/bundle.js
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: rebuild-output
+          path: |
+            inst/bundle.js
+            dev/package-lock.json
+          if-no-files-found: error
+          retention-days: 1
+
+  commit:
+    needs: build
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      BRANCH: ${{ needs.build.outputs.branch }}
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: rebuild-output
+          path: rebuild-output
+
+      - name: Commit rebuild outputs via API
+        run: |
+          set -euo pipefail
+          put_file() {
+            local repo_path="$1" local_path="$2"
+            local current_sha
+            current_sha=$(gh api "repos/$GH_REPO/contents/$repo_path?ref=$BRANCH" --jq .sha)
+            gh api --method PUT "repos/$GH_REPO/contents/$repo_path" \
+              -f "message=chore: rebuild $repo_path" \
+              -f "branch=$BRANCH" \
+              -f "sha=$current_sha" \
+              -f "content=$(base64 < "$local_path" | tr -d '\n')" >/dev/null
+          }
+          put_file inst/bundle.js        rebuild-output/inst/bundle.js
+          put_file dev/package-lock.json rebuild-output/dev/package-lock.json

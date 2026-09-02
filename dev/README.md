@@ -67,10 +67,18 @@ Read more in the [Using NPM packages in V8][v8-npm] vignette.
 
 [v8-npm]: https://cran.r-project.org/web/packages/V8/vignettes/npm.html
 
+### Automated rebuild via PR comment
+
+On an open PR, a maintainer (OWNER/MEMBER/COLLABORATOR) can trigger a rebuild
+by commenting `/rebuild-bundle`. The workflow
+(`.github/workflows/pr-rebuild-bundle.yml`) runs browserify on the PR head and
+commits the updated `inst/bundle.js` back to the branch. Only works on
+same-repo PRs.
+
 ### License
 
-Only embed javascript modules that are compatiable with the license og S7schema
-(APACHE 2.0). Currently using the following modules and licenses:
+Only embed javascript modules that are compatible with the license of
+S7schema (APACHE 2.0). Currently using the following modules and licenses:
 
 | Package                           | License      |
 |:----------------------------------|:-------------|

@@ -40,11 +40,18 @@ S7::method(write_config, S7schema) <- function(x, path = NULL) {
 }
 
 #' @noRd
-write_valid_config <- function(x, path) {
+write_valid_config <- function(x, path, call = parent.frame()) {
   validate(x)
 
   if (is.null(path)) {
     path <- x@file
+  }
+
+  if (!rlang::is_string(path)) {
+    cli::cli_abort(
+      "{.arg path} must be provided as {.cls character(1)}",
+      call = call
+    )
   }
 
   cat(

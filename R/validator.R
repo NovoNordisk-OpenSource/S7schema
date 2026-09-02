@@ -68,7 +68,12 @@ fix_path <- function(path) {
 }
 
 #' @noRd
-use_validator <- function(validator, yaml_content, file = NULL, call = parent.frame()) {
+use_validator <- function(
+  validator,
+  yaml_content,
+  file = NULL,
+  call = parent.frame()
+) {
   validator@context$assign(
     name = "yaml_str",
     value = yaml_content
@@ -117,7 +122,8 @@ format_errors <- function(errors) {
     return(
       c(
         header,
-        rlang::set_names(x = bullets, nm = rep("x", length(bullets)))
+        rlang::set_names(x = bullets, nm = rep("x", length(bullets))),
+        format_value(error$data)
       )
     )
   }
@@ -145,6 +151,19 @@ format_errors <- function(errors) {
 
   c(
     header,
-    rlang::set_names(x = bullets, nm = rep("*", length(bullets)))
+    rlang::set_names(x = bullets, nm = rep("*", length(bullets))),
+    format_value(oneof_error$data)
+  )
+}
+
+#' @noRd
+format_value <- function(value) {
+  if (!rlang::is_scalar_atomic(value)) {
+    return(NULL)
+  }
+
+  rlang::set_names(
+    x = cli::format_inline("current value: {.val {value}}"),
+    nm = "i"
   )
 }

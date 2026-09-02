@@ -1,67 +1,3 @@
-#' @noRd
-validate_prop_schema <- function(value) {
-  val <- check_file(file = value, ext = "json")
-  if (!isTRUE(val)) {
-    return(val)
-  }
-}
-
-#' @noRd
-prop_schema <- S7::new_property(
-  class = S7::class_character,
-  validator = \(value) {
-    validate_prop_schema(value)
-  }
-)
-
-#' @noRd
-validate_prop_file <- function(value) {
-  val <- check_file(file = value, ext = c("yml", "yaml"))
-  if (!isTRUE(val)) {
-    return(val)
-  }
-}
-
-#' @noRd
-prop_file <- S7::new_property(
-  class = S7::class_character,
-  validator = \(value) {
-    validate_prop_file(value)
-  }
-)
-
-#' @noRd
-get_prop_validator <- function(self) {
-  validator(schema = self@schema)
-}
-
-#' @noRd
-prop_validator <- S7::new_property(
-  class = validator,
-  getter = \(self) {
-    get_prop_validator(self)
-  }
-)
-
-#' @noRd
-construct_S7schema <- function(file, schema) {
-  assert_file(file = file, ext = c("yml", "yaml"))
-  validate_yaml(file, schema)
-  S7::new_object(
-    .parent = yaml::read_yaml(file = file),
-    schema = schema,
-    file = file
-  )
-}
-
-#' @noRd
-validate_S7schema <- function(self) {
-  use_validator(
-    validator = self@validator,
-    yaml_content = to_yaml(self)
-  )
-}
-
 #' Work with valid configurations
 #' @description
 #' `S7schema()` provides a generic way of working with yaml configuration files.
@@ -85,13 +21,14 @@ validate_S7schema <- function(self) {
 #' @details
 #' See internal [validator()] documentation for more info on how the validation is done.
 #'
-#' @param file `character(1)` path to a yaml file to be checked.
+#' @param file `character(1)` path to a yaml file to be checked. Or `NULL` if created using `.data`.
 #' @param schema `character(1)` path to a JSON schema.
+#' @param .data `list()` input to create the object. Mutually exclusive with `file`.
 #' @section Properties:
 #' \describe{
 #'   \item{schema}{`character(1)` path to JSON schema being used to validate against.}
 #'   \item{validator}{Internal [validator()] used to validate the content (read-only).}
-#'   \item{file}{`character(1)` path to the source YAML file.}
+#'   \item{file}{`character(1)` path to the source YAML file (or `NULL` if not set).}
 #' }
 #' @returns New `S7schema` object.
 #' @examples
@@ -101,6 +38,95 @@ validate_S7schema <- function(self) {
 #'   schema = system.file("examples/schema.json", package = "S7schema")
 #' )
 #'
+#' # Create object in memory
+#' S7schema(
+#'   .data = list(my_config_var = 6),
+#'   schema = system.file("examples/schema.json", package = "S7schema")
+#' )
+#' @name S7schema
+NULL
+
+#' @noRd
+validate_prop_schema <- function(value) {
+  val <- check_file(file = value, ext = "json")
+  if (!isTRUE(val)) {
+    return(val)
+  }
+}
+
+#' @noRd
+prop_schema <- S7::new_property(
+  class = S7::class_character,
+  validator = \(value) {
+    validate_prop_schema(value)
+  }
+)
+
+#' @noRd
+validate_prop_file <- function(value) {
+  if (is.null(value)) {
+    return()
+  }
+
+  val <- check_file(file = value, ext = c("yml", "yaml"))
+  if (!isTRUE(val)) {
+    return(val)
+  }
+}
+
+#' @noRd
+prop_file <- S7::new_property(
+  class = NULL | S7::class_character,
+  validator = \(value) {
+    validate_prop_file(value)
+  }
+)
+
+#' @noRd
+get_prop_validator <- function(self) {
+  validator(schema = self@schema)
+}
+
+#' @noRd
+prop_validator <- S7::new_property(
+  class = validator,
+  getter = \(self) {
+    get_prop_validator(self)
+  }
+)
+
+#' @noRd
+construct_S7schema <- function(file, schema, .data) {
+  rlang::check_exclusive(file, .data)
+
+  if (!rlang::is_missing(.data)) {
+    return(
+      S7::new_object(
+        .parent = .data,
+        schema = schema,
+        file = NULL
+      )
+    )
+  }
+
+  assert_file(file = file, ext = c("yml", "yaml"))
+  validate_yaml(file, schema)
+  S7::new_object(
+    .parent = yaml::read_yaml(file = file),
+    schema = schema,
+    file = file
+  )
+}
+
+#' @noRd
+validate_S7schema <- function(self) {
+  use_validator(
+    validator = self@validator,
+    yaml_content = to_yaml(self)
+  )
+}
+
+#' @rdname S7schema
 #' @export
 S7schema <- S7::new_class(
   name = "S7schema",

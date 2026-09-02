@@ -4,12 +4,14 @@
 \alias{S7schema}
 \title{Work with valid configurations}
 \usage{
-S7schema(file, schema)
+S7schema(file, schema, .data)
 }
 \arguments{
-\item{file}{\code{character(1)} path to a yaml file to be checked.}
+\item{file}{\code{character(1)} path to a yaml file to be checked. Or \code{NULL} if created using \code{.data}.}
 
 \item{schema}{\code{character(1)} path to a JSON schema.}
+
+\item{.data}{\code{list()} input to create the object. Mutually exclusive with \code{file}.}
 }
 \value{
 New \code{S7schema} object.
@@ -42,7 +44,7 @@ See internal \code{\link[=validator]{validator()}} documentation for more info o
 \describe{
 \item{schema}{\code{character(1)} path to JSON schema being used to validate against.}
 \item{validator}{Internal \code{\link[=validator]{validator()}} used to validate the content (read-only).}
-\item{file}{\code{character(1)} path to the source YAML file.}
+\item{file}{\code{character(1)} path to the source YAML file (or \code{NULL} if not set).}
 }
 }
 
@@ -53,4 +55,9 @@ S7schema(
   schema = system.file("examples/schema.json", package = "S7schema")
 )
 
+# Create object in memory
+S7schema(
+  .data = list(my_config_var = 6),
+  schema = system.file("examples/schema.json", package = "S7schema")
+)
 }

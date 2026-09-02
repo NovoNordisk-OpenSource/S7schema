@@ -1,6 +1,6 @@
 Package: S7schema
 Title: 'S7' Framework for Schema-Validated YAML Configuration
-Version: 0.1.1.9002
+Version: 0.1.2
 Authors@R: c(
     person("Aksel", "Thomsen", , "oath@novonordisk.com", role = c("aut", "cre")),
     person("Matthew", "Phelps", , "mewp@novonordisk.com", role = "aut"),
@@ -46,7 +46,7 @@ Suggests:
     withr
 VignetteBuilder: 
     knitr
+Config/roxygen2/version: 8.0.0
 Config/testthat/edition: 3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.3

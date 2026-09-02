@@ -70,7 +70,7 @@ print(config)
 #>  $ my_config_var: int 1
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x557e703bbab0> 
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x55cd0ae242e0> 
 #>  @ file     : chr "/home/runner/work/_temp/Library/S7schema/examples/config.yml"
 ```
 
@@ -104,7 +104,7 @@ print(config)
 #>  $ my_config_var: num 2
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x557e6c9a6690> 
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x55cd0731a468> 
 #>  @ file     : chr "/home/runner/work/_temp/Library/S7schema/examples/config.yml"
 ```
 
@@ -121,6 +121,7 @@ validate(config)
 #> Error in `validate_S7schema()`:
 #> ! /my_config_var must be number
 #> ✖ type: number
+#> ℹ current value: "abc"
 ```
 
 To save a configuration use

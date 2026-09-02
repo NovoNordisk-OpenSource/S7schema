@@ -27,18 +27,24 @@ and supports the below workflow:
 ## Usage
 
 ``` r
-S7schema(file, schema)
+S7schema(file, schema, .data)
 ```
 
 ## Arguments
 
 - file:
 
-  `character(1)` path to a yaml file to be checked.
+  `character(1)` path to a yaml file to be checked. Or `NULL` if created
+  using `.data`.
 
 - schema:
 
   `character(1)` path to a JSON schema.
+
+- .data:
+
+  [`list()`](https://rdrr.io/r/base/list.html) input to create the
+  object. Mutually exclusive with `file`.
 
 ## Value
 
@@ -64,7 +70,7 @@ documentation for more info on how the validation is done.
 
 - file:
 
-  `character(1)` path to the source YAML file.
+  `character(1)` path to the source YAML file (or `NULL` if not set).
 
 ## Examples
 
@@ -78,6 +84,18 @@ S7schema(
 #>  $ my_config_var: int 1
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x55a6693191f0> 
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x55fc0817cd00> 
 #>  @ file     : chr "/home/runner/work/_temp/Library/S7schema/examples/config.yml"
+
+# Create object in memory
+S7schema(
+  .data = list(my_config_var = 6),
+  schema = system.file("examples/schema.json", package = "S7schema")
+)
+#> <S7schema::S7schema> List of 1
+#>  $ my_config_var: num 6
+#>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
+#>  @ validator: <S7schema::validator>
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x55fc085b0270> 
+#>  @ file     : NULL
 ```

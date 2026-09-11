@@ -51,6 +51,19 @@ the V8 package:
 1. `createValidator()`: Compiles AJV validator from schema string
 2. `validateYaml()`: Validates YAML string using validator
 
+### YAML type resolution
+
+`validateYaml()` loads the YAML with the js-yaml JSON schema plus the merge key
+and the explicit tags, instead of the js-yaml default schema.
+
+The default schema resolves unquoted scalars that look like dates, so
+`version: 2025-08-06` became a `Date` and failed a schema asking for a string,
+while `yaml::read_yaml()` returns the string `"2025-08-06"` for the same file
+(#67). The JSON schema only resolves the types that JSON has, which removes
+this guess. The merge key (`<<`) and the explicit tags (`!!binary`, `!!omap`,
+`!!pairs`, `!!set`) are added back, because they are not type guesses and R's
+`yaml` package resolves merge keys as well.
+
 The script is bundled and put into `inst/bundle.js` in order for us to get a
 single `.js` file that can be loaded in V8 and contains all dependencies.
 

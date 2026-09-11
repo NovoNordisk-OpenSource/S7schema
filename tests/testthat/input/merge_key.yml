@@ -1,0 +1,6 @@
+---
+defaults: &defaults
+  id: abc
+config:
+  <<: *defaults
+  do_something: true

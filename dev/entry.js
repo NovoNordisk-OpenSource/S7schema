@@ -3,11 +3,9 @@ const yaml = require('js-yaml')
 
 const ajv = new Ajv({ verbose: true })
 
-// The js-yaml default schema resolves unquoted scalars that look like dates
-// (2025-08-06) to a Date, so a schema asking for a string fails. The JSON
-// schema only resolves the types JSON has, which keeps such values as strings
-// and matches what R's yaml reader returns. The merge key and the explicit
-// tags are added back, since they are not type guesses. See issue #67.
+// Matches what R's yaml::read_yaml() loads: it never guesses dates from
+// unquoted scalars. Merge keys and the explicit tags are kept since R
+// still resolves those. See #67.
 const yamlSchema = yaml.JSON_SCHEMA.extend({
   implicit: [yaml.types.merge],
   explicit: [

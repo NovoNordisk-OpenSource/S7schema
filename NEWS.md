@@ -1,3 +1,7 @@
+# S7schema (development version)
+
+* Unquoted values that look like dates (e.g. `version: 2025-08-06`) are now validated as strings instead of dates, which is what `yaml::read_yaml()` returns for the same file (#67).
+
 # S7schema 0.1.2
 
 * Validation error messages now include the current value that failed validation (#63).

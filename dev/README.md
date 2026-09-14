@@ -51,6 +51,10 @@ the V8 package:
 1. `createValidator()`: Compiles AJV validator from schema string
 2. `validateYaml()`: Validates YAML string using validator
 
+`validateYaml()` uses the js-yaml JSON schema, with merge keys and explicit
+YAML tags added. This keeps date-like scalars as strings to match
+`yaml::read_yaml()`, while retaining merge keys and explicit YAML tags.
+
 The script is bundled and put into `inst/bundle.js` in order for us to get a
 single `.js` file that can be loaded in V8 and contains all dependencies.
 

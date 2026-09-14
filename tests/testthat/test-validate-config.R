@@ -145,3 +145,29 @@ test_that("oneOf still validates correct input", {
   ) |>
     expect_no_condition()
 })
+
+test_that("unquoted date-like values are validated as strings", {
+  # The YAML 1.1 timestamp type would read 2025-08-06 as a date, and the
+  # schema check for a string would then fail. See #67.
+  validate_yaml(
+    file = test_path("input", "date_string.yml"),
+    schema = test_path("schemas", "simple.json")
+  ) |>
+    expect_no_condition()
+
+  validate_list(
+    x = list(id = "2025-08-06"),
+    schema = test_path("schemas", "simple.json")
+  ) |>
+    expect_no_condition()
+})
+
+test_that("merge keys are resolved as R's yaml reader resolves them", {
+  # `<<: *anchor` must still merge, so that the validated data and the list
+  # read by yaml::read_yaml() stay the same. See #67.
+  validate_yaml(
+    file = test_path("input", "merge_key.yml"),
+    schema = test_path("schemas", "merge.json")
+  ) |>
+    expect_no_condition()
+})

@@ -99,7 +99,7 @@ prop_validator <- S7::new_property(
 construct_S7schema <- function(file, schema, .data) {
   if (!rlang::is_missing(file) && is.null(file))  file  <- rlang::missing_arg()
   if (!rlang::is_missing(.data) && is.null(.data)) .data <- rlang::missing_arg()
-  
+
   rlang::check_exclusive(file, .data)
 
   if (!rlang::is_missing(.data)) {

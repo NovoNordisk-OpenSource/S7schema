@@ -1,3 +1,7 @@
+# S7schema (development version)
+
+* Passing `NULL` for `file` or `.data` in `S7schema()` is now equivalent to omitting the argument (#66).
+
 # S7schema 0.1.2
 
 * Validation error messages now include the current value that failed validation (#63).

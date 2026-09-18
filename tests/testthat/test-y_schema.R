@@ -85,3 +85,30 @@ test_that("validate() on modified S7schema still does not include file reference
   err <- expect_error(validate(x))
   expect_no_match(conditionMessage(err), "simple\\.yml")
 })
+
+test_that("S7schema treats file = NULL as missing and uses .data", {
+  S7schema(
+    file = NULL,
+    .data = list(id = "test"),
+    schema = test_path("schemas", "simple.json")
+  ) |>
+    expect_no_condition()
+})
+
+test_that("S7schema treats .data = NULL as missing and uses file", {
+  S7schema(
+    file = test_path("input", "simple.yml"),
+    .data = NULL,
+    schema = test_path("schemas", "simple.json")
+  ) |>
+    expect_no_condition()
+})
+
+test_that("S7schema errors when both file and .data are NULL", {
+  S7schema(
+    file = NULL,
+    .data = NULL,
+    schema = test_path("schemas", "simple.json")
+  ) |>
+    expect_error()
+})

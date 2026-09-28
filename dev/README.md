@@ -72,8 +72,16 @@ Read more in the [Using NPM packages in V8][v8-npm] vignette.
 On an open PR, a maintainer (OWNER/MEMBER/COLLABORATOR) can trigger a rebuild
 by commenting `/rebuild-bundle`. The workflow
 (`.github/workflows/pr-rebuild-bundle.yml`) runs browserify on the PR head and
-commits the updated `inst/bundle.js` back to the branch. Only works on
-same-repo PRs.
+commits the updated `inst/bundle.js` and `dev/package-lock.json` back to the
+branch in one commit. Only works on same-repo PRs.
+
+- If the branch moved during the build, the rebuild aborts. Comment
+  `/rebuild-bundle` again.
+- The bot commit does not trigger CI. Close and reopen the PR, or push an empty
+  commit, to run checks.
+- Give approvals after the rebuild commit. The ruleset requires approval of the
+  last push.
+- The workflow comments the result on the PR.
 
 ### License
 

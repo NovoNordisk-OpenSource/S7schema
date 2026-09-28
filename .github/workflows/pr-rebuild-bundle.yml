@@ -123,27 +123,22 @@ jobs:
 
       - name: Comment result
         if: always()
-        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
           OUTCOME: ${{ steps.commit.outcome }}
           COMMITTED: ${{ steps.commit.outputs.committed }}
           COMMIT_SHA: ${{ steps.commit.outputs.sha }}
-        with:
-          script: |
-            const { owner, repo } = context.repo
-            const { OUTCOME, COMMITTED, COMMIT_SHA } = process.env
-            const runUrl = `${context.serverUrl}/${owner}/${repo}/actions/runs/${context.runId}`
-            let body
-            if (OUTCOME === 'success' && COMMITTED === 'true') {
-              body = `Rebuilt \`inst/bundle.js\` in ${COMMIT_SHA}. CI does not run on bot commits: close and reopen this PR (or push an empty commit) to run checks.`
-            } else if (OUTCOME === 'success') {
-              body = '`inst/bundle.js` is already up to date.'
-            } else {
-              body = `Rebuild failed. If the branch changed during the rebuild, comment \`/rebuild-bundle\` again. See ${runUrl}.`
-            }
-            await github.rest.issues.createComment({
-              owner,
-              repo,
-              issue_number: Number(process.env.PR_NUMBER),
-              body,
-            })
+        run: |
+          set -euo pipefail
+          run_url="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+          # Backticks are literal markdown
+          # shellcheck disable=SC2016
+          if [[ "$OUTCOME" == "success" && "$COMMITTED" == "true" ]]; then
+            printf -v body 'Rebuilt `inst/bundle.js` in %s. CI does not run on bot commits: close and reopen this PR (or push an empty commit) to run checks.' "$COMMIT_SHA"
+          elif [[ "$OUTCOME" == "success" ]]; then
+            body='`inst/bundle.js` is already up to date.'
+          else
+            printf -v body 'Rebuild failed. If the branch changed during the rebuild, comment `/rebuild-bundle` again. See %s.' "$run_url"
+          fi
+          gh pr comment "$PR_NUMBER" --body "$body"

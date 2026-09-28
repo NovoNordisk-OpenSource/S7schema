@@ -43,6 +43,10 @@ jobs:
               repo: context.repo.repo,
               pull_number: context.payload.issue.number,
             })
+            if (pr.state !== 'open') {
+              core.setFailed('PR is not open')
+              return
+            }
             if (pr.head.repo.full_name !== `${context.repo.owner}/${context.repo.repo}`) {
               core.setFailed('Fork PRs are not supported')
               return

@@ -1,5 +1,7 @@
 # Changelog
 
+## S7schema (development version)
+
 ## S7schema 0.1.2
 
 CRAN release: 2026-08-21

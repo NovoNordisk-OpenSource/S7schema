@@ -1,3 +1,5 @@
+# S7schema (development version)
+
 # S7schema 0.1.2
 
 * Validation error messages now include the current value that failed validation (#63).

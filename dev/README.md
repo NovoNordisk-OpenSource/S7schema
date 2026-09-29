@@ -67,10 +67,26 @@ Read more in the [Using NPM packages in V8][v8-npm] vignette.
 
 [v8-npm]: https://cran.r-project.org/web/packages/V8/vignettes/npm.html
 
+### Automated rebuild via PR comment
+
+On an open PR, a maintainer (OWNER/MEMBER/COLLABORATOR) can trigger a rebuild
+by commenting `/rebuild-bundle`. The workflow
+(`.github/workflows/pr-rebuild-bundle.yml`) runs browserify on the PR head and
+commits the updated `inst/bundle.js` and `dev/package-lock.json` back to the
+branch in one commit. Only works on same-repo PRs.
+
+- If the branch moved during the build, the rebuild aborts. Comment
+  `/rebuild-bundle` again.
+- The bot commit does not trigger CI. Close and reopen the PR, or push an empty
+  commit, to run checks.
+- Give approvals after the rebuild commit. The ruleset requires approval of the
+  last push.
+- The workflow comments the result on the PR.
+
 ### License
 
-Only embed javascript modules that are compatiable with the license og S7schema
-(APACHE 2.0). Currently using the following modules and licenses:
+Only embed javascript modules that are compatible with the license of
+S7schema (APACHE 2.0). Currently using the following modules and licenses:
 
 | Package                           | License      |
 |:----------------------------------|:-------------|

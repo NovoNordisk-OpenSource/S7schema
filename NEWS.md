@@ -1,3 +1,7 @@
+# S7schema (development version)
+
+* Rebundled `inst/bundle.js` with updated JavaScript dependency `fast-uri` 3.1.5 → 3.1.7.
+
 # S7schema 0.1.2
 
 * Validation error messages now include the current value that failed validation (#63).

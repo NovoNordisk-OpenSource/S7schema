@@ -38,7 +38,7 @@ validate_list <- function(x, schema) {
 validate_list.list <- function(x, schema) {
   use_validator(
     validator = validator(schema = schema),
-    yaml_content = to_yaml(x)
+    data = yaml_round_trip(x)
   )
 
   invisible(x)
@@ -55,12 +55,11 @@ validate_yaml <- function(file, schema) {
 validate_yaml.character <- function(file, schema) {
   content <- file |>
     assert_file(ext = c("yml", "yaml")) |>
-    readLines(warn = FALSE) |>
-    paste(collapse = "\n")
+    yaml::read_yaml()
 
   use_validator(
     validator = validator(schema = schema),
-    yaml_content = content,
+    data = content,
     file = file
   )
 

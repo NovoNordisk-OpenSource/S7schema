@@ -79,3 +79,9 @@ as_yaml <- function(x) {
     )
   )
 }
+
+#' Data as R reads it back after writing it with `to_yaml()`
+#' @noRd
+yaml_round_trip <- function(x) {
+  yaml::yaml.load(to_yaml(x))
+}

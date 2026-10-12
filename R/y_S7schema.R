@@ -109,10 +109,18 @@ construct_S7schema <- function(file, schema, .data) {
     )
   }
 
-  assert_file(file = file, ext = c("yml", "yaml"))
-  validate_yaml(file, schema)
+  content <- file |>
+    assert_file(ext = c("yml", "yaml")) |>
+    yaml::read_yaml()
+
+  use_validator(
+    validator = validator(schema = schema),
+    data = content,
+    file = file
+  )
+
   S7::new_object(
-    .parent = yaml::read_yaml(file = file),
+    .parent = content,
     schema = schema,
     file = file
   )
@@ -122,7 +130,7 @@ construct_S7schema <- function(file, schema, .data) {
 validate_S7schema <- function(self) {
   use_validator(
     validator = self@validator,
-    yaml_content = to_yaml(self)
+    data = yaml_round_trip(self)
   )
 }
 

@@ -30,13 +30,13 @@ Depends:
     R (>= 4.1)
 Imports: 
     cli,
+    jsonlite,
     rlang,
     S7,
     tools,
     V8,
     yaml (>= 2.3.8)
 Suggests: 
-    jsonlite,
     knitr,
     purrr,
     rmarkdown,

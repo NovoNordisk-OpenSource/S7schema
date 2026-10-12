@@ -122,9 +122,10 @@ test_that("oneOf shows all sub-errors for invalid input", {
 })
 
 test_that("oneOf with $ref shows all sub-errors", {
+  # Two items, since R reads a one-item sequence back as a single value
   expect_error(
     validate_list(
-      x = list(value = list("ABC")),
+      x = list(value = list("abc", "ABC")),
       schema = test_path("schemas", "oneof_ref.json")
     ),
     regexp = "(?s)must be string.*must match pattern",

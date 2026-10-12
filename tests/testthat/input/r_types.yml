@@ -1,0 +1,13 @@
+---
+id: 0b101
+flag: yes
+date: 2025-08-06
+numbers:
+  - 1e3
+  - 0o17
+base: &base
+  a: 1
+  b: 2
+merged:
+  <<: *base
+  b: 99

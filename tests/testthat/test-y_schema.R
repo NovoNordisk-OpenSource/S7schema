@@ -85,3 +85,18 @@ test_that("validate() on modified S7schema still does not include file reference
   err <- expect_error(validate(x))
   expect_no_match(conditionMessage(err), "simple\\.yml")
 })
+
+test_that("S7schema content is the list read by yaml::read_yaml()", {
+  file <- test_path("input", "r_types.yml")
+
+  x <- S7schema(
+    file = file,
+    schema = test_path("schemas", "r_types.json")
+  ) |>
+    expect_no_condition()
+
+  expect_equal(S7::S7_data(x), yaml::read_yaml(file))
+
+  validate(x) |>
+    expect_no_condition()
+})

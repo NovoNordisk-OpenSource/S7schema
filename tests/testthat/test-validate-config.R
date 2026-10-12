@@ -172,3 +172,128 @@ test_that("merge keys are resolved as R's yaml reader resolves them", {
   ) |>
     expect_no_condition()
 })
+
+test_that("validate_yaml() validates the values read by yaml::read_yaml()", {
+  file <- test_path("input", "r_types.yml")
+  content <- yaml::read_yaml(file)
+
+  # yes is a boolean, the merge key wins, and date-like or number-like values
+  # are strings. See #70.
+  expect_true(content$flag)
+  expect_equal(content$merged$b, 2L)
+  expect_equal(content$date, "2025-08-06")
+  expect_equal(content$numbers, c("1e3", "0o17"))
+  expect_equal(content$id, "0b101")
+
+  validate_yaml(
+    file = file,
+    schema = test_path("schemas", "r_types.json")
+  ) |>
+    expect_no_condition()
+
+  # no is read as FALSE, and the error shows the R value
+  validate_yaml(
+    file = test_path("input", "no_string.yml"),
+    schema = test_path("schemas", "simple.json")
+  ) |>
+    expect_error("(?s)/id.* must be string.*current value: FALSE", perl = TRUE)
+})
+
+test_that("validate_list() validates the values R reads back", {
+  schema <- test_path("schemas", "simple.json")
+
+  # number-like strings stay strings
+  validate_list(x = list(id = "1e3"), schema = schema) |>
+    expect_no_condition()
+
+  validate_list(x = list(id = "0b101"), schema = schema) |>
+    expect_no_condition()
+
+  # dates are strings
+  validate_list(x = list(id = as.Date("2025-08-06")), schema = schema) |>
+    expect_no_condition()
+
+  # missing values are null
+  validate_list(x = list(id = NA_character_), schema = schema) |>
+    expect_error("/id.* must be string")
+
+  validate_list(x = list(id = NA), schema = schema) |>
+    expect_error("/id.* must be string")
+
+  # numbers keep 15 significant digits
+  validate_list(
+    x = list(pi = pi),
+    schema = test_path("schemas", "precision.json")
+  ) |>
+    expect_no_condition()
+})
+
+test_that("files, lists, and S7schema objects give the same result", {
+  passes <- function(expr) {
+    tryCatch(
+      expr = {
+        force(expr)
+        TRUE
+      },
+      error = \(e) FALSE
+    )
+  }
+
+  cases <- list(
+    list(file = "simple.yml", schema = "simple.json", valid = TRUE),
+    list(file = "simple_error.yml", schema = "simple.json", valid = FALSE),
+    list(file = "date_string.yml", schema = "simple.json", valid = TRUE),
+    list(file = "no_string.yml", schema = "simple.json", valid = FALSE),
+    list(file = "merge_key.yml", schema = "merge.json", valid = TRUE),
+    list(file = "r_types.yml", schema = "r_types.json", valid = TRUE)
+  )
+
+  for (case in cases) {
+    file <- test_path("input", case$file)
+    schema <- test_path("schemas", case$schema)
+
+    results <- c(
+      validate_yaml = passes(validate_yaml(file = file, schema = schema)),
+      validate_list = passes(validate_list(x = yaml::read_yaml(file), schema)),
+      S7schema = passes(S7schema(file = file, schema = schema))
+    )
+
+    expect_equal(
+      object = results,
+      expected = c(
+        validate_yaml = case$valid,
+        validate_list = case$valid,
+        S7schema = case$valid
+      ),
+      label = case$file
+    )
+  }
+})
+
+test_that("empty files and lists are validated as R reads them", {
+  # an empty file is read as NULL
+  validate_yaml(
+    file = test_path("input", "empty.yml"),
+    schema = test_path("schemas", "simple.json")
+  ) |>
+    expect_error("\\(root\\) must be object")
+
+  validate_yaml(
+    file = test_path("input", "empty.yml"),
+    schema = test_path("schemas", "nullable.json")
+  ) |>
+    expect_no_condition()
+
+  # a named empty list is an object, an unnamed empty list is an array
+  validate_list(
+    x = rlang::set_names(list(), character()),
+    schema = test_path("schemas", "simple.json")
+  ) |>
+    expect_no_condition()
+
+  validate_list(
+    x = list(),
+    schema = test_path("schemas", "simple.json")
+  ) |>
+    expect_error("\\(root\\) must be object")
+})

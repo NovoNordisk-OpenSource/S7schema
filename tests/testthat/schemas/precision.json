@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "title": "Precision example",
+  "description": "Schema for testing that numbers keep their precision",
+  "type": "object",
+  "properties": {
+    "pi": {
+      "type": "number",
+      "minimum": 3.1415926535,
+      "maximum": 3.1415926536
+    }
+  },
+  "additionalProperties": false
+}

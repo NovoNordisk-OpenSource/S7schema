@@ -19,6 +19,7 @@ function validateJson (validateFunc, jsonString) {
 }
 
 // Export functions for browserify bundle
-// Make them available globally for V8 R package
+// Make them available globally for the QuickJSR R package
+// (`global` is shimmed to `globalThis` in R/validator.R)
 global.createValidator = createValidator
 global.validateJson = validateJson

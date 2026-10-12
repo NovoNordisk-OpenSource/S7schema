@@ -21,7 +21,7 @@ construct_validator <- function(schema) {
   ctx$eval("var validator = createValidator(schema_str);")
 
   S7::new_object(
-    .parent = S7::S7_object(),
+    S7::S7_object(),
     context = ctx
   )
 }

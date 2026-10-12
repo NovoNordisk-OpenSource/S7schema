@@ -85,3 +85,10 @@ test_that("validate() on modified S7schema still does not include file reference
   err <- expect_error(validate(x))
   expect_no_match(conditionMessage(err), "simple\\.yml")
 })
+
+test_that("S7schema preserves the list parent", {
+  data <- list(id = "test")
+  x <- S7schema(.data = data, schema = test_path("schemas", "simple.json"))
+  expect_identical(S7::S7_data(x), data)
+  expect_identical(x$id, "test")
+})

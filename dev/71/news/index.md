@@ -1,0 +1,62 @@
+# Changelog
+
+## S7schema (development version)
+
+- Validation now checks the data R reads
+  ([\#70](https://github.com/NovoNordisk-OpenSource/S7schema/issues/70),
+  [\#67](https://github.com/NovoNordisk-OpenSource/S7schema/issues/67)).
+  YAML is parsed in R with
+  [`yaml::read_yaml()`](https://yaml.r-lib.org/reference/read_yaml.html)
+  for files, and `list` and `S7schema` objects are validated after a
+  round trip with
+  [`to_yaml()`](https://novonordisk-opensource.github.io/S7schema/reference/to_yaml.md).
+  This changes some validation results:
+  - `yes`/`no`/`on`/`off` in files are logical values.
+  - Merge keys (`<<: *anchor`) resolve as in R, where the merged value
+    wins over a later override.
+  - Strings such as `"1e3"`, `"0o17"`, and `"0b101"` stay strings, and
+    `Date` values are strings.
+  - `NA`, `Inf`, and `NaN` values are `null`. Allow `null` in the schema
+    for fields that may be missing.
+  - One-item sequences are read as single values. Use `oneOf` in the
+    schema for fields that can hold one or more values.
+  - The current value in error messages is the value read by R.
+- [`to_yaml()`](https://novonordisk-opensource.github.io/S7schema/reference/to_yaml.md)
+  and
+  [`write_config()`](https://novonordisk-opensource.github.io/S7schema/reference/write_config.md)
+  now write logical `NA` as `.na`, so R reads it back as `NA`.
+  Previously it was written as `NA`, which R read back as the string
+  `"NA"`. `Date` values are now written as ISO 8601 strings, and numbers
+  with `precision = 15` instead of 7 significant digits.
+- `js-yaml` is no longer bundled in `inst/bundle.js`, and `jsonlite` is
+  now a required dependency.
+
+## S7schema 0.1.2
+
+CRAN release: 2026-08-21
+
+- Validation error messages now include the current value that failed
+  validation
+  ([\#63](https://github.com/NovoNordisk-OpenSource/S7schema/issues/63)).
+- Now possible to create a
+  [`S7schema()`](https://novonordisk-opensource.github.io/S7schema/reference/S7schema.md)
+  object in memory using the new `.data` argument
+  ([\#62](https://github.com/NovoNordisk-OpenSource/S7schema/issues/62)).
+- Rebundled `inst/bundle.js` with updated JavaScript dependencies: `ajv`
+  8.17.1 → 8.18.0, `js-yaml` 4.1.0 → 4.3.1, and `fast-uri` → 3.1.5.
+
+## S7schema 0.1.1
+
+CRAN release: 2026-05-09
+
+- Fixed
+  [`write_config()`](https://novonordisk-opensource.github.io/S7schema/reference/write_config.md)
+  to use `NULL` as the default for the output path instead of `x@file`,
+  and renamed the `file` argument to `path`
+  ([\#48](https://github.com/NovoNordisk-OpenSource/S7schema/issues/48)).
+
+## S7schema 0.1.0
+
+CRAN release: 2026-03-13
+
+- Initial CRAN submission.

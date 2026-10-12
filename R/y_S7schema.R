@@ -19,7 +19,23 @@
 #' 4. Use values in downstream functions: `x$new_entry`
 #'
 #' @details
+#' The content is validated as R reads it: files are read with
+#' `yaml::read_yaml()`, and `list` or `S7schema` objects are converted with
+#' `to_yaml()` and read back before validation.
 #' See internal [validator()] documentation for more info on how the validation is done.
+#'
+#' R reads a YAML sequence with one item (`[a]`) as a single value (`"a"`).
+#' For fields that can hold one or more values, allow both forms in the schema
+#' with `oneOf`:
+#'
+#' ```json
+#' {
+#'   "oneOf": [
+#'     {"type": "string"},
+#'     {"type": "array", "items": {"type": "string"}}
+#'   ]
+#' }
+#' ```
 #'
 #' @param file `character(1)` path to a yaml file to be checked. Or `NULL` if created using `.data`.
 #' @param schema `character(1)` path to a JSON schema.

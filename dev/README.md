@@ -41,15 +41,17 @@ with the supplied JSON schema.
 
 ## Updating embedded javascript
 
-The `dev/entry.js` script uses the [ajv](https://ajv.js.org) and
-[js-yaml](https://www.npmjs.com/package/js-yaml) node packages to validate a
-yaml input against a [JSON-schema](https://json-schema.org) definition.
+The `dev/entry.js` script uses the [ajv](https://ajv.js.org) node package to
+validate a JSON input against a [JSON-schema](https://json-schema.org) definition.
+All YAML is parsed in R with the yaml package, and the resulting list is sent to
+the validator as JSON, so the validated data is exactly what R reads.
 
 It exports the following functions that are used inside the R functions using
 the V8 package:
 
 1. `createValidator()`: Compiles AJV validator from schema string
-2. `validateYaml()`: Validates YAML string using validator
+2. `validateJson()`: Parses a JSON string, validates it using the validator,
+   and returns the errors (or `null` if valid) as a JSON string
 
 The script is bundled and put into `inst/bundle.js` in order for us to get a
 single `.js` file that can be loaded in V8 and contains all dependencies.

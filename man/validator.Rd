@@ -14,20 +14,20 @@ New \code{validator} object
 }
 \description{
 Based on a JSON schema, \href{https://ajv.js.org}{ajv} is used to create a validator
-object in Javascript that can be used to check the content of a configuration.
+object in Javascript that can be used to check a configuration.
 This is done in a \code{\link[V8:v8]{V8::v8()}} context, and stored inside
 the \code{context} property of the the object.
 
 All YAML is parsed in R, so the validated data is exactly what R reads:
 \itemize{
 \item Files are read with \code{yaml::read_yaml()}.
-\item \code{list} and \code{S7schema} objects are converted with \code{to_yaml()} and read back
-with \code{yaml::yaml.load()}, so the validated data matches what \code{write_config()}
-writes.
+\item \code{list} and \code{S7schema} objects are converted with \code{to_yaml()} and read
+back with \code{yaml::yaml.load()}, so the validated data matches what
+\code{write_config()} writes.
 }
 
-The resulting \code{list} is converted to JSON with \code{jsonlite::toJSON()} and validated
-by ajv. The JavaScript side never parses YAML.
+The resulting \code{list} is converted to JSON with \code{jsonlite::toJSON()} and
+validated by ajv. The JavaScript side never parses YAML.
 
 See \href{https://json-schema.org}{json-schema.org} on how to specify a JSON schema.
 }

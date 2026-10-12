@@ -29,18 +29,18 @@ construct_validator <- function(schema) {
 #' Internal validator based on a JSON schema
 #' @description
 #' Based on a JSON schema, [ajv](https://ajv.js.org) is used to create a validator
-#' object in Javascript that can be used to check the content of a configuration.
+#' object in Javascript that can be used to check a configuration.
 #' This is done in a [V8::v8()] context, and stored inside
 #' the `context` property of the the object.
 #'
 #' All YAML is parsed in R, so the validated data is exactly what R reads:
 #' * Files are read with `yaml::read_yaml()`.
-#' * `list` and `S7schema` objects are converted with `to_yaml()` and read back
-#'   with `yaml::yaml.load()`, so the validated data matches what `write_config()`
-#'   writes.
+#' * `list` and `S7schema` objects are converted with `to_yaml()` and read
+#'   back with `yaml::yaml.load()`, so the validated data matches what
+#'   `write_config()` writes.
 #'
-#' The resulting `list` is converted to JSON with `jsonlite::toJSON()` and validated
-#' by ajv. The JavaScript side never parses YAML.
+#' The resulting `list` is converted to JSON with `jsonlite::toJSON()` and
+#' validated by ajv. The JavaScript side never parses YAML.
 #'
 #' See [json-schema.org](https://json-schema.org) on how to specify a JSON schema.
 #'

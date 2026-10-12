@@ -33,7 +33,22 @@ It is possible to either validate an existing \code{list} object in memory or an
 \code{yaml} configuration file.
 }
 \details{
+The content is validated as R reads it: files are read with
+\code{yaml::read_yaml()}, and \code{list} or \code{S7schema} objects are converted with
+\code{to_yaml()} and read back before validation.
 See internal \code{\link[=validator]{validator()}} documentation for more info on how the validation is done.
+
+R reads a YAML sequence with one item (\verb{[a]}) as a single value (\code{"a"}).
+For fields that can hold one or more values, allow both forms in the schema
+with \code{oneOf}:
+
+\if{html}{\out{<div class="sourceCode json">}}\preformatted{\{
+  "oneOf": [
+    \{"type": "string"\},
+    \{"type": "array", "items": \{"type": "string"\}\}
+  ]
+\}
+}\if{html}{\out{</div>}}
 }
 \examples{
 # Validate list object in memory

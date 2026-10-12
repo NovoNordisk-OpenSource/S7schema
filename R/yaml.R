@@ -6,8 +6,9 @@
 #'
 #' Underneath it is calling `yaml::as.yaml()` to do the conversion, but all `logical` values
 #' are converted to `true`/`false` instead of `yes`/`no` respectively for a more robust integration
-#' with other YAML parsers. `Date` values are written as ISO 8601 strings (`"2025-08-06"`), and
-#' numbers are written with `precision = 15` instead of the default 7 significant digits.
+#' with other YAML parsers.
+#' `Date` values are written as ISO 8601 strings (`"2025-08-06"`), and numbers
+#' are written with `precision = 15` instead of the default of 7.
 #'
 #' It is rarely relevant to call this function directly except for debugging purposes, or when
 #' implementing a new method for your own object class.
@@ -16,8 +17,9 @@
 #' `to_yaml()` dispatches based on the class of `x`. Register a new S7 method if you want to overwrite
 #' how your own class is converted to YAML. See `S7::method()` for more information.
 #'
-#' The default method uses `yaml::verbatim_logical()` to overwrite the default behavior
-#' of handling `logical` values (keeping `NA` as `.na`), and a handler for `Date` values:
+#' The default method uses `yaml::verbatim_logical()` to overwrite the default
+#' behavior of handling `logical` values (keeping `NA` as `.na`), and a handler
+#' for `Date` values:
 #'
 #' ```{r, include = FALSE}
 #' f <- tempfile()

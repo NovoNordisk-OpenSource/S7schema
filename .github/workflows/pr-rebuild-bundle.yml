@@ -7,10 +7,9 @@ on:
 permissions: {}
 
 jobs:
-  build:
+  resolve:
     permissions:
       pull-requests: write
-      contents: read
     if: >
       github.event.issue.pull_request &&
       (github.event.comment.body == '/rebuild-bundle' ||
@@ -54,10 +53,17 @@ jobs:
             core.setOutput('branch', pr.head.ref)
             core.setOutput('sha', pr.head.sha)
 
+  build:
+    needs: resolve
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Checkout PR branch
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ steps.pr.outputs.sha }}
+          ref: ${{ needs.resolve.outputs.sha }}
           persist-credentials: false
 
       - name: Setup Node
@@ -84,14 +90,14 @@ jobs:
           retention-days: 1
 
   commit:
-    needs: build
+    needs: [resolve, build]
     permissions:
       contents: write
       pull-requests: write
     runs-on: ubuntu-latest
     env:
-      BRANCH: ${{ needs.build.outputs.branch }}
-      BASE_SHA: ${{ needs.build.outputs.sha }}
+      BRANCH: ${{ needs.resolve.outputs.branch }}
+      BASE_SHA: ${{ needs.resolve.outputs.sha }}
       PR_NUMBER: ${{ github.event.issue.number }}
     steps:
       - name: Download build artifacts

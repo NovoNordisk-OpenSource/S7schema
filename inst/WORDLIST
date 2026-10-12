@@ -1,5 +1,4 @@
 Aksel
-argparse
 CRAN
 emph
 Evgeny
@@ -21,13 +20,10 @@ rmarkdown
 Roxygen
 Roxygenize
 seealso
-Strukchinsky
 subheaders
 Sweave
 testthat
 Thomsen
 tibble
 tidyr
-Vsevolod
 withr
-Zapparov

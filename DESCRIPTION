@@ -7,14 +7,8 @@ Authors@R: c(
     person("Novo Nordisk A/S", role = "cph"),
     person("Evgeny", "Poberezkin", role = "cph",
            comment = "Author of included ajv, fast-deep-equal, and json-schema-traverse libraries"),
-    person("Python Software Foundation", role = "cph",
-           comment = "Copyright holder of Python argparse (included argparse library is a JavaScript port)"),
-    person("Vladimir", "Zapparov", role = "cph",
-           comment = "Author of included js-yaml library"),
     person("Vincent", "Le Goff", role = "cph",
-           comment = "Author of included fast-uri library"),
-    person("Vsevolod", "Strukchinsky", role = "cph",
-           comment = "Author of included require-from-string library")
+           comment = "Author of included fast-uri library")
   )
 Description: Provides a generic framework for working with YAML (YAML
     Ain't Markup Language) configuration files. Uses 'ajv' (Another JSON

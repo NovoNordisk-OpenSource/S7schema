@@ -76,19 +76,16 @@ Only embed javascript modules that are compatiable with the license og S7schema
 | Package                           | License      |
 |:----------------------------------|:-------------|
 | node_modules/ajv                  | MIT          |
-| node_modules/argparse             | Python-2.0   |
 | node_modules/fast-deep-equal      | MIT          |
 | node_modules/fast-uri             | BSD-3-Clause |
-| node_modules/js-yaml              | MIT          |
 | node_modules/json-schema-traverse | MIT          |
-| node_modules/require-from-string  | MIT          |
 
 Following the advice in [R
 Packages](https://r-pkgs.org/license.html#sec-code-you-bundle) we include the
 individual licenses in `inst/licenses` folder, mention them in `LICENSE.note`
 and includer their authors as copyright holders in `DESCRIPTION`.
 
-We have assesded the three licenses used (MIT, Python-2.0 , and BSD-3-Clause)
+We have assesded the two licenses used (MIT and BSD-3-Clause)
 to be compatible with Apache 2.0, and therefore they can be bundled into this R
 package.
 

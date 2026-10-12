@@ -1,7 +1,12 @@
+ajv
+ajv’
 Aksel
+CMD
 CRAN
 emph
 Evgeny
+Javascript
+json
 jsonlite
 kable
 knitr
@@ -9,6 +14,7 @@ lintr
 multiarch
 nocov
 Nordisk
+parsers
 pkgdown
 Pkgdown
 Poberezkin
@@ -26,4 +32,7 @@ testthat
 Thomsen
 tibble
 tidyr
+validator
+Validator
 withr
+yaml

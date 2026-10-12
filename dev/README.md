@@ -54,12 +54,13 @@ the V8 package:
 The script is bundled and put into `inst/bundle.js` in order for us to get a
 single `.js` file that can be loaded in V8 and contains all dependencies.
 
-A new bundled script is created with [Browserify](https://browserify.org):
+A new bundled script is created with [Browserify](https://browserify.org),
+which is pinned as a devDependency in `dev/package.json`:
 
 ```bash
 cd dev
-npm install
-npx browserify entry.js -o ../inst/bundle.js
+npm ci --ignore-scripts
+npx --no --ignore-scripts browserify entry.js -o ../inst/bundle.js
 cd ..
 ```
 

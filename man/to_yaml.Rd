@@ -18,7 +18,8 @@ when using \code{write_config()} to save a configuration.
 
 Underneath it is calling \code{yaml::as.yaml()} to do the conversion, but all \code{logical} values
 are converted to \code{true}/\code{false} instead of \code{yes}/\code{no} respectively for a more robust integration
-with other YAML parsers.
+with other YAML parsers. \code{Date} values are written as ISO 8601 strings (\code{"2025-08-06"}), and
+numbers are written with \code{precision = 15} instead of the default 7 significant digits.
 
 It is rarely relevant to call this function directly except for debugging purposes, or when
 implementing a new method for your own object class.
@@ -27,14 +28,20 @@ implementing a new method for your own object class.
 \code{to_yaml()} dispatches based on the class of \code{x}. Register a new S7 method if you want to overwrite
 how your own class is converted to YAML. See \code{S7::method()} for more information.
 
-The default method just uses \code{yaml::verbatim_logical()} to overwrite the default behavior
-of handling \code{logical} values:
+The default method uses \code{yaml::verbatim_logical()} to overwrite the default behavior
+of handling \code{logical} values (keeping \code{NA} as \code{.na}), and a handler for \code{Date} values:
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{function(x) \{
   yaml::as.yaml(
     x = x,
+    precision = 15,
     handlers = list(
-      logical = yaml::verbatim_logical
+      logical = \\(x) \{
+        x <- yaml::verbatim_logical(x)
+        x[is.na(x)] <- ".na"
+        x
+      \},
+      Date = \\(x) format(x, "\%Y-\%m-\%d")
     )
   )
 \}

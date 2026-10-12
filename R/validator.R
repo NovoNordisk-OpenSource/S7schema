@@ -1,10 +1,11 @@
 #' Constructor function for the internal `validator` class
 #'
 #' Does the following before:
-#' 1. Create a local V8 context to ensure variables etc. are local to the schema
+#' 1. Create a local QuickJS context to ensure variables etc. are local to the
+#'    schema
 #' 2. Loads the bundled JavaScript file containing ajv and helper functions.
 #'    See /dev/README.md for how this is created
-#' 3. Creates a validator object inside the V8 context for later use
+#' 3. Creates a validator object inside the QuickJS context for later use
 #' 4. Returns the context
 #' @noRd
 construct_validator <- function(schema) {
@@ -13,12 +14,20 @@ construct_validator <- function(schema) {
     readLines(warn = FALSE) |>
     paste(collapse = "\n")
 
-  ctx <- V8::v8()
+  # ajv exceeds the 256 KB default stack limit of QuickJSR < 1.5.0.
+  # QuickJSR < 1.8.1 removes the limit when `stack_size` is set, and later
+  # versions use it as the limit (1 MB is their default).
+  ctx <- QuickJSR::JSContext$new(stack_size = 1024L * 1024L)
 
-  ctx$source(system.file("bundle.js", package = "S7schema"))
+  # browserify exports to `global`, which QuickJS does not define
+  ctx$source(code = "var global = globalThis;")
+  ctx$source(file = system.file("bundle.js", package = "S7schema"))
+  ctx$source(
+    code = "function assignString(name, value) { global[name] = value; }"
+  )
 
-  ctx$assign("schema_str", schema_content)
-  ctx$eval("var validator = createValidator(schema_str);")
+  js_assign(ctx = ctx, name = "schema_str", value = schema_content)
+  ctx$source(code = "var validator = createValidator(schema_str);")
 
   S7::new_object(
     .parent = S7::S7_object(),
@@ -30,7 +39,7 @@ construct_validator <- function(schema) {
 #' @description
 #' Based on a JSON schema, [ajv](https://ajv.js.org) is used to create a validator
 #' object in Javascript that can be used to check a configuration.
-#' This is done in a [V8::v8()] context, and stored inside
+#' This is done in a QuickJS context ([QuickJSR::JSContext]), and stored inside
 #' the `context` property of the the object.
 #'
 #' All YAML is parsed in R, so the validated data is what R reads:
@@ -54,13 +63,14 @@ construct_validator <- function(schema) {
 #' @returns New `validator` object
 #' @section Properties:
 #' \describe{
-#'   \item{context}{[V8::v8()] context with a validator object based on the schema}
+#'   \item{context}{[QuickJSR::JSContext] with a validator object based on
+#'     the schema}
 #' }
 #' @keywords internal
 validator <- S7::new_class(
   name = "validator",
   properties = list(
-    context = S7::new_S3_class("V8")
+    context = S7::new_S3_class("JSContext")
   ),
   constructor = construct_validator
 )
@@ -89,19 +99,20 @@ use_validator <- function(
   file = NULL,
   call = parent.frame()
 ) {
-  validator@context$assign(
+  js_assign(
+    ctx = validator@context,
     name = "json_str",
     value = to_json(data)
   )
 
-  validator@context$eval(
-    src = "var result = validateJson(validator, json_str);"
+  validator@context$source(
+    code = "var result = validateJson(validator, json_str);"
   )
 
-  result <- validator@context$get(
-    name = "result",
-    simplifyVector = FALSE
-  )
+  # validateJson() returns a JSON string: QuickJSR's `$get()` simplifies
+  # arrays to vectors and has no `simplifyVector` option
+  result <- validator@context$get(var_name = "result") |>
+    jsonlite::fromJSON(simplifyVector = FALSE)
 
   if (is.null(result$errors)) {
     return(invisible())
@@ -117,6 +128,15 @@ use_validator <- function(
   }
 
   cli::cli_abort(message = msg, call = call)
+}
+
+#' Assign a string to a global JavaScript variable in `ctx`.
+#' Uses `$call()`, because `$assign()` crashes for strings in
+#' QuickJSR 1.4.0 to 1.10.0. The string is passed as data, never as code.
+#' @noRd
+js_assign <- function(ctx, name, value) {
+  ctx$call("assignString", name, value)
+  invisible(ctx)
 }
 
 #' Convert data to a JSON string. `NULL` and `NA` become `null`,

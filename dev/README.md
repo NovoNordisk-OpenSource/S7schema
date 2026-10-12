@@ -51,7 +51,7 @@ the V8 package:
 
 1. `createValidator()`: Compiles AJV validator from schema string
 2. `validateJson()`: Parses a JSON string, validates it using the validator,
-   and returns an object with the errors (or `null` if valid)
+   and returns the errors (or `null` if valid) as a JSON string
 
 The script is bundled and put into `inst/bundle.js` in order for us to get a
 single `.js` file that can be loaded in V8 and contains all dependencies.

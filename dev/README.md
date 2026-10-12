@@ -47,14 +47,14 @@ All YAML is parsed in R with the yaml package, and the resulting list is sent to
 the validator as JSON, so the validated data is exactly what R reads.
 
 It exports the following functions that are used inside the R functions using
-the V8 package:
+the [QuickJSR](https://cran.r-project.org/package=QuickJSR) package:
 
 1. `createValidator()`: Compiles AJV validator from schema string
 2. `validateJson()`: Parses a JSON string, validates it using the validator,
    and returns the errors (or `null` if valid) as a JSON string
 
 The script is bundled and put into `inst/bundle.js` in order for us to get a
-single `.js` file that can be loaded in V8 and contains all dependencies.
+single `.js` file that can be loaded in QuickJS and contains all dependencies.
 
 A new bundled script is created with [Browserify](https://browserify.org),
 which is pinned as a devDependency in `dev/package.json`:
@@ -72,9 +72,10 @@ dependency, manually or in a Dependabot pull request, only changes
 the commands above in the same pull request, otherwise the package still
 ships the old version.
 
-Read more in the [Using NPM packages in V8][v8-npm] vignette.
-
-[v8-npm]: https://cran.r-project.org/web/packages/V8/vignettes/npm.html
+Browserify exports the functions to `global`, which QuickJS does not define.
+Before sourcing the bundle, `validator()` therefore runs
+`var global = globalThis;` in the context, so the bundle is used as is,
+without post-processing.
 
 ### License
 

@@ -15,6 +15,8 @@
   * Numbers are written with a precision of 15 instead of 7, so numbers with up to 16 significant digits are read back as the same value.
 * `validate_yaml()` and `S7schema()` no longer warn when a YAML file has no final newline.
 * `jsonlite` is now a required dependency, and `js-yaml` is no longer bundled.
+* Uses 'QuickJSR' instead of 'V8' as the JavaScript engine (#56).
+* Rebundled `inst/bundle.js` with `fast-uri` 3.1.8.
 
 # S7schema 0.1.2
 

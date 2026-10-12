@@ -10,6 +10,16 @@
 #' `Date` values are written as ISO 8601 strings (`"2025-08-06"`), and numbers
 #' are written with `precision = 15` instead of the default of 7.
 #'
+#' Missing values are written as:
+#' * logical `NA` as `.na`
+#' * `NA_character_` as `.na.character`
+#' * `NA_integer_` as `.na.integer`
+#' * `NA_real_` as `.na.real`
+#'
+#' R reads all of them back as `NA`, while other YAML parsers read them as
+#' strings. Previously logical `NA` was written as `NA`, which R read back as
+#' the string `"NA"`.
+#'
 #' It is rarely relevant to call this function directly except for debugging purposes, or when
 #' implementing a new method for your own object class.
 #'
@@ -18,8 +28,8 @@
 #' how your own class is converted to YAML. See `S7::method()` for more information.
 #'
 #' The default method uses `yaml::verbatim_logical()` to overwrite the default
-#' behavior of handling `logical` values (keeping `NA` as `.na`), and a handler
-#' for `Date` values:
+#' behavior of handling `logical` values, and a handler for `Date` values.
+#' The `logical` handler writes `NA` as `.na`, so it is read back as `NA`:
 #'
 #' ```{r, include = FALSE}
 #' f <- tempfile()
@@ -39,6 +49,10 @@
 #' @examples
 #' # Convert simple list to YAML
 #' to_yaml(list(hello = "world", is_today = TRUE)) |>
+#'   cat()
+#'
+#' # Missing logical values are written as .na
+#' to_yaml(list(a = NA, b = c(TRUE, NA))) |>
 #'   cat()
 #'
 #' # Convert S7schema object

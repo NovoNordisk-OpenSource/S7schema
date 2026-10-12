@@ -37,6 +37,13 @@
 #' }
 #' ```
 #'
+#' `NA`, `NaN`, and `Inf` values are validated as `null`. A field that may be
+#' missing must allow `null` in the schema:
+#'
+#' ```json
+#' {"type": ["string", "null"]}
+#' ```
+#'
 #' @param file `character(1)` path to a yaml file to be checked. Or `NULL` if created using `.data`.
 #' @param schema `character(1)` path to a JSON schema.
 #' @param .data `list()` input to create the object. Mutually exclusive with `file`.

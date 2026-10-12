@@ -49,6 +49,12 @@ with \code{oneOf}:
   ]
 \}
 }\if{html}{\out{</div>}}
+
+\code{NA}, \code{NaN}, and \code{Inf} values are validated as \code{null}. A field that may be
+missing must allow \code{null} in the schema:
+
+\if{html}{\out{<div class="sourceCode json">}}\preformatted{\{"type": ["string", "null"]\}
+}\if{html}{\out{</div>}}
 }
 \examples{
 # Validate list object in memory

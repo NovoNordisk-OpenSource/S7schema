@@ -1,6 +1,11 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema",
   "title": "Nullable example",
-  "description": "Schema for testing empty configurations",
-  "type": ["object", "null"]
+  "description": "Schema for testing empty configurations and missing values",
+  "type": ["object", "null"],
+  "properties": {
+    "id": {
+      "type": ["string", "null"]
+    }
+  }
 }

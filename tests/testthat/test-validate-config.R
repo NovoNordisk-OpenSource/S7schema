@@ -220,6 +220,18 @@ test_that("validate_list() validates the values R reads back", {
   validate_list(x = list(id = NA), schema = schema) |>
     expect_error("/id.* must be string")
 
+  validate_list(
+    x = list(id = NA),
+    schema = test_path("schemas", "nullable.json")
+  ) |>
+    expect_no_condition()
+
+  validate_list(
+    x = list(id = NA_character_),
+    schema = test_path("schemas", "nullable.json")
+  ) |>
+    expect_no_condition()
+
   # numbers keep 15 significant digits
   validate_list(
     x = list(pi = pi),

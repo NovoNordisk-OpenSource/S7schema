@@ -28,6 +28,7 @@ back with \code{yaml::yaml.load()}, so the validated data matches what
 
 The resulting \code{list} is converted to JSON with \code{jsonlite::toJSON()} and
 validated by ajv. The JavaScript side never parses YAML.
+\code{NA}, \code{NaN}, and \code{Inf} values become \code{null} in the JSON sent to ajv.
 
 See \href{https://json-schema.org}{json-schema.org} on how to specify a JSON schema.
 }

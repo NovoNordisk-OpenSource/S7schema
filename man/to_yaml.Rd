@@ -22,6 +22,18 @@ with other YAML parsers.
 \code{Date} values are written as ISO 8601 strings (\code{"2025-08-06"}), and numbers
 are written with \code{precision = 15} instead of the default of 7.
 
+Missing values are written as:
+\itemize{
+\item logical \code{NA} as \code{.na}
+\item \code{NA_character_} as \code{.na.character}
+\item \code{NA_integer_} as \code{.na.integer}
+\item \code{NA_real_} as \code{.na.real}
+}
+
+R reads all of them back as \code{NA}, while other YAML parsers read them as
+strings. Previously logical \code{NA} was written as \code{NA}, which R read back as
+the string \code{"NA"}.
+
 It is rarely relevant to call this function directly except for debugging purposes, or when
 implementing a new method for your own object class.
 }
@@ -30,8 +42,8 @@ implementing a new method for your own object class.
 how your own class is converted to YAML. See \code{S7::method()} for more information.
 
 The default method uses \code{yaml::verbatim_logical()} to overwrite the default
-behavior of handling \code{logical} values (keeping \code{NA} as \code{.na}), and a handler
-for \code{Date} values:
+behavior of handling \code{logical} values, and a handler for \code{Date} values.
+The \code{logical} handler writes \code{NA} as \code{.na}, so it is read back as \code{NA}:
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{function(x) \{
   yaml::as.yaml(
@@ -54,6 +66,10 @@ Copy this and add your own additional handlers when implementing a new method.
 \examples{
 # Convert simple list to YAML
 to_yaml(list(hello = "world", is_today = TRUE)) |>
+  cat()
+
+# Missing logical values are written as .na
+to_yaml(list(a = NA, b = c(TRUE, NA))) |>
   cat()
 
 # Convert S7schema object

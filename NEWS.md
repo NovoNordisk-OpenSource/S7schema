@@ -4,10 +4,10 @@
   * `yes`/`no`/`on`/`off` in files are logical values.
   * Merge keys (`<<: *anchor`) resolve as in R, where the merged value wins over a later override.
   * Strings such as `"1e3"`, `"0o17"`, and `"0b101"` stay strings, and `Date` values are strings.
-  * `NA`, `Inf`, and `NaN` values are `null`.
+  * `NA`, `Inf`, and `NaN` values are `null`. Allow `null` in the schema for fields that may be missing.
   * One-item sequences are read as single values. Use `oneOf` in the schema for fields that can hold one or more values.
   * The current value in error messages is the value read by R.
-* `to_yaml()` and `write_config()` now write `Date` values as ISO 8601 strings, logical `NA` as `.na`, and numbers with `precision = 15` instead of 7 significant digits.
+* `to_yaml()` and `write_config()` now write logical `NA` as `.na`, so R reads it back as `NA`. Previously it was written as `NA`, which R read back as the string `"NA"`. `Date` values are now written as ISO 8601 strings, and numbers with `precision = 15` instead of 7 significant digits.
 * `js-yaml` is no longer bundled in `inst/bundle.js`, and `jsonlite` is now a required dependency.
 
 # S7schema 0.1.2

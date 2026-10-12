@@ -21,6 +21,23 @@ test_that("logical NA is read back as NA", {
     expect_equal(list(a = NA, b = c(TRUE, NA)))
 })
 
+test_that("missing values are written with typed .na tags", {
+  x <- list(
+    l = NA,
+    c = NA_character_,
+    i = NA_integer_,
+    r = NA_real_
+  )
+
+  to_yaml(x) |>
+    expect_equal("l: .na\nc: .na.character\ni: .na.integer\nr: .na.real\n")
+
+  x |>
+    to_yaml() |>
+    yaml::yaml.load() |>
+    expect_identical(x)
+})
+
 test_that("dates are written as ISO 8601 strings", {
   to_yaml(as.Date("2025-08-06")) |>
     expect_equal("'2025-08-06'\n")

@@ -41,6 +41,7 @@ construct_validator <- function(schema) {
 #'
 #' The resulting `list` is converted to JSON with `jsonlite::toJSON()` and
 #' validated by ajv. The JavaScript side never parses YAML.
+#' `NA`, `NaN`, and `Inf` values become `null` in the JSON sent to ajv.
 #'
 #' See [json-schema.org](https://json-schema.org) on how to specify a JSON schema.
 #'

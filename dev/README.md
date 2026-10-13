@@ -72,8 +72,8 @@ Read more in the [Using NPM packages in V8][v8-npm] vignette.
 
 ### License
 
-Only embed javascript modules that are compatiable with the license og S7schema
-(APACHE 2.0). Currently using the following modules and licenses:
+Only embed javascript modules that are compatible with the license of
+S7schema (APACHE 2.0). Currently using the following modules and licenses:
 
 | Package                           | License      |
 |:----------------------------------|:-------------|
@@ -85,15 +85,15 @@ Only embed javascript modules that are compatiable with the license og S7schema
 Following the advice in [R
 Packages](https://r-pkgs.org/license.html#sec-code-you-bundle) we include the
 individual licenses in `inst/licenses` folder, mention them in `LICENSE.note`
-and includer their authors as copyright holders in `DESCRIPTION`.
+and include their authors as copyright holders in `DESCRIPTION`.
 
-We have assesded the two licenses used (MIT and BSD-3-Clause)
+We have assessed the two licenses used (MIT and BSD-3-Clause)
 to be compatible with Apache 2.0, and therefore they can be bundled into this R
 package.
 
 If new development introduces new packages or newer version, it is required to
-asses their license compatibility and update the files mentioned above as
-appropiate.
+assess their license compatibility and update the files mentioned above as
+appropriate.
 
 To copy each license you can run the bash script below to copy all
 individual licenses:

@@ -62,7 +62,7 @@ which is pinned as a devDependency in `dev/package.json`:
 ```bash
 cd dev
 npm ci --ignore-scripts
-npx --no --ignore-scripts browserify entry.js -o ../inst/bundle.js
+npx --no browserify entry.js -o ../inst/bundle.js
 cd ..
 ```
 

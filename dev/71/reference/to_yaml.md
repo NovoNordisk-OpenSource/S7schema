@@ -11,7 +11,9 @@ the conversion, but all `logical` values are converted to `true`/`false`
 instead of `yes`/`no` respectively for a more robust integration with
 other YAML parsers. `Date` values are written as ISO 8601 strings
 (`"2025-08-06"`), and numbers are written with `precision = 15` instead
-of the default of 7.
+of the default of 7. Numbers with up to 16 significant digits are read
+back as the same value, while numbers that need 17, e.g. `0.1 + 0.2`,
+are rounded.
 
 Missing values are written as:
 
@@ -107,7 +109,7 @@ print(x)
 #>  $ my_config_var: int 1
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x55cad89ce0d8> 
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x56441e87b1c8> 
 #>  @ file     : chr "/home/runner/work/_temp/Library/S7schema/examples/config.yml"
 
 to_yaml(x) |>

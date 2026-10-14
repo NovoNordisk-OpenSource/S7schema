@@ -94,6 +94,9 @@ with <code>oneOf</code>:</p>
 <p><code>NA</code>, <code>NaN</code>, and <code>Inf</code> values are validated as <code>null</code>. A field that may be
 missing must allow <code>null</code> in the schema:</p>
 <p></p><div class="sourceCode json"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">{</span><span class="dt">"type"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"string"</span><span class="ot">,</span> <span class="st">"null"</span><span class="ot">]</span><span class="fu">}</span></span></code></pre><p></p></div>
+<p>Numbers with up to 16 significant digits are validated exactly. Numbers that
+need 17, e.g. <code>0.1 + 0.2</code>, are validated exactly in files, but rounded in
+<code>list</code> and <code>S7schema</code> objects, as <code><a href="to_yaml.html">to_yaml()</a></code> writes them.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

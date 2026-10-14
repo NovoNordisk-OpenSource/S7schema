@@ -5,7 +5,9 @@ Underneath it is calling yaml::as.yaml() to do the conversion, but all logical v
 are converted to true/false instead of yes/no respectively for a more robust integration
 with other YAML parsers.
 Date values are written as ISO 8601 strings ("2025-08-06"), and numbers
-are written with precision = 15 instead of the default of 7.
+are written with precision = 15 instead of the default of 7. Numbers with
+up to 16 significant digits are read back as the same value, while numbers
+that need 17, e.g. 0.1 + 0.2, are rounded.
 Missing values are written as:
 logical NA as .na
 NA_character_ as .na.character
@@ -23,7 +25,9 @@ Underneath it is calling yaml::as.yaml() to do the conversion, but all logical v
 are converted to true/false instead of yes/no respectively for a more robust integration
 with other YAML parsers.
 Date values are written as ISO 8601 strings ("2025-08-06"), and numbers
-are written with precision = 15 instead of the default of 7.
+are written with precision = 15 instead of the default of 7. Numbers with
+up to 16 significant digits are read back as the same value, while numbers
+that need 17, e.g. 0.1 + 0.2, are rounded.
 Missing values are written as:
 logical NA as .na
 NA_character_ as .na.character
@@ -80,7 +84,9 @@ when using <code><a href="write_config.html">write_config()</a></code> to save a
 are converted to <code>true</code>/<code>false</code> instead of <code>yes</code>/<code>no</code> respectively for a more robust integration
 with other YAML parsers.
 <code>Date</code> values are written as ISO 8601 strings (<code>"2025-08-06"</code>), and numbers
-are written with <code>precision = 15</code> instead of the default of 7.</p>
+are written with <code>precision = 15</code> instead of the default of 7. Numbers with
+up to 16 significant digits are read back as the same value, while numbers
+that need 17, e.g. <code>0.1 + 0.2</code>, are rounded.</p>
 <p>Missing values are written as:</p><ul><li><p>logical <code>NA</code> as <code>.na</code></p></li>
 <li><p><code>NA_character_</code> as <code>.na.character</code></p></li>
 <li><p><code>NA_integer_</code> as <code>.na.integer</code></p></li>
@@ -160,7 +166,7 @@ The <code>logical</code> handler writes <code>NA</code> as <code>.na</code>, so 
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ my_config_var: int 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  @ validator: &lt;S7schema::validator&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  .. @ context:Classes 'V8', 'environment' &lt;environment: 0x55cad89ce0d8&gt; </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. @ context:Classes 'V8', 'environment' &lt;environment: 0x56441e87b1c8&gt; </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  @ file     : chr "/home/runner/work/_temp/Library/S7schema/examples/config.yml"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">to_yaml</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>

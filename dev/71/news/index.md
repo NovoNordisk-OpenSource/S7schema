@@ -21,15 +21,24 @@
   - One-item sequences are read as single values. Use `oneOf` in the
     schema for fields that can hold one or more values.
   - The current value in error messages is the value read by R.
+  - Numbers in files are validated exactly. Numbers in `list` and
+    `S7schema` objects are validated as
+    [`to_yaml()`](https://novonordisk-opensource.github.io/S7schema/reference/to_yaml.md)
+    writes them, which rounds numbers that need 17 significant digits.
 - [`to_yaml()`](https://novonordisk-opensource.github.io/S7schema/reference/to_yaml.md)
   and
   [`write_config()`](https://novonordisk-opensource.github.io/S7schema/reference/write_config.md)
   now write logical `NA` as `.na`, so R reads it back as `NA`.
   Previously it was written as `NA`, which R read back as the string
   `"NA"`. `Date` values are now written as ISO 8601 strings, and numbers
-  with `precision = 15` instead of 7 significant digits.
+  with `precision = 15` instead of 7, so numbers with up to 16
+  significant digits are read back as the same value.
 - `js-yaml` is no longer bundled in `inst/bundle.js`, and `jsonlite` is
   now a required dependency.
+- [`validate_yaml()`](https://novonordisk-opensource.github.io/S7schema/reference/validate_config.md)
+  and
+  [`S7schema()`](https://novonordisk-opensource.github.io/S7schema/reference/S7schema.md)
+  no longer warn when a YAML file has no final newline.
 
 ## S7schema 0.1.2
 

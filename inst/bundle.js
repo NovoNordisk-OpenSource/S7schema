@@ -15,9 +15,9 @@ function createValidator (schemaString) {
 function validateJson (validateFunc, jsonString) {
   const data = JSON.parse(jsonString)
   const valid = validateFunc(data)
-  return JSON.stringify({
+  return {
     errors: valid ? null : validateFunc.errors
-  })
+  }
 }
 
 // Export functions for browserify bundle

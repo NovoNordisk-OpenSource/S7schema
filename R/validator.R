@@ -93,8 +93,10 @@ use_validator <- function(
     src = "var result = validateJson(validator, json_str);"
   )
 
-  result <- validator@context$get(name = "result") |>
-    jsonlite::fromJSON(simplifyVector = FALSE)
+  result <- validator@context$get(
+    name = "result",
+    simplifyVector = FALSE
+  )
 
   if (is.null(result$errors)) {
     return(invisible())

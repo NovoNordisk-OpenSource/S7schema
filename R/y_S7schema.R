@@ -44,6 +44,9 @@
 #' {"type": ["string", "null"]}
 #' ```
 #'
+#' Numbers in files are validated as read. Numbers in `list` and `S7schema`
+#' objects are validated as written by `to_yaml()`, with 15 significant digits.
+#'
 #' @param file `character(1)` path to a yaml file to be checked. Or `NULL` if created using `.data`.
 #' @param schema `character(1)` path to a JSON schema.
 #' @param .data `list()` input to create the object. Mutually exclusive with `file`.

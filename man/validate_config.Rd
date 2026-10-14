@@ -55,6 +55,9 @@ missing must allow \code{null} in the schema:
 
 \if{html}{\out{<div class="sourceCode json">}}\preformatted{\{"type": ["string", "null"]\}
 }\if{html}{\out{</div>}}
+
+Numbers in files are validated as read. Numbers in \code{list} and \code{S7schema}
+objects are validated as written by \code{to_yaml()}, with 15 significant digits.
 }
 \examples{
 # Validate list object in memory

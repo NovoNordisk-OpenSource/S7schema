@@ -33,7 +33,7 @@ construct_validator <- function(schema) {
 #' This is done in a [V8::v8()] context, and stored inside
 #' the `context` property of the the object.
 #'
-#' All YAML is parsed in R, so the validated data is exactly what R reads:
+#' All YAML is parsed in R, so the validated data is what R reads:
 #' * Files are read with `yaml::read_yaml()`.
 #' * `list` and `S7schema` objects are converted with `to_yaml()` and read
 #'   back with `yaml::yaml.load()`, so the validated data matches what
@@ -42,6 +42,9 @@ construct_validator <- function(schema) {
 #' The resulting `list` is converted to JSON with `jsonlite::toJSON()` and
 #' validated by ajv. The JavaScript side never parses YAML.
 #' `NA`, `NaN`, and `Inf` values become `null` in the JSON sent to ajv.
+#' Numbers are sent with 17 significant digits. Since `to_yaml()` writes 15,
+#' numbers in `list` and `S7schema` objects are validated as `write_config()`
+#' writes them.
 #'
 #' See [json-schema.org](https://json-schema.org) on how to specify a JSON schema.
 #'
@@ -115,7 +118,7 @@ use_validator <- function(
 }
 
 #' Convert data to a JSON string. `NULL` and `NA` become `null`,
-#' and numbers keep full precision.
+#' and numbers keep 17 significant digits.
 #' @noRd
 to_json <- function(x) {
   jsonlite::toJSON(
@@ -123,7 +126,7 @@ to_json <- function(x) {
     auto_unbox = TRUE,
     null = "null",
     na = "null",
-    digits = NA
+    digits = I(17)
   ) |>
     as.character()
 }

@@ -132,15 +132,10 @@ construct_S7schema <- function(file, schema, .data) {
     )
   }
 
-  content <- file |>
-    assert_file(ext = c("yml", "yaml")) |>
-    yaml::read_yaml()
-
-  use_validator(
-    validator = validator(schema = schema),
-    data = content,
-    file = file
-  )
+  # Validate the file content here so errors reference the file and numbers
+  # are checked as read from the file. S7::new_object() validates the object
+  # again (round trip via to_yaml()) and cannot skip it.
+  content <- read_validated_yaml(file = file, schema = schema)
 
   S7::new_object(
     .parent = content,

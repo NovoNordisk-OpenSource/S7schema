@@ -53,6 +53,14 @@ validate_yaml <- function(file, schema) {
 
 #' @export
 validate_yaml.character <- function(file, schema) {
+  read_validated_yaml(file = file, schema = schema)
+
+  invisible(file)
+}
+
+#' Read a YAML file and validate its content against a JSON schema
+#' @noRd
+read_validated_yaml <- function(file, schema) {
   content <- file |>
     assert_file(ext = c("yml", "yaml")) |>
     yaml::read_yaml()
@@ -63,5 +71,5 @@ validate_yaml.character <- function(file, schema) {
     file = file
   )
 
-  invisible(file)
+  content
 }

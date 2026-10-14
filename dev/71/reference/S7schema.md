@@ -110,7 +110,7 @@ S7schema(
 #>  $ my_config_var: int 1
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x56441ae7b188> 
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x560312768778> 
 #>  @ file     : chr "/home/runner/work/_temp/Library/S7schema/examples/config.yml"
 
 # Create object in memory
@@ -122,6 +122,6 @@ S7schema(
 #>  $ my_config_var: num 6
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x5644186a3ce0> 
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x56030ff90f10> 
 #>  @ file     : NULL
 ```

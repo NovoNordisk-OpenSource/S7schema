@@ -15,9 +15,7 @@ test_that("logical is always converted to true/false", {
 })
 
 test_that("logical NA is read back as NA", {
-  list(a = NA, b = c(TRUE, NA)) |>
-    to_yaml() |>
-    yaml::yaml.load() |>
+  yaml_round_trip(list(a = NA, b = c(TRUE, NA))) |>
     expect_equal(list(a = NA, b = c(TRUE, NA)))
 })
 
@@ -32,9 +30,7 @@ test_that("missing values are written with typed .na tags", {
   to_yaml(x) |>
     expect_equal("l: .na\nc: .na.character\ni: .na.integer\nr: .na.real\n")
 
-  x |>
-    to_yaml() |>
-    yaml::yaml.load() |>
+  yaml_round_trip(x) |>
     expect_identical(x)
 })
 
@@ -42,9 +38,7 @@ test_that("dates are written as ISO 8601 strings", {
   to_yaml(as.Date("2025-08-06")) |>
     expect_equal("'2025-08-06'\n")
 
-  list(a = as.Date(c("2025-08-06", NA))) |>
-    to_yaml() |>
-    yaml::yaml.load() |>
+  yaml_round_trip(list(a = as.Date(c("2025-08-06", NA)))) |>
     expect_equal(list(a = c("2025-08-06", NA)))
 })
 
@@ -58,14 +52,10 @@ test_that("numbers with up to 16 significant digits are read back exactly", {
     1.111111111111111e15
   )
 
-  x |>
-    to_yaml() |>
-    yaml::yaml.load() |>
+  yaml_round_trip(x) |>
     expect_identical(x)
 
   # numbers that need 17 significant digits are rounded
-  (0.1 + 0.2) |>
-    to_yaml() |>
-    yaml::yaml.load() |>
+  yaml_round_trip(0.1 + 0.2) |>
     expect_identical(0.3)
 })

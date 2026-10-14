@@ -48,9 +48,24 @@ test_that("dates are written as ISO 8601 strings", {
     expect_equal(list(a = c("2025-08-06", NA)))
 })
 
-test_that("numbers keep 15 significant digits", {
-  pi |>
+test_that("numbers with up to 16 significant digits are read back exactly", {
+  x <- c(
+    0.1,
+    1.5,
+    123456.789,
+    1.234567890123456,
+    9.876543210987654e-10,
+    1.111111111111111e15
+  )
+
+  x |>
     to_yaml() |>
     yaml::yaml.load() |>
-    expect_equal(pi, tolerance = 1e-14)
+    expect_identical(x)
+
+  # numbers that need 17 significant digits are rounded
+  (0.1 + 0.2) |>
+    to_yaml() |>
+    yaml::yaml.load() |>
+    expect_identical(0.3)
 })

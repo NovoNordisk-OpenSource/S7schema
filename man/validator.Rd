@@ -29,9 +29,10 @@ back with \code{yaml::yaml.load()}, so the validated data matches what
 The resulting \code{list} is converted to JSON with \code{jsonlite::toJSON()} and
 validated by ajv. The JavaScript side never parses YAML.
 \code{NA}, \code{NaN}, and \code{Inf} values become \code{null} in the JSON sent to ajv.
-Numbers are sent with 17 significant digits. Since \code{to_yaml()} writes 15,
-numbers in \code{list} and \code{S7schema} objects are validated as \code{write_config()}
-writes them.
+Numbers are sent with 17 significant digits, so numbers from files are
+validated exactly. \code{list} and \code{S7schema} objects are validated as
+\code{write_config()} writes them, so numbers that need 17 significant digits
+(e.g. \code{0.1 + 0.2}) are rounded.
 
 See \href{https://json-schema.org}{json-schema.org} on how to specify a JSON schema.
 }

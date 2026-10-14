@@ -42,9 +42,10 @@ construct_validator <- function(schema) {
 #' The resulting `list` is converted to JSON with `jsonlite::toJSON()` and
 #' validated by ajv. The JavaScript side never parses YAML.
 #' `NA`, `NaN`, and `Inf` values become `null` in the JSON sent to ajv.
-#' Numbers are sent with 17 significant digits. Since `to_yaml()` writes 15,
-#' numbers in `list` and `S7schema` objects are validated as `write_config()`
-#' writes them.
+#' Numbers are sent with 17 significant digits, so numbers from files are
+#' validated exactly. `list` and `S7schema` objects are validated as
+#' `write_config()` writes them, so numbers that need 17 significant digits
+#' (e.g. `0.1 + 0.2`) are rounded.
 #'
 #' See [json-schema.org](https://json-schema.org) on how to specify a JSON schema.
 #'

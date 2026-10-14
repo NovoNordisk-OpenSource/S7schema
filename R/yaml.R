@@ -8,7 +8,9 @@
 #' are converted to `true`/`false` instead of `yes`/`no` respectively for a more robust integration
 #' with other YAML parsers.
 #' `Date` values are written as ISO 8601 strings (`"2025-08-06"`), and numbers
-#' are written with `precision = 15` instead of the default of 7.
+#' are written with `precision = 15` instead of the default of 7. Numbers with
+#' up to 16 significant digits are read back as the same value, while numbers
+#' that need 17, e.g. `0.1 + 0.2`, are rounded.
 #'
 #' Missing values are written as:
 #' * logical `NA` as `.na`

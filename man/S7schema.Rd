@@ -60,8 +60,9 @@ missing must allow \code{null} in the schema:
 \if{html}{\out{<div class="sourceCode json">}}\preformatted{\{"type": ["string", "null"]\}
 }\if{html}{\out{</div>}}
 
-Numbers in files are validated as read. Numbers in \code{list} and \code{S7schema}
-objects are validated as written by \code{to_yaml()}, with 15 significant digits.
+Numbers with up to 16 significant digits are validated exactly. Numbers that
+need 17, e.g. \code{0.1 + 0.2}, are validated exactly in files, but rounded in
+\code{list} and \code{S7schema} objects, as \code{to_yaml()} writes them.
 }
 \section{Properties}{
 

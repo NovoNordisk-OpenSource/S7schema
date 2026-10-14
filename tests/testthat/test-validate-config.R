@@ -242,7 +242,7 @@ test_that("validate_list() validates the values R reads back", {
   ) |>
     expect_no_condition()
 
-  # numbers keep 15 significant digits
+  # numbers with up to 16 significant digits keep their value
   validate_list(
     x = list(pi = pi),
     schema = test_path("schemas", "precision.json")
@@ -260,7 +260,8 @@ test_that("numbers in files keep 17 digits, lists are validated as written", {
   S7schema(file = file, schema = schema) |>
     expect_error("/v must be <= 0.3")
 
-  # lists are validated as to_yaml() writes them, with 15 significant digits
+  # lists are validated as to_yaml() writes them, which rounds numbers that
+  # need 17 significant digits
   validate_list(x = yaml::read_yaml(file), schema) |>
     expect_no_condition()
 })

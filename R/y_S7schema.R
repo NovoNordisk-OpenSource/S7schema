@@ -44,8 +44,9 @@
 #' {"type": ["string", "null"]}
 #' ```
 #'
-#' Numbers in files are validated as read. Numbers in `list` and `S7schema`
-#' objects are validated as written by `to_yaml()`, with 15 significant digits.
+#' Numbers with up to 16 significant digits are validated exactly. Numbers that
+#' need 17, e.g. `0.1 + 0.2`, are validated exactly in files, but rounded in
+#' `list` and `S7schema` objects, as `to_yaml()` writes them.
 #'
 #' @param file `character(1)` path to a yaml file to be checked. Or `NULL` if created using `.data`.
 #' @param schema `character(1)` path to a JSON schema.

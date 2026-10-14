@@ -9,6 +9,7 @@
   * The current value in error messages is the value read by R.
 * `to_yaml()` and `write_config()` now write logical `NA` as `.na`, so R reads it back as `NA`. Previously it was written as `NA`, which R read back as the string `"NA"`. `Date` values are now written as ISO 8601 strings, and numbers with `precision = 15` instead of 7 significant digits.
 * `js-yaml` is no longer bundled in `inst/bundle.js`, and `jsonlite` is now a required dependency.
+* `validate_yaml()` and `S7schema()` no longer warn when a YAML file has no final newline.
 
 # S7schema 0.1.2
 

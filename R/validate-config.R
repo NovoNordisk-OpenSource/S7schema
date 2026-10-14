@@ -63,7 +63,7 @@ validate_yaml.character <- function(file, schema) {
 read_validated_yaml <- function(file, schema) {
   content <- file |>
     assert_file(ext = c("yml", "yaml")) |>
-    yaml::read_yaml()
+    yaml::read_yaml(readLines.warn = FALSE)
 
   use_validator(
     validator = validator(schema = schema),

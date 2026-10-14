@@ -58,6 +58,16 @@ test_that("simple validation of yaml files works", {
     )
 })
 
+test_that("validate_yaml() does not warn when file has no final newline", {
+  f <- withr::local_tempfile(fileext = ".yml")
+  writeLines("id: abc", f, sep = "")
+
+  validate_yaml(
+    file = f,
+    schema = test_path("schemas", "simple.json")
+  ) |>
+    expect_no_condition()
+})
 
 test_that("validate_yaml includes file path in error messages", {
   expect_error(

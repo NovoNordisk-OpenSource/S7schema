@@ -100,3 +100,14 @@ test_that("S7schema content is the list read by yaml::read_yaml()", {
   validate(x) |>
     expect_no_condition()
 })
+
+test_that("S7schema does not warn when file has no final newline", {
+  f <- withr::local_tempfile(fileext = ".yml")
+  writeLines("id: abc", f, sep = "")
+
+  S7schema(
+    file = f,
+    schema = test_path("schemas", "simple.json")
+  ) |>
+    expect_no_condition()
+})

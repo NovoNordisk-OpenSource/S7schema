@@ -66,6 +66,12 @@ npx --no browserify entry.js -o ../inst/bundle.js
 cd ..
 ```
 
+Dependencies are pinned to exact versions in `dev/package.json`. Updating a
+dependency, manually or in a Dependabot pull request, only changes
+`dev/package.json` and `dev/package-lock.json`. Rebuild `inst/bundle.js` with
+the commands above in the same pull request, otherwise the package still
+ships the old version.
+
 Read more in the [Using NPM packages in V8][v8-npm] vignette.
 
 [v8-npm]: https://cran.r-project.org/web/packages/V8/vignettes/npm.html

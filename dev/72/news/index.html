@@ -38,20 +38,29 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="s7schema-development-version">S7schema (development version)<a class="anchor" aria-label="anchor" href="#s7schema-development-version"></a></h2>
-<ul><li>Validation now checks the data R reads (<a href="https://github.com/NovoNordisk-OpenSource/S7schema/issues/70" class="external-link">#70</a>, <a href="https://github.com/NovoNordisk-OpenSource/S7schema/issues/67" class="external-link">#67</a>). YAML is parsed in R with <code><a href="https://yaml.r-lib.org/reference/read_yaml.html" class="external-link">yaml::read_yaml()</a></code> for files, and <code>list</code> and <code>S7schema</code> objects are validated after a round trip with <code><a href="../reference/to_yaml.html">to_yaml()</a></code>. This changes some validation results:
-<ul><li>
-<code>yes</code>/<code>no</code>/<code>on</code>/<code>off</code> in files are logical values.</li>
-<li>Merge keys (<code>&lt;&lt;: *anchor</code>) resolve as in R, where the merged value wins over a later override.</li>
-<li>Strings such as <code>"1e3"</code>, <code>"0o17"</code>, and <code>"0b101"</code> stay strings, and <code>Date</code> values are strings.</li>
+<ul><li>Validation now checks the data that R reads (<a href="https://github.com/NovoNordisk-OpenSource/S7schema/issues/70" class="external-link">#70</a>, <a href="https://github.com/NovoNordisk-OpenSource/S7schema/issues/67" class="external-link">#67</a>). Files are validated as <code><a href="https://yaml.r-lib.org/reference/read_yaml.html" class="external-link">yaml::read_yaml()</a></code> reads them, and <code>list</code> and <code>S7schema</code> objects as <code><a href="../reference/write_config.html">write_config()</a></code> writes them and R reads them back. Previously the YAML was parsed again by a JavaScript parser, which could read values differently. This changes some validation results:
+<ul><li>Unquoted <code>yes</code>, <code>no</code>, <code>on</code>, and <code>off</code> are logical values.</li>
+<li>Unquoted dates such as <code>2025-08-06</code> and values such as <code>1e3</code>, <code>0o17</code>, and <code>0b101</code> are strings.</li>
+<li>Merge keys (<code>&lt;&lt;: *anchor</code>) resolve as in R: a key from the merged mapping wins over the same key set next to <code>&lt;&lt;</code>.</li>
+<li>One-item sequences such as <code>[a]</code> are single values. Use <code>oneOf</code> in the schema for fields that can hold one or more values.</li>
 <li>
-<code>NA</code>, <code>Inf</code>, and <code>NaN</code> values are <code>null</code>. Allow <code>null</code> in the schema for fields that may be missing.</li>
-<li>One-item sequences are read as single values. Use <code>oneOf</code> in the schema for fields that can hold one or more values.</li>
-<li>The current value in error messages is the value read by R.</li>
+<code>NA</code>, <code>NaN</code>, and <code>Inf</code> are validated as <code>null</code>. Allow <code>null</code> in the schema for fields that may be missing.</li>
+<li>
+<code>Date</code> values in <code>list</code> and <code>S7schema</code> objects are validated as strings.</li>
+<li>Numbers in files are validated exactly. Numbers in <code>list</code> and <code>S7schema</code> objects are validated as <code><a href="../reference/write_config.html">write_config()</a></code> writes them, which rounds numbers that need 17 significant digits, such as <code>0.1 + 0.2</code>.</li>
+<li>The current value in error messages is the value as R reads it.</li>
 </ul></li>
 <li>
-<code><a href="../reference/to_yaml.html">to_yaml()</a></code> and <code><a href="../reference/write_config.html">write_config()</a></code> now write logical <code>NA</code> as <code>.na</code>, so R reads it back as <code>NA</code>. Previously it was written as <code>NA</code>, which R read back as the string <code>"NA"</code>. <code>Date</code> values are now written as ISO 8601 strings, and numbers with <code>precision = 15</code> instead of 7 significant digits.</li>
+<code><a href="../reference/to_yaml.html">to_yaml()</a></code> and <code><a href="../reference/write_config.html">write_config()</a></code>:
+<ul><li>Logical <code>NA</code> is written as <code>.na</code>, so R reads it back as <code>NA</code>. Previously it was written as <code>NA</code>, which R read back as the string <code>"NA"</code>.</li>
 <li>
-<code>js-yaml</code> is no longer bundled in <code>inst/bundle.js</code>, and <code>jsonlite</code> is now a required dependency.</li>
+<code>Date</code> values are written as ISO 8601 strings (<code>2025-08-06</code>) instead of the number of days since 1970-01-01.</li>
+<li>Numbers are written with a precision of 15 instead of 7, so numbers with up to 16 significant digits are read back as the same value.</li>
+</ul></li>
+<li>
+<code><a href="../reference/validate_config.html">validate_yaml()</a></code> and <code><a href="../reference/S7schema.html">S7schema()</a></code> no longer warn when a YAML file has no final newline.</li>
+<li>
+<code>jsonlite</code> is now a required dependency, and <code>js-yaml</code> is no longer bundled.</li>
 <li>Uses ‘QuickJSR’ instead of ‘V8’ as the JavaScript engine (<a href="https://github.com/NovoNordisk-OpenSource/S7schema/issues/56" class="external-link">#56</a>).</li>
 <li>Rebundled <code>inst/bundle.js</code> with <code>fast-uri</code> 3.1.8.</li>
 </ul></div>

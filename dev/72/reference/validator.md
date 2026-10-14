@@ -6,7 +6,7 @@ configuration. This is done in a QuickJS context
 ([QuickJSR::JSContext](https://rdrr.io/pkg/QuickJSR/man/JSContext.html)),
 and stored inside the `context` property of the the object.
 
-All YAML is parsed in R, so the validated data is exactly what R reads:
+All YAML is parsed in R, so the validated data is what R reads:
 
 - Files are read with
   [`yaml::read_yaml()`](https://yaml.r-lib.org/reference/read_yaml.html).
@@ -22,7 +22,12 @@ All YAML is parsed in R, so the validated data is exactly what R reads:
 The resulting `list` is converted to JSON with
 [`jsonlite::toJSON()`](https://jeroen.r-universe.dev/jsonlite/reference/fromJSON.html)
 and validated by ajv. The JavaScript side never parses YAML. `NA`,
-`NaN`, and `Inf` values become `null` in the JSON sent to ajv.
+`NaN`, and `Inf` values become `null` in the JSON sent to ajv. Numbers
+are sent with 17 significant digits, so numbers from files are validated
+exactly. `list` and `S7schema` objects are validated as
+[`write_config()`](https://novonordisk-opensource.github.io/S7schema/reference/write_config.md)
+writes them, so numbers that need 17 significant digits (e.g.
+`0.1 + 0.2`) are rounded.
 
 See [json-schema.org](https://json-schema.org) on how to specify a JSON
 schema.

@@ -62,6 +62,12 @@ be missing must allow `null` in the schema:
 
     {"type": ["string", "null"]}
 
+Numbers with up to 16 significant digits are validated exactly. Numbers
+that need 17, e.g. `0.1 + 0.2`, are validated exactly in files, but
+rounded in `list` and `S7schema` objects, as
+[`to_yaml()`](https://novonordisk-opensource.github.io/S7schema/reference/to_yaml.md)
+writes them.
+
 ## See also
 
 [`S7schema()`](https://novonordisk-opensource.github.io/S7schema/reference/S7schema.md)

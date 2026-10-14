@@ -76,6 +76,12 @@ be missing must allow `null` in the schema:
 
     {"type": ["string", "null"]}
 
+Numbers with up to 16 significant digits are validated exactly. Numbers
+that need 17, e.g. `0.1 + 0.2`, are validated exactly in files, but
+rounded in `list` and `S7schema` objects, as
+[`to_yaml()`](https://novonordisk-opensource.github.io/S7schema/reference/to_yaml.md)
+writes them.
+
 ## Properties
 
 - schema:
@@ -105,7 +111,7 @@ S7schema(
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
 #>  .. @ context:List of 6
-#>  .. .. $ context :<pointer: 0x55f3b89dbf20> 
+#>  .. .. $ context :<pointer: 0x5624c20f08c0> 
 #>  .. .. $ validate:function (code_string)  
 #>  .. .. $ source  :function (file = NULL, code = NULL)  
 #>  .. .. $ call    :function (function_name, ...)  
@@ -124,7 +130,7 @@ S7schema(
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
 #>  .. @ context:List of 6
-#>  .. .. $ context :<pointer: 0x55f3b9080dc0> 
+#>  .. .. $ context :<pointer: 0x5624c1dec8d0> 
 #>  .. .. $ validate:function (code_string)  
 #>  .. .. $ source  :function (file = NULL, code = NULL)  
 #>  .. .. $ call    :function (function_name, ...)  

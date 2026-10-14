@@ -3,7 +3,7 @@
 object in Javascript that can be used to check a configuration.
 This is done in a QuickJS context (QuickJSR::JSContext), and stored inside
 the context property of the the object.
-All YAML is parsed in R, so the validated data is exactly what R reads:
+All YAML is parsed in R, so the validated data is what R reads:
 Files are read with yaml::read_yaml().
 list and S7schema objects are converted with to_yaml() and read
 back with yaml::yaml.load(), so the validated data matches what
@@ -13,11 +13,15 @@ write_config() writes.
 The resulting list is converted to JSON with jsonlite::toJSON() and
 validated by ajv. The JavaScript side never parses YAML.
 NA, NaN, and Inf values become null in the JSON sent to ajv.
+Numbers are sent with 17 significant digits, so numbers from files are
+validated exactly. list and S7schema objects are validated as
+write_config() writes them, so numbers that need 17 significant digits
+(e.g. 0.1 + 0.2) are rounded.
 See json-schema.org on how to specify a JSON schema."><meta property="og:description" content="Based on a JSON schema, ajv is used to create a validator
 object in Javascript that can be used to check a configuration.
 This is done in a QuickJS context (QuickJSR::JSContext), and stored inside
 the context property of the the object.
-All YAML is parsed in R, so the validated data is exactly what R reads:
+All YAML is parsed in R, so the validated data is what R reads:
 Files are read with yaml::read_yaml().
 list and S7schema objects are converted with to_yaml() and read
 back with yaml::yaml.load(), so the validated data matches what
@@ -27,6 +31,10 @@ write_config() writes.
 The resulting list is converted to JSON with jsonlite::toJSON() and
 validated by ajv. The JavaScript side never parses YAML.
 NA, NaN, and Inf values become null in the JSON sent to ajv.
+Numbers are sent with 17 significant digits, so numbers from files are
+validated exactly. list and S7schema objects are validated as
+write_config() writes them, so numbers that need 17 significant digits
+(e.g. 0.1 + 0.2) are rounded.
 See json-schema.org on how to specify a JSON schema."><meta property="og:image" content="https://novonordisk-opensource.github.io/S7schema/logo.png"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
@@ -70,13 +78,17 @@ See json-schema.org on how to specify a JSON schema."><meta property="og:image" 
 object in Javascript that can be used to check a configuration.
 This is done in a QuickJS context (<a href="https://rdrr.io/pkg/QuickJSR/man/JSContext.html" class="external-link">QuickJSR::JSContext</a>), and stored inside
 the <code>context</code> property of the the object.</p>
-<p>All YAML is parsed in R, so the validated data is exactly what R reads:</p><ul><li><p>Files are read with <code><a href="https://yaml.r-lib.org/reference/read_yaml.html" class="external-link">yaml::read_yaml()</a></code>.</p></li>
+<p>All YAML is parsed in R, so the validated data is what R reads:</p><ul><li><p>Files are read with <code><a href="https://yaml.r-lib.org/reference/read_yaml.html" class="external-link">yaml::read_yaml()</a></code>.</p></li>
 <li><p><code>list</code> and <code>S7schema</code> objects are converted with <code><a href="to_yaml.html">to_yaml()</a></code> and read
 back with <code><a href="https://yaml.r-lib.org/reference/yaml.load.html" class="external-link">yaml::yaml.load()</a></code>, so the validated data matches what
 <code><a href="write_config.html">write_config()</a></code> writes.</p></li>
 </ul><p>The resulting <code>list</code> is converted to JSON with <code><a href="https://jeroen.r-universe.dev/jsonlite/reference/fromJSON.html" class="external-link">jsonlite::toJSON()</a></code> and
 validated by ajv. The JavaScript side never parses YAML.
-<code>NA</code>, <code>NaN</code>, and <code>Inf</code> values become <code>null</code> in the JSON sent to ajv.</p>
+<code>NA</code>, <code>NaN</code>, and <code>Inf</code> values become <code>null</code> in the JSON sent to ajv.
+Numbers are sent with 17 significant digits, so numbers from files are
+validated exactly. <code>list</code> and <code>S7schema</code> objects are validated as
+<code><a href="write_config.html">write_config()</a></code> writes them, so numbers that need 17 significant digits
+(e.g. <code>0.1 + 0.2</code>) are rounded.</p>
 <p>See <a href="https://json-schema.org" class="external-link">json-schema.org</a> on how to specify a JSON schema.</p>
     </div>
 

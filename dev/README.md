@@ -50,7 +50,8 @@ It exports the following functions, which are called from R with `$call()` of
 the [QuickJSR](https://cran.r-project.org/package=QuickJSR) package:
 
 1. `createValidator()`: Compiles the AJV validator from a schema string and
-   stores it. Returns `null`, or the error message if the schema is invalid
+   stores it. Returns `undefined`, or the error message if the schema is
+   invalid
 2. `validateJson()`: Validates a JSON string with the stored validator, and
    returns the errors (or `null` if valid) as a JSON string
 

@@ -366,14 +366,22 @@ test_that("validation errors reference the called function", {
 
 test_that("invalid schemas give a clean error", {
   file <- test_path("input", "simple.yml")
+  invalid_json <- withr::local_tempfile(
+    fileext = ".json",
+    lines = c("{", '  "type": "object",', "}")
+  )
   cases <- list(
     list(
       schema = test_path("schemas", "invalid_type.json"),
       regexp = "(?s)invalid_type\\.json.*data/type must be equal to one of"
     ),
     list(
-      schema = test_path("schemas", "invalid_json.json"),
-      regexp = "(?s)invalid_json\\.json.*in JSON at position"
+      schema = invalid_json,
+      regexp = paste0(
+        "(?s)Invalid JSON schema.*\\Q",
+        basename(invalid_json),
+        "\\E"
+      )
     )
   )
 

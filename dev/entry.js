@@ -6,8 +6,9 @@ const ajv = new Ajv({ verbose: true })
 let validate
 
 // Compile and store AJV validator from schema string.
-// Returns null on success, or the error message if the schema is not valid
-// JSON or not a valid JSON schema.
+// Returns undefined on success (QuickJSR 1.3.1 converts null to a string, but
+// undefined to NULL), or the error message if the schema is not valid JSON or
+// not a valid JSON schema.
 function createValidator (schemaString) {
   try {
     const schema = JSON.parse(schemaString)
@@ -15,7 +16,6 @@ function createValidator (schemaString) {
   } catch (e) {
     return e.message
   }
-  return null
 }
 
 // Validate JSON string using the stored validator.

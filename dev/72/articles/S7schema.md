@@ -71,7 +71,7 @@ print(config)
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
 #>  .. @ context:List of 6
-#>  .. .. $ context :<pointer: 0x56388d5e0980> 
+#>  .. .. $ context :<pointer: 0x557cd7bbda00> 
 #>  .. .. $ validate:function (code_string)  
 #>  .. .. $ source  :function (file = NULL, code = NULL)  
 #>  .. .. $ call    :function (function_name, ...)  
@@ -112,7 +112,7 @@ print(config)
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
 #>  .. @ context:List of 6
-#>  .. .. $ context :<pointer: 0x56388d879200> 
+#>  .. .. $ context :<pointer: 0x557cd7d1c0b0> 
 #>  .. .. $ validate:function (code_string)  
 #>  .. .. $ source  :function (file = NULL, code = NULL)  
 #>  .. .. $ call    :function (function_name, ...)  

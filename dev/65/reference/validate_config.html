@@ -11,7 +11,7 @@ yaml configuration file."><meta property="og:image" content="https://novonordisk
 
     <a class="navbar-brand me-2" href="../index.html">S7schema</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -78,7 +78,26 @@ yaml configuration file."><meta property="og:image" content="https://novonordisk
 </ul></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>See internal <code><a href="validator.html">validator()</a></code> documentation for more info on how the validation is done.</p>
+    <p>The content is validated as R reads it: files are read with
+<code><a href="https://yaml.r-lib.org/reference/read_yaml.html" class="external-link">yaml::read_yaml()</a></code>, and <code>S7schema</code> objects are converted with <code><a href="to_yaml.html">to_yaml()</a></code>
+and read back before validation. <code>list</code> objects in <code>validate_list()</code> are
+validated as they are.
+See internal <code><a href="validator.html">validator()</a></code> documentation for more info on how the validation is done.</p>
+<p>In YAML files and <code>S7schema</code> objects, R reads a YAML sequence with one item
+(<code>[a]</code>) as a single value (<code>"a"</code>). For fields that can hold one or more
+values, allow both forms in the schema with <code>oneOf</code>:</p>
+<p></p><div class="sourceCode json"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  <span class="dt">"oneOf"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>    <span class="fu">{</span><span class="dt">"type"</span><span class="fu">:</span> <span class="st">"string"</span><span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>    <span class="fu">{</span><span class="dt">"type"</span><span class="fu">:</span> <span class="st">"array"</span><span class="fu">,</span> <span class="dt">"items"</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">"type"</span><span class="fu">:</span> <span class="st">"string"</span><span class="fu">}}</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>  <span class="ot">]</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="fu">}</span></span></code></pre><p></p></div>
+<p><code>NA</code>, <code>NaN</code>, and <code>Inf</code> values are validated as <code>null</code>. A field that may be
+missing must allow <code>null</code> in the schema:</p>
+<p></p><div class="sourceCode json"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">{</span><span class="dt">"type"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"string"</span><span class="ot">,</span> <span class="st">"null"</span><span class="ot">]</span><span class="fu">}</span></span></code></pre><p></p></div>
+<p>Numbers with up to 16 significant digits are validated exactly. Numbers that
+need 17, e.g. <code>0.1 + 0.2</code>, are validated exactly in files and lists, but
+rounded in <code>S7schema</code> objects, as <code><a href="to_yaml.html">to_yaml()</a></code> writes them.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

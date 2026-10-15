@@ -54,15 +54,17 @@ New `S7schema` object.
 
 The content is validated as R reads it: files are read with
 [`yaml::read_yaml()`](https://yaml.r-lib.org/reference/read_yaml.html),
-and `list` or `S7schema` objects are converted with
+and `S7schema` objects are converted with
 [`to_yaml()`](https://novonordisk-opensource.github.io/S7schema/reference/to_yaml.md)
-and read back before validation. See internal
+and read back before validation. `list` objects in
+[`validate_list()`](https://novonordisk-opensource.github.io/S7schema/reference/validate_config.md)
+are validated as they are. See internal
 [`validator()`](https://novonordisk-opensource.github.io/S7schema/reference/validator.md)
 documentation for more info on how the validation is done.
 
-R reads a YAML sequence with one item (`[a]`) as a single value (`"a"`).
-For fields that can hold one or more values, allow both forms in the
-schema with `oneOf`:
+In YAML files and `S7schema` objects, R reads a YAML sequence with one
+item (`[a]`) as a single value (`"a"`). For fields that can hold one or
+more values, allow both forms in the schema with `oneOf`:
 
     {
       "oneOf": [
@@ -77,8 +79,8 @@ be missing must allow `null` in the schema:
     {"type": ["string", "null"]}
 
 Numbers with up to 16 significant digits are validated exactly. Numbers
-that need 17, e.g. `0.1 + 0.2`, are validated exactly in files, but
-rounded in `list` and `S7schema` objects, as
+that need 17, e.g. `0.1 + 0.2`, are validated exactly in files and
+lists, but rounded in `S7schema` objects, as
 [`to_yaml()`](https://novonordisk-opensource.github.io/S7schema/reference/to_yaml.md)
 writes them.
 
@@ -110,7 +112,7 @@ S7schema(
 #>  $ my_config_var: int 1
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x55df9bda8778> 
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x5607df96a218> 
 #>  @ file     : chr "/home/runner/work/_temp/Library/S7schema/examples/config.yml"
 
 # Create object in memory
@@ -122,6 +124,6 @@ S7schema(
 #>  $ my_config_var: num 6
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x55df995d0df8> 
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x5607dd144b80> 
 #>  @ file     : NULL
 ```

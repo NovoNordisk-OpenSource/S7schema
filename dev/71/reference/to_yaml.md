@@ -1,7 +1,7 @@
 # Convert an R object to YAML
 
-This function is used internally when validating `list` or `S7schema`
-objects, and when using
+This function is used internally when validating `S7schema` objects, and
+when using
 [`write_config()`](https://novonordisk-opensource.github.io/S7schema/reference/write_config.md)
 to save a configuration.
 
@@ -109,7 +109,7 @@ print(x)
 #>  $ my_config_var: int 1
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x55df9f7a6f38> 
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x5607e3367cf8> 
 #>  @ file     : chr "/home/runner/work/_temp/Library/S7schema/examples/config.yml"
 
 to_yaml(x) |>

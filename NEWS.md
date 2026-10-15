@@ -1,7 +1,7 @@
 # S7schema (development version)
 
 * Validation now checks the data that R reads (#70, #67). Files are validated as `yaml::read_yaml()` reads them, `S7schema` objects as `write_config()` writes them and R reads them back, and `list` objects in `validate_list()` as they are. Previously the YAML was parsed again by a JavaScript parser, which could read values differently. This changes some validation results:
-  * Unquoted `yes`, `no`, `on`, and `off` are logical values.
+  * Unquoted `y`, `n`, `yes`, `no`, `on`, and `off` in lowercase, title case, or uppercase (e.g. `Yes`, `YES`) are logical values. This also applies to map keys: `y:` is read as the key `"TRUE"` and `n:` as `"FALSE"`. Quote them to keep them as strings.
   * Unquoted dates such as `2025-08-06` and values such as `1e3`, `0o17`, and `0b101` are strings.
   * Merge keys (`<<: *anchor`) resolve as in R: a key from the merged mapping wins over the same key set next to `<<`.
   * One-item sequences such as `[a]` in files and `S7schema` objects are single values. Use `oneOf` in the schema for fields that can hold one or more values.

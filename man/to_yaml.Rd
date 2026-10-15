@@ -13,7 +13,7 @@ to_yaml(x)
 \code{character(1)} YAML string.
 }
 \description{
-This function is used internally when validating \code{list} or \code{S7schema} objects, and
+This function is used internally when validating \code{S7schema} objects, and
 when using \code{write_config()} to save a configuration.
 
 Underneath it is calling \code{yaml::as.yaml()} to do the conversion, but all \code{logical} values

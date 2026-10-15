@@ -1,7 +1,7 @@
 #' Convert an R object to YAML
 #'
 #' @description
-#' This function is used internally when validating `list` or `S7schema` objects, and
+#' This function is used internally when validating `S7schema` objects, and
 #' when using `write_config()` to save a configuration.
 #'
 #' Underneath it is calling `yaml::as.yaml()` to do the conversion, but all `logical` values

@@ -21,16 +21,17 @@ the \code{context} property of the the object.
 All YAML is parsed in R, so the validated data is what R reads:
 \itemize{
 \item Files are read with \code{yaml::read_yaml()}.
-\item \code{list} and \code{S7schema} objects are converted with \code{to_yaml()} and read
-back with \code{yaml::yaml.load()}, so the validated data matches what
-\code{write_config()} writes.
+\item \code{S7schema} objects are converted with \code{to_yaml()} and read back with
+\code{yaml::yaml.load()}, so the validated data matches what \code{write_config()}
+writes.
+\item \code{list} objects in \code{validate_list()} are validated as they are.
 }
 
 The resulting \code{list} is converted to JSON with \code{jsonlite::toJSON()} and
 validated by ajv. The JavaScript side never parses YAML.
 \code{NA}, \code{NaN}, and \code{Inf} values become \code{null} in the JSON sent to ajv.
-Numbers are sent with 17 significant digits, so numbers from files are
-validated exactly. \code{list} and \code{S7schema} objects are validated as
+Numbers are sent with 17 significant digits, so numbers from files and
+lists are validated exactly. \code{S7schema} objects are validated as
 \code{write_config()} writes them, so numbers that need 17 significant digits
 (e.g. \code{0.1 + 0.2}) are rounded.
 

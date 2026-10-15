@@ -35,15 +35,16 @@ construct_validator <- function(schema) {
 #'
 #' All YAML is parsed in R, so the validated data is what R reads:
 #' * Files are read with `yaml::read_yaml()`.
-#' * `list` and `S7schema` objects are converted with `to_yaml()` and read
-#'   back with `yaml::yaml.load()`, so the validated data matches what
-#'   `write_config()` writes.
+#' * `S7schema` objects are converted with `to_yaml()` and read back with
+#'   `yaml::yaml.load()`, so the validated data matches what `write_config()`
+#'   writes.
+#' * `list` objects in `validate_list()` are validated as they are.
 #'
 #' The resulting `list` is converted to JSON with `jsonlite::toJSON()` and
 #' validated by ajv. The JavaScript side never parses YAML.
 #' `NA`, `NaN`, and `Inf` values become `null` in the JSON sent to ajv.
-#' Numbers are sent with 17 significant digits, so numbers from files are
-#' validated exactly. `list` and `S7schema` objects are validated as
+#' Numbers are sent with 17 significant digits, so numbers from files and
+#' lists are validated exactly. `S7schema` objects are validated as
 #' `write_config()` writes them, so numbers that need 17 significant digits
 #' (e.g. `0.1 + 0.2`) are rounded.
 #'

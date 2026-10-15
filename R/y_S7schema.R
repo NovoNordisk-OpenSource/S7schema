@@ -20,13 +20,14 @@
 #'
 #' @details
 #' The content is validated as R reads it: files are read with
-#' `yaml::read_yaml()`, and `list` or `S7schema` objects are converted with
-#' `to_yaml()` and read back before validation.
+#' `yaml::read_yaml()`, and `S7schema` objects are converted with `to_yaml()`
+#' and read back before validation. `list` objects in `validate_list()` are
+#' validated as they are.
 #' See internal [validator()] documentation for more info on how the validation is done.
 #'
-#' R reads a YAML sequence with one item (`[a]`) as a single value (`"a"`).
-#' For fields that can hold one or more values, allow both forms in the schema
-#' with `oneOf`:
+#' In YAML files and `S7schema` objects, R reads a YAML sequence with one item
+#' (`[a]`) as a single value (`"a"`). For fields that can hold one or more
+#' values, allow both forms in the schema with `oneOf`:
 #'
 #' ```json
 #' {
@@ -45,8 +46,8 @@
 #' ```
 #'
 #' Numbers with up to 16 significant digits are validated exactly. Numbers that
-#' need 17, e.g. `0.1 + 0.2`, are validated exactly in files, but rounded in
-#' `list` and `S7schema` objects, as `to_yaml()` writes them.
+#' need 17, e.g. `0.1 + 0.2`, are validated exactly in files and lists, but
+#' rounded in `S7schema` objects, as `to_yaml()` writes them.
 #'
 #' @param file `character(1)` path to a yaml file to be checked. Or `NULL` if created using `.data`.
 #' @param schema `character(1)` path to a JSON schema.

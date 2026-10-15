@@ -38,7 +38,7 @@ validate_list <- function(x, schema) {
 validate_list.list <- function(x, schema) {
   use_validator(
     validator = validator(schema = schema),
-    data = yaml_round_trip(x)
+    data = x
   )
 
   invisible(x)

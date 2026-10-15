@@ -132,7 +132,6 @@ test_that("oneOf shows all sub-errors for invalid input", {
 })
 
 test_that("oneOf with $ref shows all sub-errors", {
-  # Two items, since R reads a one-item sequence back as a single value
   expect_error(
     validate_list(
       x = list(value = list("abc", "ABC")),
@@ -209,7 +208,7 @@ test_that("validate_yaml() validates the values read by yaml::read_yaml()", {
     expect_error("(?s)/id.* must be string.*current value: FALSE", perl = TRUE)
 })
 
-test_that("validate_list() validates the values R reads back", {
+test_that("validate_list() validates R values as JSON values", {
   schema <- test_path("schemas", "simple.json")
 
   # number-like strings stay strings
@@ -250,7 +249,7 @@ test_that("validate_list() validates the values R reads back", {
     expect_no_condition()
 })
 
-test_that("numbers in files keep 17 digits, lists are validated as written", {
+test_that("numbers in files and lists keep 17 digits", {
   file <- test_path("input", "precision.yml")
   schema <- test_path("schemas", "maximum.json")
 
@@ -260,10 +259,28 @@ test_that("numbers in files keep 17 digits, lists are validated as written", {
   S7schema(file = file, schema = schema) |>
     expect_error("/v must be <= 0.3")
 
-  # lists are validated as to_yaml() writes them, which rounds numbers that
-  # need 17 significant digits
   validate_list(x = yaml::read_yaml(file), schema) |>
+    expect_error("/v must be <= 0.3")
+
+  # S7schema objects are validated as to_yaml() writes them, which rounds
+  # numbers that need 17 significant digits
+  S7schema(.data = yaml::read_yaml(file), schema = schema) |>
     expect_no_condition()
+})
+
+test_that("one-item lists are arrays in validate_list(), not in S7schema", {
+  schema <- test_path("schemas", "array.json")
+  x <- list(my_array = list("a"))
+
+  validate_list(x = x, schema = schema) |>
+    expect_no_condition()
+
+  # S7schema objects are validated as R reads them back from to_yaml()
+  S7schema(.data = x, schema = schema) |>
+    expect_error(
+      regexp = '(?s)/my_array.* must be array.*current value: "a"',
+      perl = TRUE
+    )
 })
 
 test_that("files, lists, and S7schema objects give the same result", {

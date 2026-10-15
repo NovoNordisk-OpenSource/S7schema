@@ -1,7 +1,7 @@
 # Convert an R object to YAML
 
-This function is used internally when validating `list` or `S7schema`
-objects, and when using
+This function is used internally when validating `S7schema` objects, and
+when using
 [`write_config()`](https://novonordisk-opensource.github.io/S7schema/reference/write_config.md)
 to save a configuration.
 
@@ -110,7 +110,7 @@ print(x)
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
 #>  .. @ context:List of 6
-#>  .. .. $ context :<pointer: 0x5624c2d56580> 
+#>  .. .. $ context :<pointer: 0x55e81004faa0> 
 #>  .. .. $ validate:function (code_string)  
 #>  .. .. $ source  :function (file = NULL, code = NULL)  
 #>  .. .. $ call    :function (function_name, ...)  

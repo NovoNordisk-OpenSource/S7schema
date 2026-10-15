@@ -11,7 +11,7 @@ All YAML is parsed in R, so the validated data is what R reads:
 - Files are read with
   [`yaml::read_yaml()`](https://yaml.r-lib.org/reference/read_yaml.html).
 
-- `list` and `S7schema` objects are converted with
+- `S7schema` objects are converted with
   [`to_yaml()`](https://novonordisk-opensource.github.io/S7schema/reference/to_yaml.md)
   and read back with
   [`yaml::yaml.load()`](https://yaml.r-lib.org/reference/yaml.load.html),
@@ -19,12 +19,16 @@ All YAML is parsed in R, so the validated data is what R reads:
   [`write_config()`](https://novonordisk-opensource.github.io/S7schema/reference/write_config.md)
   writes.
 
+- `list` objects in
+  [`validate_list()`](https://novonordisk-opensource.github.io/S7schema/reference/validate_config.md)
+  are validated as they are.
+
 The resulting `list` is converted to JSON with
 [`jsonlite::toJSON()`](https://jeroen.r-universe.dev/jsonlite/reference/fromJSON.html)
 and validated by ajv. The JavaScript side never parses YAML. `NA`,
 `NaN`, and `Inf` values become `null` in the JSON sent to ajv. Numbers
-are sent with 17 significant digits, so numbers from files are validated
-exactly. `list` and `S7schema` objects are validated as
+are sent with 17 significant digits, so numbers from files and lists are
+validated exactly. `S7schema` objects are validated as
 [`write_config()`](https://novonordisk-opensource.github.io/S7schema/reference/write_config.md)
 writes them, so numbers that need 17 significant digits (e.g.
 `0.1 + 0.2`) are rounded.

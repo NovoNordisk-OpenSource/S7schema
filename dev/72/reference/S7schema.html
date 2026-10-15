@@ -108,12 +108,13 @@ the below workflow:</p><ol><li><p>Read and validate config file: <code>x &lt;- S
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>The content is validated as R reads it: files are read with
-<code><a href="https://yaml.r-lib.org/reference/read_yaml.html" class="external-link">yaml::read_yaml()</a></code>, and <code>list</code> or <code>S7schema</code> objects are converted with
-<code><a href="to_yaml.html">to_yaml()</a></code> and read back before validation.
+<code><a href="https://yaml.r-lib.org/reference/read_yaml.html" class="external-link">yaml::read_yaml()</a></code>, and <code>S7schema</code> objects are converted with <code><a href="to_yaml.html">to_yaml()</a></code>
+and read back before validation. <code>list</code> objects in <code><a href="validate_config.html">validate_list()</a></code> are
+validated as they are.
 See internal <code><a href="validator.html">validator()</a></code> documentation for more info on how the validation is done.</p>
-<p>R reads a YAML sequence with one item (<code>[a]</code>) as a single value (<code>"a"</code>).
-For fields that can hold one or more values, allow both forms in the schema
-with <code>oneOf</code>:</p>
+<p>In YAML files and <code>S7schema</code> objects, R reads a YAML sequence with one item
+(<code>[a]</code>) as a single value (<code>"a"</code>). For fields that can hold one or more
+values, allow both forms in the schema with <code>oneOf</code>:</p>
 <p></p><div class="sourceCode json"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">{</span></span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  <span class="dt">"oneOf"</span><span class="fu">:</span> <span class="ot">[</span></span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>    <span class="fu">{</span><span class="dt">"type"</span><span class="fu">:</span> <span class="st">"string"</span><span class="fu">}</span><span class="ot">,</span></span>
@@ -124,8 +125,8 @@ with <code>oneOf</code>:</p>
 missing must allow <code>null</code> in the schema:</p>
 <p></p><div class="sourceCode json"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">{</span><span class="dt">"type"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"string"</span><span class="ot">,</span> <span class="st">"null"</span><span class="ot">]</span><span class="fu">}</span></span></code></pre><p></p></div>
 <p>Numbers with up to 16 significant digits are validated exactly. Numbers that
-need 17, e.g. <code>0.1 + 0.2</code>, are validated exactly in files, but rounded in
-<code>list</code> and <code>S7schema</code> objects, as <code><a href="to_yaml.html">to_yaml()</a></code> writes them.</p>
+need 17, e.g. <code>0.1 + 0.2</code>, are validated exactly in files and lists, but
+rounded in <code>S7schema</code> objects, as <code><a href="to_yaml.html">to_yaml()</a></code> writes them.</p>
     </div>
     <div class="section level2">
     <h2 id="properties">Properties<a class="anchor" aria-label="anchor" href="#properties"></a></h2>
@@ -155,7 +156,7 @@ need 17, e.g. <code>0.1 + 0.2</code>, are validated exactly in files, but rounde
 <span class="r-out co"><span class="r-pr">#&gt;</span>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  @ validator: &lt;S7schema::validator&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  .. @ context:List of 6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  .. .. $ context :&lt;pointer: 0x5624c20f08c0&gt; </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. .. $ context :&lt;pointer: 0x55e80f4b9040&gt; </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  .. .. $ validate:function (code_string)  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  .. .. $ source  :function (file = NULL, code = NULL)  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  .. .. $ call    :function (function_name, ...)  </span>
@@ -174,7 +175,7 @@ need 17, e.g. <code>0.1 + 0.2</code>, are validated exactly in files, but rounde
 <span class="r-out co"><span class="r-pr">#&gt;</span>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  @ validator: &lt;S7schema::validator&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  .. @ context:List of 6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  .. .. $ context :&lt;pointer: 0x5624c1dec8d0&gt; </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. .. $ context :&lt;pointer: 0x55e80f1a6120&gt; </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  .. .. $ validate:function (code_string)  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  .. .. $ source  :function (file = NULL, code = NULL)  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  .. .. $ call    :function (function_name, ...)  </span>

@@ -5,7 +5,7 @@
 #'    schema
 #' 2. Loads the bundled JavaScript file containing ajv and helper functions.
 #'    See /dev/README.md for how this is created
-#' 3. Creates a validator object inside the QuickJS context for later use
+#' 3. Compiles and stores a validator inside the QuickJS context for later use
 #' 4. Returns the context
 #' @noRd
 construct_validator <- function(schema) {
@@ -14,20 +14,10 @@ construct_validator <- function(schema) {
     readLines(warn = FALSE) |>
     paste(collapse = "\n")
 
-  # ajv exceeds the 256 KB default stack limit of QuickJSR < 1.5.0.
-  # QuickJSR < 1.8.1 removes the limit when `stack_size` is set, and later
-  # versions use it as the limit (1 MB is their default).
+  # ajv needs more than the 256 KB default stack of QuickJSR < 1.5.0
   ctx <- QuickJSR::JSContext$new(stack_size = 1024L * 1024L)
-
-  # browserify exports to `global`, which QuickJS does not define
-  ctx$source(code = "var global = globalThis;")
   ctx$source(file = system.file("bundle.js", package = "S7schema"))
-  ctx$source(
-    code = "function assignString(name, value) { global[name] = value; }"
-  )
-
-  js_assign(ctx = ctx, name = "schema_str", value = schema_content)
-  ctx$source(code = "var validator = createValidator(schema_str);")
+  ctx$call("createValidator", schema_content)
 
   S7::new_object(
     .parent = S7::S7_object(),
@@ -99,19 +89,9 @@ use_validator <- function(
   file = NULL,
   call = parent.frame()
 ) {
-  js_assign(
-    ctx = validator@context,
-    name = "json_str",
-    value = to_json(data)
-  )
-
-  validator@context$source(
-    code = "var result = validateJson(validator, json_str);"
-  )
-
-  # validateJson() returns a JSON string: QuickJSR's `$get()` simplifies
-  # arrays to vectors and has no `simplifyVector` option
-  result <- validator@context$get(var_name = "result") |>
+  # validateJson() returns a JSON string: QuickJSR simplifies arrays to
+  # vectors when converting to R
+  result <- validator@context$call("validateJson", to_json(data)) |>
     jsonlite::fromJSON(simplifyVector = FALSE)
 
   if (is.null(result$errors)) {
@@ -128,15 +108,6 @@ use_validator <- function(
   }
 
   cli::cli_abort(message = msg, call = call)
-}
-
-#' Assign a string to a global JavaScript variable in `ctx`.
-#' Uses `$call()`, because `$assign()` crashes for strings in
-#' QuickJSR 1.4.0 to 1.10.0. The string is passed as data, never as code.
-#' @noRd
-js_assign <- function(ctx, name, value) {
-  ctx$call("assignString", name, value)
-  invisible(ctx)
 }
 
 #' Convert data to a JSON string. `NULL` and `NA` become `null`,

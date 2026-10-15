@@ -1,32 +1,32 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
-(function (global){(function (){
 const Ajv = require('ajv')
 
 const ajv = new Ajv({ verbose: true })
 
-// Define createValidator function that compiles AJV validator from schema string
+// Compiled validator, set by createValidator()
+let validate
+
+// Compile and store AJV validator from schema string
 function createValidator (schemaString) {
   const schema = JSON.parse(schemaString)
-  return ajv.compile(schema)
+  validate = ajv.compile(schema)
 }
 
-// Define function to validate JSON string using validator.
+// Validate JSON string using the stored validator.
 // The data is parsed from YAML in R, so only JSON is handled here.
-function validateJson (validateFunc, jsonString) {
+// Returns the errors (or null if valid) as a JSON string.
+function validateJson (jsonString) {
   const data = JSON.parse(jsonString)
-  const valid = validateFunc(data)
+  const valid = validate(data)
   return JSON.stringify({
-    errors: valid ? null : validateFunc.errors
+    errors: valid ? null : validate.errors
   })
 }
 
-// Export functions for browserify bundle
-// Make them available globally for the QuickJSR R package
-// (`global` is shimmed to `globalThis` in R/validator.R)
-global.createValidator = createValidator
-global.validateJson = validateJson
+// Make functions available globally for the QuickJSR R package
+globalThis.createValidator = createValidator
+globalThis.validateJson = validateJson
 
-}).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"ajv":2}],2:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });

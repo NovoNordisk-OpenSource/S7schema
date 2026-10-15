@@ -2,24 +2,26 @@ const Ajv = require('ajv')
 
 const ajv = new Ajv({ verbose: true })
 
-// Define createValidator function that compiles AJV validator from schema string
+// Compiled validator, set by createValidator()
+let validate
+
+// Compile and store AJV validator from schema string
 function createValidator (schemaString) {
   const schema = JSON.parse(schemaString)
-  return ajv.compile(schema)
+  validate = ajv.compile(schema)
 }
 
-// Define function to validate JSON string using validator.
+// Validate JSON string using the stored validator.
 // The data is parsed from YAML in R, so only JSON is handled here.
-function validateJson (validateFunc, jsonString) {
+// Returns the errors (or null if valid) as a JSON string.
+function validateJson (jsonString) {
   const data = JSON.parse(jsonString)
-  const valid = validateFunc(data)
+  const valid = validate(data)
   return JSON.stringify({
-    errors: valid ? null : validateFunc.errors
+    errors: valid ? null : validate.errors
   })
 }
 
-// Export functions for browserify bundle
-// Make them available globally for the QuickJSR R package
-// (`global` is shimmed to `globalThis` in R/validator.R)
-global.createValidator = createValidator
-global.validateJson = validateJson
+// Make functions available globally for the QuickJSR R package
+globalThis.createValidator = createValidator
+globalThis.validateJson = validateJson

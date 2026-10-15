@@ -363,3 +363,47 @@ test_that("validation errors reference the called function", {
   e <- expect_error(S7schema(file = file, schema = schema))
   expect_identical(conditionCall(e)[[1]], quote(S7schema))
 })
+
+test_that("invalid schemas give a clean error", {
+  file <- test_path("input", "simple.yml")
+  cases <- list(
+    list(
+      schema = test_path("schemas", "invalid_type.json"),
+      regexp = "(?s)invalid_type\\.json.*data/type must be equal to one of"
+    ),
+    list(
+      schema = test_path("schemas", "invalid_json.json"),
+      regexp = "(?s)invalid_json\\.json.*in JSON at position"
+    )
+  )
+
+  for (case in cases) {
+    errors <- list(
+      validate_yaml = expect_error(
+        validate_yaml(file = file, schema = case$schema),
+        regexp = case$regexp,
+        perl = TRUE
+      ),
+      validate_list = expect_error(
+        validate_list(x = list(id = "a"), schema = case$schema),
+        regexp = case$regexp,
+        perl = TRUE
+      ),
+      S7schema = expect_error(
+        S7schema(file = file, schema = case$schema),
+        regexp = case$regexp,
+        perl = TRUE
+      )
+    )
+
+    for (name in names(errors)) {
+      msg <- conditionMessage(errors[[name]])
+      expect_no_match(msg, "JavaScript Exception", fixed = TRUE)
+      expect_no_match(msg, "    at ", fixed = TRUE)
+      expect_identical(conditionCall(errors[[name]])[[1]], as.name(name))
+    }
+  }
+
+  schema <- test_path("schemas", "invalid_type.json")
+  expect_snapshot(validate_yaml(file = file, schema = schema), error = TRUE)
+})

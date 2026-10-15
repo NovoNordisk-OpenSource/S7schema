@@ -5,10 +5,11 @@
 #'    schema
 #' 2. Loads the bundled JavaScript file containing ajv and helper functions.
 #'    See /dev/README.md for how this is created
-#' 3. Compiles and stores a validator inside the QuickJS context for later use
+#' 3. Compiles and stores a validator inside the QuickJS context for later use.
+#'    Aborts if the schema is not valid JSON or not a valid JSON schema
 #' 4. Returns the context
 #' @noRd
-construct_validator <- function(schema) {
+construct_validator <- function(schema, call = rlang::caller_env()) {
   schema_content <- schema |>
     assert_file(ext = "json") |>
     readLines(warn = FALSE) |>
@@ -17,7 +18,14 @@ construct_validator <- function(schema) {
   # ajv needs more than the 256 KB default stack of QuickJSR < 1.5.0
   ctx <- QuickJSR::JSContext$new(stack_size = 1024L * 1024L)
   ctx$source(file = system.file("bundle.js", package = "S7schema"))
-  ctx$call("createValidator", schema_content)
+  # createValidator() returns the error message if the schema is invalid
+  msg <- ctx$call("createValidator", schema_content)
+  if (!is.null(msg)) {
+    cli::cli_abort(
+      message = c("Invalid JSON schema {.file {schema}}", x = "{msg}"),
+      call = call
+    )
+  }
 
   S7::new_object(
     .parent = S7::S7_object(),
@@ -50,6 +58,8 @@ construct_validator <- function(schema) {
 #' See [json-schema.org](https://json-schema.org) on how to specify a JSON schema.
 #'
 #' @inheritParams S7schema
+#' @param call The execution environment shown in error messages if the
+#'   schema is invalid. See [rlang::abort()].
 #' @returns New `validator` object
 #' @section Properties:
 #' \describe{

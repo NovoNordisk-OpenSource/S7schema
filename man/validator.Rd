@@ -4,10 +4,13 @@
 \alias{validator}
 \title{Internal validator based on a JSON schema}
 \usage{
-validator(schema)
+validator(schema, call = rlang::caller_env())
 }
 \arguments{
 \item{schema}{\code{character(1)} path to a JSON schema.}
+
+\item{call}{The execution environment shown in error messages if the
+schema is invalid. See \code{\link[rlang:abort]{rlang::abort()}}.}
 }
 \value{
 New \code{validator} object

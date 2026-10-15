@@ -66,7 +66,7 @@ read_validated_yaml <- function(file, schema, call = rlang::caller_env()) {
     yaml::read_yaml(readLines.warn = FALSE)
 
   use_validator(
-    validator = validator(schema = schema),
+    validator = validator(schema = schema, call = call),
     data = content,
     file = file,
     call = call

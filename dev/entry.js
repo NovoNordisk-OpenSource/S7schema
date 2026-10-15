@@ -5,10 +5,17 @@ const ajv = new Ajv({ verbose: true })
 // Compiled validator, set by createValidator()
 let validate
 
-// Compile and store AJV validator from schema string
+// Compile and store AJV validator from schema string.
+// Returns null on success, or the error message if the schema is not valid
+// JSON or not a valid JSON schema.
 function createValidator (schemaString) {
-  const schema = JSON.parse(schemaString)
-  validate = ajv.compile(schema)
+  try {
+    const schema = JSON.parse(schemaString)
+    validate = ajv.compile(schema)
+  } catch (e) {
+    return e.message
+  }
+  return null
 }
 
 // Validate JSON string using the stored validator.

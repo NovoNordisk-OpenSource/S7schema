@@ -2,7 +2,7 @@
 #'
 #' Does the following before:
 #' 1. Create a local V8 context to ensure variables etc. are local to the schema
-#' 2. Loads the bundled JavaScript file containing ajv, yaml, and helper functions.
+#' 2. Loads the bundled JavaScript file containing ajv and helper functions.
 #'    See /dev/README.md for how this is created
 #' 3. Creates a validator object inside the V8 context for later use
 #' 4. Returns the context
@@ -29,9 +29,24 @@ construct_validator <- function(schema) {
 #' Internal validator based on a JSON schema
 #' @description
 #' Based on a JSON schema, [ajv](https://ajv.js.org) is used to create a validator
-#' object in Javascript that can be used to check an input yaml.
+#' object in Javascript that can be used to check a configuration.
 #' This is done in a [V8::v8()] context, and stored inside
 #' the `context` property of the the object.
+#'
+#' All YAML is parsed in R, so the validated data is what R reads:
+#' * Files are read with `yaml::read_yaml()`.
+#' * `S7schema` objects are converted with `to_yaml()` and read back with
+#'   `yaml::yaml.load()`, so the validated data matches what `write_config()`
+#'   writes.
+#' * `list` objects in `validate_list()` are validated as they are.
+#'
+#' The resulting `list` is converted to JSON with `jsonlite::toJSON()` and
+#' validated by ajv. The JavaScript side never parses YAML.
+#' `NA`, `NaN`, and `Inf` values become `null` in the JSON sent to ajv.
+#' Numbers are sent with 17 significant digits, so numbers from files and
+#' lists are validated exactly. `S7schema` objects are validated as
+#' `write_config()` writes them, so numbers that need 17 significant digits
+#' (e.g. `0.1 + 0.2`) are rounded.
 #'
 #' See [json-schema.org](https://json-schema.org) on how to specify a JSON schema.
 #'
@@ -70,17 +85,17 @@ fix_path <- function(path) {
 #' @noRd
 use_validator <- function(
   validator,
-  yaml_content,
+  data,
   file = NULL,
   call = parent.frame()
 ) {
   validator@context$assign(
-    name = "yaml_str",
-    value = yaml_content
+    name = "json_str",
+    value = to_json(data)
   )
 
   validator@context$eval(
-    src = "var result = validateYaml(validator, yaml_str);"
+    src = "var result = validateJson(validator, json_str);"
   )
 
   result <- validator@context$get(
@@ -102,6 +117,20 @@ use_validator <- function(
   }
 
   cli::cli_abort(message = msg, call = call)
+}
+
+#' Convert data to a JSON string. `NULL` and `NA` become `null`,
+#' and numbers keep 17 significant digits.
+#' @noRd
+to_json <- function(x) {
+  jsonlite::toJSON(
+    x = x,
+    auto_unbox = TRUE,
+    null = "null",
+    na = "null",
+    digits = I(17)
+  ) |>
+    as.character()
 }
 
 #' @noRd

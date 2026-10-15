@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "title": "Maximum example",
+  "description": "Schema for testing that numbers in files keep 17 significant digits",
+  "type": "object",
+  "properties": {
+    "v": {
+      "type": "number",
+      "maximum": 0.3
+    }
+  },
+  "additionalProperties": false
+}

@@ -13,12 +13,28 @@ to_yaml(x)
 \code{character(1)} YAML string.
 }
 \description{
-This function is used internally when validating \code{list} or \code{S7schema} objects, and
+This function is used internally when validating \code{S7schema} objects, and
 when using \code{write_config()} to save a configuration.
 
 Underneath it is calling \code{yaml::as.yaml()} to do the conversion, but all \code{logical} values
 are converted to \code{true}/\code{false} instead of \code{yes}/\code{no} respectively for a more robust integration
 with other YAML parsers.
+\code{Date} values are written as ISO 8601 strings (\code{"2025-08-06"}), and numbers
+are written with \code{precision = 15} instead of the default of 7. Numbers with
+up to 16 significant digits are read back as the same value, while numbers
+that need 17, e.g. \code{0.1 + 0.2}, are rounded.
+
+Missing values are written as:
+\itemize{
+\item logical \code{NA} as \code{.na}
+\item \code{NA_character_} as \code{.na.character}
+\item \code{NA_integer_} as \code{.na.integer}
+\item \code{NA_real_} as \code{.na.real}
+}
+
+R reads all of them back as \code{NA}, while other YAML parsers read them as
+strings. Previously logical \code{NA} was written as \code{NA}, which R read back as
+the string \code{"NA"}.
 
 It is rarely relevant to call this function directly except for debugging purposes, or when
 implementing a new method for your own object class.
@@ -27,14 +43,21 @@ implementing a new method for your own object class.
 \code{to_yaml()} dispatches based on the class of \code{x}. Register a new S7 method if you want to overwrite
 how your own class is converted to YAML. See \code{S7::method()} for more information.
 
-The default method just uses \code{yaml::verbatim_logical()} to overwrite the default behavior
-of handling \code{logical} values:
+The default method uses \code{yaml::verbatim_logical()} to overwrite the default
+behavior of handling \code{logical} values, and a handler for \code{Date} values.
+The \code{logical} handler writes \code{NA} as \code{.na}, so it is read back as \code{NA}:
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{function(x) \{
   yaml::as.yaml(
     x = x,
+    precision = 15,
     handlers = list(
-      logical = yaml::verbatim_logical
+      logical = \\(x) \{
+        x <- yaml::verbatim_logical(x)
+        x[is.na(x)] <- ".na"
+        x
+      \},
+      Date = \\(x) format(x, "\%Y-\%m-\%d")
     )
   )
 \}
@@ -45,6 +68,10 @@ Copy this and add your own additional handlers when implementing a new method.
 \examples{
 # Convert simple list to YAML
 to_yaml(list(hello = "world", is_today = TRUE)) |>
+  cat()
+
+# Missing logical values are written as .na
+to_yaml(list(a = NA, b = c(TRUE, NA))) |>
   cat()
 
 # Convert S7schema object

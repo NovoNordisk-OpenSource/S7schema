@@ -1,5 +1,4 @@
 const Ajv = require('ajv')
-const yaml = require('js-yaml')
 
 const ajv = new Ajv({ verbose: true })
 
@@ -9,9 +8,10 @@ function createValidator (schemaString) {
   return ajv.compile(schema)
 }
 
-// Define function to validate YAML string using validator
-function validateYaml (validateFunc, yamlString) {
-  const data = yaml.load(yamlString)
+// Define function to validate JSON string using validator.
+// The data is parsed from YAML in R, so only JSON is handled here.
+function validateJson (validateFunc, jsonString) {
+  const data = JSON.parse(jsonString)
   const valid = validateFunc(data)
   return {
     errors: valid ? null : validateFunc.errors
@@ -21,4 +21,4 @@ function validateYaml (validateFunc, yamlString) {
 // Export functions for browserify bundle
 // Make them available globally for V8 R package
 global.createValidator = createValidator
-global.validateYaml = validateYaml
+global.validateJson = validateJson

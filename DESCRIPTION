@@ -1,20 +1,14 @@
 Package: S7schema
 Title: 'S7' Framework for Schema-Validated YAML Configuration
-Version: 0.1.2
+Version: 0.1.2.9000
 Authors@R: c(
     person("Aksel", "Thomsen", , "oath@novonordisk.com", role = c("aut", "cre")),
     person("Matthew", "Phelps", , "mewp@novonordisk.com", role = "aut"),
     person("Novo Nordisk A/S", role = "cph"),
     person("Evgeny", "Poberezkin", role = "cph",
            comment = "Author of included ajv, fast-deep-equal, and json-schema-traverse libraries"),
-    person("Python Software Foundation", role = "cph",
-           comment = "Copyright holder of Python argparse (included argparse library is a JavaScript port)"),
-    person("Vladimir", "Zapparov", role = "cph",
-           comment = "Author of included js-yaml library"),
     person("Vincent", "Le Goff", role = "cph",
-           comment = "Author of included fast-uri library"),
-    person("Vsevolod", "Strukchinsky", role = "cph",
-           comment = "Author of included require-from-string library")
+           comment = "Author of included fast-uri library")
   )
 Description: Provides a generic framework for working with YAML (YAML
     Ain't Markup Language) configuration files. Uses 'ajv' (Another JSON
@@ -30,13 +24,13 @@ Depends:
     R (>= 4.1)
 Imports: 
     cli,
+    jsonlite,
     rlang,
     S7,
     tools,
     V8,
     yaml (>= 2.3.8)
 Suggests: 
-    jsonlite,
     knitr,
     purrr,
     rmarkdown,

@@ -41,27 +41,36 @@ with the supplied JSON schema.
 
 ## Updating embedded javascript
 
-The `dev/entry.js` script uses the [ajv](https://ajv.js.org) and
-[js-yaml](https://www.npmjs.com/package/js-yaml) node packages to validate a
-yaml input against a [JSON-schema](https://json-schema.org) definition.
+The `dev/entry.js` script uses the [ajv](https://ajv.js.org) node package to
+validate a JSON input against a [JSON-schema](https://json-schema.org) definition.
+All YAML is parsed in R with the yaml package, and the resulting list is sent to
+the validator as JSON, so the validated data is exactly what R reads.
 
 It exports the following functions that are used inside the R functions using
 the V8 package:
 
 1. `createValidator()`: Compiles AJV validator from schema string
-2. `validateYaml()`: Validates YAML string using validator
+2. `validateJson()`: Parses a JSON string, validates it using the validator,
+   and returns an object with the errors (or `null` if valid)
 
 The script is bundled and put into `inst/bundle.js` in order for us to get a
 single `.js` file that can be loaded in V8 and contains all dependencies.
 
-A new bundled script is created with [Browserify](https://browserify.org):
+A new bundled script is created with [Browserify](https://browserify.org),
+which is pinned as a devDependency in `dev/package.json`:
 
 ```bash
 cd dev
-npm install
-npx browserify entry.js -o ../inst/bundle.js
+npm ci --ignore-scripts
+npx --no browserify entry.js -o ../inst/bundle.js
 cd ..
 ```
+
+Dependencies are pinned to exact versions in `dev/package.json`. Updating a
+dependency, manually or in a Dependabot pull request, only changes
+`dev/package.json` and `dev/package-lock.json`. Rebuild `inst/bundle.js` with
+the commands above in the same pull request, otherwise the package still
+ships the old version.
 
 Read more in the [Using NPM packages in V8][v8-npm] vignette.
 
@@ -69,31 +78,28 @@ Read more in the [Using NPM packages in V8][v8-npm] vignette.
 
 ### License
 
-Only embed javascript modules that are compatiable with the license og S7schema
-(APACHE 2.0). Currently using the following modules and licenses:
+Only embed javascript modules that are compatible with the license of
+S7schema (APACHE 2.0). Currently using the following modules and licenses:
 
 | Package                           | License      |
 |:----------------------------------|:-------------|
 | node_modules/ajv                  | MIT          |
-| node_modules/argparse             | Python-2.0   |
 | node_modules/fast-deep-equal      | MIT          |
 | node_modules/fast-uri             | BSD-3-Clause |
-| node_modules/js-yaml              | MIT          |
 | node_modules/json-schema-traverse | MIT          |
-| node_modules/require-from-string  | MIT          |
 
 Following the advice in [R
 Packages](https://r-pkgs.org/license.html#sec-code-you-bundle) we include the
 individual licenses in `inst/licenses` folder, mention them in `LICENSE.note`
-and includer their authors as copyright holders in `DESCRIPTION`.
+and include their authors as copyright holders in `DESCRIPTION`.
 
-We have assesded the three licenses used (MIT, Python-2.0 , and BSD-3-Clause)
+We have assessed the two licenses used (MIT and BSD-3-Clause)
 to be compatible with Apache 2.0, and therefore they can be bundled into this R
 package.
 
 If new development introduces new packages or newer version, it is required to
-asses their license compatibility and update the files mentioned above as
-appropiate.
+assess their license compatibility and update the files mentioned above as
+appropriate.
 
 To copy each license you can run the bash script below to copy all
 individual licenses:

@@ -21,7 +21,7 @@ use in e.g. vignettes to provide easy readable documentation
 for users.
 }
 \examples{
-\dontshow{if (requireNamespace("jsonlite", quietly = TRUE) && requireNamespace("knitr", quietly = TRUE)) withAutoprint(\{ # examplesIf}
+\dontshow{if (requireNamespace("knitr", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 # Simple example schema
 system.file("examples/schema.json", package = "S7schema") |>
   document_schema(2) |>

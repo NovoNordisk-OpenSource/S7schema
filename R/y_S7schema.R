@@ -19,7 +19,35 @@
 #' 4. Use values in downstream functions: `x$new_entry`
 #'
 #' @details
+#' The content is validated as R reads it: files are read with
+#' `yaml::read_yaml()`, and `S7schema` objects are converted with `to_yaml()`
+#' and read back before validation. `list` objects in `validate_list()` are
+#' validated as they are.
 #' See internal [validator()] documentation for more info on how the validation is done.
+#'
+#' In YAML files and `S7schema` objects, R reads a YAML sequence with one item
+#' (`[a]`) as a single value (`"a"`). For fields that can hold one or more
+#' values, allow both forms in the schema with `oneOf`:
+#'
+#' ```json
+#' {
+#'   "oneOf": [
+#'     {"type": "string"},
+#'     {"type": "array", "items": {"type": "string"}}
+#'   ]
+#' }
+#' ```
+#'
+#' `NA`, `NaN`, and `Inf` values are validated as `null`. A field that may be
+#' missing must allow `null` in the schema:
+#'
+#' ```json
+#' {"type": ["string", "null"]}
+#' ```
+#'
+#' Numbers with up to 16 significant digits are validated exactly. Numbers that
+#' need 17, e.g. `0.1 + 0.2`, are validated exactly in files and lists, but
+#' rounded in `S7schema` objects, as `to_yaml()` writes them.
 #'
 #' @param file `character(1)` path to a yaml file to be checked. Or `NULL` if created using `.data`.
 #' @param schema `character(1)` path to a JSON schema.
@@ -109,10 +137,13 @@ construct_S7schema <- function(file, schema, .data) {
     )
   }
 
-  assert_file(file = file, ext = c("yml", "yaml"))
-  validate_yaml(file, schema)
+  # Validate the file content here so errors reference the file and numbers
+  # are checked as read from the file. S7::new_object() validates the object
+  # again (round trip via to_yaml()) and cannot skip it.
+  content <- read_validated_yaml(file = file, schema = schema)
+
   S7::new_object(
-    .parent = yaml::read_yaml(file = file),
+    .parent = content,
     schema = schema,
     file = file
   )
@@ -122,7 +153,7 @@ construct_S7schema <- function(file, schema, .data) {
 validate_S7schema <- function(self) {
   use_validator(
     validator = self@validator,
-    yaml_content = to_yaml(self)
+    data = yaml_round_trip(self)
   )
 }
 

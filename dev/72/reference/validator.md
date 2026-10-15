@@ -39,7 +39,7 @@ schema.
 ## Usage
 
 ``` r
-validator(schema)
+validator(schema, call = rlang::caller_env())
 ```
 
 ## Arguments
@@ -47,6 +47,12 @@ validator(schema)
 - schema:
 
   `character(1)` path to a JSON schema.
+
+- call:
+
+  The execution environment shown in error messages if the schema is
+  invalid. See
+  [`rlang::abort()`](https://rlang.r-lib.org/reference/abort.html).
 
 ## Value
 

@@ -335,3 +335,14 @@ test_that("empty files and lists are validated as R reads them", {
   ) |>
     expect_error("\\(root\\) must be object")
 })
+
+test_that("validation errors reference the called function", {
+  file <- test_path("input", "simple_error.yml")
+  schema <- test_path("schemas", "simple.json")
+
+  e <- expect_error(validate_yaml(file = file, schema = schema))
+  expect_identical(conditionCall(e)[[1]], quote(validate_yaml))
+
+  e <- expect_error(S7schema(file = file, schema = schema))
+  expect_identical(conditionCall(e)[[1]], quote(S7schema))
+})

@@ -52,9 +52,37 @@ New `S7schema` object.
 
 ## Details
 
-See internal
+The content is validated as R reads it: files are read with
+[`yaml::read_yaml()`](https://yaml.r-lib.org/reference/read_yaml.html),
+and `S7schema` objects are converted with
+[`to_yaml()`](https://novonordisk-opensource.github.io/S7schema/reference/to_yaml.md)
+and read back before validation. `list` objects in
+[`validate_list()`](https://novonordisk-opensource.github.io/S7schema/reference/validate_config.md)
+are validated as they are. See internal
 [`validator()`](https://novonordisk-opensource.github.io/S7schema/reference/validator.md)
 documentation for more info on how the validation is done.
+
+In YAML files and `S7schema` objects, R reads a YAML sequence with one
+item (`[a]`) as a single value (`"a"`). For fields that can hold one or
+more values, allow both forms in the schema with `oneOf`:
+
+    {
+      "oneOf": [
+        {"type": "string"},
+        {"type": "array", "items": {"type": "string"}}
+      ]
+    }
+
+`NA`, `NaN`, and `Inf` values are validated as `null`. A field that may
+be missing must allow `null` in the schema:
+
+    {"type": ["string", "null"]}
+
+Numbers with up to 16 significant digits are validated exactly. Numbers
+that need 17, e.g. `0.1 + 0.2`, are validated exactly in files and
+lists, but rounded in `S7schema` objects, as
+[`to_yaml()`](https://novonordisk-opensource.github.io/S7schema/reference/to_yaml.md)
+writes them.
 
 ## Properties
 
@@ -84,7 +112,7 @@ S7schema(
 #>  $ my_config_var: int 1
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x563b88998e40> 
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x55d20e4e8660> 
 #>  @ file     : chr "/home/runner/work/_temp/Library/S7schema/examples/config.yml"
 
 # Create object in memory
@@ -96,6 +124,6 @@ S7schema(
 #>  $ my_config_var: num 6
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x563b88b86b30> 
+#>  .. @ context:Classes 'V8', 'environment' <environment: 0x55d20bcf2720> 
 #>  @ file     : NULL
 ```

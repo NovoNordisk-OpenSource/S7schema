@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">S7schema</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2.9001</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,6 +61,8 @@
 <code><a href="../reference/validate_config.html">validate_yaml()</a></code> and <code><a href="../reference/S7schema.html">S7schema()</a></code> no longer warn when a YAML file has no final newline.</li>
 <li>
 <code>jsonlite</code> is now a required dependency, and <code>js-yaml</code> is no longer bundled.</li>
+<li>Uses ‘QuickJSR’ instead of ‘V8’ to run ‘ajv’, so the ‘V8’ system library is no longer needed (<a href="https://github.com/NovoNordisk-OpenSource/S7schema/issues/56" class="external-link">#56</a>). The bundled <code>fast-uri</code> is updated to 3.1.8, which has security fixes.</li>
+<li>An invalid JSON schema now gives a short error with the schema file and the reason, instead of a JavaScript stack trace.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.2" id="s7schema-012">S7schema 0.1.2<a class="anchor" aria-label="anchor" href="#s7schema-012"></a></h2><p class="text-muted">CRAN release: 2026-08-21</p>

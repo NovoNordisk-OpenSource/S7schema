@@ -112,7 +112,14 @@ S7schema(
 #>  $ my_config_var: int 1
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x55d20e4e8660> 
+#>  .. @ context:List of 6
+#>  .. .. $ context :<pointer: 0x5576e134c800> 
+#>  .. .. $ validate:function (code_string)  
+#>  .. .. $ source  :function (file = NULL, code = NULL)  
+#>  .. .. $ call    :function (function_name, ...)  
+#>  .. .. $ get     :function (var_name)  
+#>  .. .. $ assign  :function (var_name, value)  
+#>  .. .. - attr(*, "class")= chr "JSContext"
 #>  @ file     : chr "/home/runner/work/_temp/Library/S7schema/examples/config.yml"
 
 # Create object in memory
@@ -124,6 +131,13 @@ S7schema(
 #>  $ my_config_var: num 6
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x55d20bcf2720> 
+#>  .. @ context:List of 6
+#>  .. .. $ context :<pointer: 0x5576e1102430> 
+#>  .. .. $ validate:function (code_string)  
+#>  .. .. $ source  :function (file = NULL, code = NULL)  
+#>  .. .. $ call    :function (function_name, ...)  
+#>  .. .. $ get     :function (var_name)  
+#>  .. .. $ assign  :function (var_name, value)  
+#>  .. .. - attr(*, "class")= chr "JSContext"
 #>  @ file     : NULL
 ```

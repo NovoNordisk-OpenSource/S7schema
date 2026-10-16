@@ -76,7 +76,14 @@ print(x)
 #>  $ my_config_var: int 1
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
-#>  .. @ context:Classes 'V8', 'environment' <environment: 0x559f2a80f3d0> 
+#>  .. @ context:List of 6
+#>  .. .. $ context :<pointer: 0x5641d9f2d0d0> 
+#>  .. .. $ validate:function (code_string)  
+#>  .. .. $ source  :function (file = NULL, code = NULL)  
+#>  .. .. $ call    :function (function_name, ...)  
+#>  .. .. $ get     :function (var_name)  
+#>  .. .. $ assign  :function (var_name, value)  
+#>  .. .. - attr(*, "class")= chr "JSContext"
 #>  @ file     : chr "/home/runner/work/_temp/Library/S7schema/examples/config.yml"
 ```
 

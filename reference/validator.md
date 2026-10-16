@@ -2,9 +2,9 @@
 
 Based on a JSON schema, [ajv](https://ajv.js.org) is used to create a
 validator object in Javascript that can be used to check a
-configuration. This is done in a
-[`V8::v8()`](https://jeroen.r-universe.dev/V8/reference/V8.html)
-context, and stored inside the `context` property of the the object.
+configuration. This is done in a QuickJS context
+([QuickJSR::JSContext](https://rdrr.io/pkg/QuickJSR/man/JSContext.html)),
+and stored inside the `context` property of the the object.
 
 All YAML is parsed in R, so the validated data is what R reads:
 
@@ -39,7 +39,7 @@ schema.
 ## Usage
 
 ``` r
-validator(schema)
+validator(schema, call = rlang::caller_env())
 ```
 
 ## Arguments
@@ -47,6 +47,12 @@ validator(schema)
 - schema:
 
   `character(1)` path to a JSON schema.
+
+- call:
+
+  The execution environment shown in error messages if the schema is
+  invalid. See
+  [`rlang::abort()`](https://rlang.r-lib.org/reference/abort.html).
 
 ## Value
 
@@ -56,5 +62,5 @@ New `validator` object
 
 - context:
 
-  [`V8::v8()`](https://jeroen.r-universe.dev/V8/reference/V8.html)
-  context with a validator object based on the schema
+  [QuickJSR::JSContext](https://rdrr.io/pkg/QuickJSR/man/JSContext.html)
+  with a validator object based on the schema

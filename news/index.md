@@ -51,6 +51,12 @@
   no longer warn when a YAML file has no final newline.
 - `jsonlite` is now a required dependency, and `js-yaml` is no longer
   bundled.
+- Uses ‘QuickJSR’ instead of ‘V8’ to run ‘ajv’, so the ‘V8’ system
+  library is no longer needed
+  ([\#56](https://github.com/NovoNordisk-OpenSource/S7schema/issues/56)).
+  The bundled `fast-uri` is updated to 3.1.8, which has security fixes.
+- An invalid JSON schema now gives a short error with the schema file
+  and the reason, instead of a JavaScript stack trace.
 
 ## S7schema 0.1.2
 

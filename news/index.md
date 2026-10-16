@@ -1,6 +1,6 @@
 # Changelog
 
-## S7schema (development version)
+## S7schema 0.2.0
 
 - Validation now checks the data that R reads
   ([\#70](https://github.com/NovoNordisk-OpenSource/S7schema/issues/70),

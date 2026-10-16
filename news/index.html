@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">S7schema</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,7 +37,7 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="development version" id="s7schema-development-version">S7schema (development version)<a class="anchor" aria-label="anchor" href="#s7schema-development-version"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.2.0" id="s7schema-020">S7schema 0.2.0<a class="anchor" aria-label="anchor" href="#s7schema-020"></a></h2>
 <ul><li>Validation now checks the data that R reads (<a href="https://github.com/NovoNordisk-OpenSource/S7schema/issues/70" class="external-link">#70</a>, <a href="https://github.com/NovoNordisk-OpenSource/S7schema/issues/67" class="external-link">#67</a>). Files are validated as <code><a href="https://yaml.r-lib.org/reference/read_yaml.html" class="external-link">yaml::read_yaml()</a></code> reads them, <code>S7schema</code> objects as <code><a href="../reference/write_config.html">write_config()</a></code> writes them and R reads them back, and <code>list</code> objects in <code><a href="../reference/validate_config.html">validate_list()</a></code> as they are. Previously the YAML was parsed again by a JavaScript parser, which could read values differently. This changes some validation results:
 <ul><li>Unquoted <code>y</code>, <code>n</code>, <code>yes</code>, <code>no</code>, <code>on</code>, and <code>off</code> in lowercase, title case, or uppercase (e.g. <code>Yes</code>, <code>YES</code>) are logical values. This also applies to map keys: <code>y:</code> is read as the key <code>"TRUE"</code> and <code>n:</code> as <code>"FALSE"</code>. Quote them to keep them as strings.</li>
 <li>Unquoted dates such as <code>2025-08-06</code> and values such as <code>1e3</code>, <code>0o17</code>, and <code>0b101</code> are strings.</li>

@@ -1,4 +1,4 @@
-# S7schema (development version)
+# S7schema 0.2.0
 
 * Validation now checks the data that R reads (#70, #67). Files are validated as `yaml::read_yaml()` reads them, `S7schema` objects as `write_config()` writes them and R reads them back, and `list` objects in `validate_list()` as they are. Previously the YAML was parsed again by a JavaScript parser, which could read values differently. This changes some validation results:
   * Unquoted `y`, `n`, `yes`, `no`, `on`, and `off` in lowercase, title case, or uppercase (e.g. `Yes`, `YES`) are logical values. This also applies to map keys: `y:` is read as the key `"TRUE"` and `n:` as `"FALSE"`. Quote them to keep them as strings.

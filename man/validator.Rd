@@ -4,10 +4,13 @@
 \alias{validator}
 \title{Internal validator based on a JSON schema}
 \usage{
-validator(schema)
+validator(schema, call = rlang::caller_env())
 }
 \arguments{
 \item{schema}{\code{character(1)} path to a JSON schema.}
+
+\item{call}{The execution environment shown in error messages if the
+schema is invalid. See \code{\link[rlang:abort]{rlang::abort()}}.}
 }
 \value{
 New \code{validator} object
@@ -15,7 +18,7 @@ New \code{validator} object
 \description{
 Based on a JSON schema, \href{https://ajv.js.org}{ajv} is used to create a validator
 object in Javascript that can be used to check a configuration.
-This is done in a \code{\link[V8:v8]{V8::v8()}} context, and stored inside
+This is done in a QuickJS context (\link[QuickJSR:JSContext]{QuickJSR::JSContext}), and stored inside
 the \code{context} property of the the object.
 
 All YAML is parsed in R, so the validated data is what R reads:
@@ -40,7 +43,8 @@ See \href{https://json-schema.org}{json-schema.org} on how to specify a JSON sch
 \section{Properties}{
 
 \describe{
-\item{context}{\code{\link[V8:v8]{V8::v8()}} context with a validator object based on the schema}
+\item{context}{\link[QuickJSR:JSContext]{QuickJSR::JSContext} with a validator object based on
+the schema}
 }
 }
 

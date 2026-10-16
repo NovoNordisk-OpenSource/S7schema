@@ -363,3 +363,18 @@ test_that("validation errors reference the called function", {
   e <- expect_error(S7schema(file = file, schema = schema))
   expect_identical(conditionCall(e)[[1]], quote(S7schema))
 })
+
+test_that("invalid schemas give a clean error", {
+  file <- test_path("input", "simple.yml")
+  schema <- test_path("schemas", "invalid_type.json")
+
+  expect_snapshot(error = TRUE, {
+    validate_yaml(file = file, schema = schema)
+    validate_list(x = list(), schema = schema)
+    S7schema(file = file, schema = schema)
+  })
+
+  invalid_json <- withr::local_tempfile(fileext = ".json", lines = "{")
+  validate_yaml(file = file, schema = invalid_json) |>
+    expect_error("Invalid JSON schema")
+})

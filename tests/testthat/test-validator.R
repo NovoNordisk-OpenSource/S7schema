@@ -24,3 +24,14 @@ test_that("to_json", {
   expect_equal(to_json(list(a = "x", b = c(1, 2))), '{"a":"x","b":[1,2]}')
   expect_equal(to_json(pi), "3.1415926535897931")
 })
+
+test_that("strings with special characters are passed unchanged", {
+  v <- validator(schema = test_path("schemas", "strings.json"))
+  text <- "\u00e6\u00f8\u00e5 \U0001F600 \"quotes\" back\\slash new\nline"
+
+  use_validator(validator = v, data = list(text = text)) |>
+    expect_no_condition()
+
+  use_validator(validator = v, data = list(text = "\u00e6 \U0001F600")) |>
+    expect_error("current value: .*\u00e6 \U0001F600")
+})

@@ -38,7 +38,7 @@ validate_list <- function(x, schema) {
 validate_list.list <- function(x, schema) {
   use_validator(
     validator = validator(schema = schema),
-    yaml_content = to_yaml(x)
+    data = x
   )
 
   invisible(x)
@@ -53,16 +53,24 @@ validate_yaml <- function(file, schema) {
 
 #' @export
 validate_yaml.character <- function(file, schema) {
-  content <- file |>
-    assert_file(ext = c("yml", "yaml")) |>
-    readLines(warn = FALSE) |>
-    paste(collapse = "\n")
-
-  use_validator(
-    validator = validator(schema = schema),
-    yaml_content = content,
-    file = file
-  )
+  read_validated_yaml(file = file, schema = schema)
 
   invisible(file)
+}
+
+#' Read a YAML file and validate its content against a JSON schema
+#' @noRd
+read_validated_yaml <- function(file, schema, call = rlang::caller_env()) {
+  content <- file |>
+    assert_file(ext = c("yml", "yaml")) |>
+    yaml::read_yaml(readLines.warn = FALSE)
+
+  use_validator(
+    validator = validator(schema = schema, call = call),
+    data = content,
+    file = file,
+    call = call
+  )
+
+  content
 }

@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "title": "R types example",
+  "description": "Schema for testing that validation uses the values read by R",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "flag": {
+      "type": "boolean"
+    },
+    "date": {
+      "type": "string"
+    },
+    "numbers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "base": {
+      "type": "object"
+    },
+    "merged": {
+      "type": "object",
+      "properties": {
+        "b": {
+          "type": "number",
+          "maximum": 10
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

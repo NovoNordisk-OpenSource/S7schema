@@ -8,7 +8,7 @@
 #' @param header_start_level `numeric(1)` Level of initial header.
 #' All subheaders will continuously be one level smaller.
 #' @return `character(1)`/`knitr::asis_output()` markdown with the documentation.
-#' @examplesIf requireNamespace("jsonlite", quietly = TRUE) && requireNamespace("knitr", quietly = TRUE)
+#' @examplesIf requireNamespace("knitr", quietly = TRUE)
 #' # Simple example schema
 #' system.file("examples/schema.json", package = "S7schema") |>
 #'   document_schema(2) |>
@@ -57,8 +57,6 @@ S7::method(document_schema, S7::class_list) <- function(
 #' @noRd
 document_schema_character <- function(x, header_start_level) {
   assert_file(file = x, ext = "json")
-
-  rlang::check_installed("jsonlite")
 
   document_schema(
     x = jsonlite::read_json(x),

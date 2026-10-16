@@ -6,3 +6,5 @@ https://packagemanager.posit.co/cran/\$
 https://raw.githubusercontent.com/NovoNordisk-OpenSource/r.workflows/\$
 # Disallowed in their robots.txt
 https://www.npmjs.com/package
+# Funding link in dev/package-lock.json, blocks bots with 403
+https://www.patreon.com/feross

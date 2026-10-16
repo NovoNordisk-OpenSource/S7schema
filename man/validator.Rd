@@ -4,26 +4,47 @@
 \alias{validator}
 \title{Internal validator based on a JSON schema}
 \usage{
-validator(schema)
+validator(schema, call = rlang::caller_env())
 }
 \arguments{
 \item{schema}{\code{character(1)} path to a JSON schema.}
+
+\item{call}{The execution environment shown in error messages if the
+schema is invalid. See \code{\link[rlang:abort]{rlang::abort()}}.}
 }
 \value{
 New \code{validator} object
 }
 \description{
 Based on a JSON schema, \href{https://ajv.js.org}{ajv} is used to create a validator
-object in Javascript that can be used to check an input yaml.
-This is done in a \code{\link[V8:v8]{V8::v8()}} context, and stored inside
+object in Javascript that can be used to check a configuration.
+This is done in a QuickJS context (\link[QuickJSR:JSContext]{QuickJSR::JSContext}), and stored inside
 the \code{context} property of the the object.
+
+All YAML is parsed in R, so the validated data is what R reads:
+\itemize{
+\item Files are read with \code{yaml::read_yaml()}.
+\item \code{S7schema} objects are converted with \code{to_yaml()} and read back with
+\code{yaml::yaml.load()}, so the validated data matches what \code{write_config()}
+writes.
+\item \code{list} objects in \code{validate_list()} are validated as they are.
+}
+
+The resulting \code{list} is converted to JSON with \code{jsonlite::toJSON()} and
+validated by ajv. The JavaScript side never parses YAML.
+\code{NA}, \code{NaN}, and \code{Inf} values become \code{null} in the JSON sent to ajv.
+Numbers are sent with 17 significant digits, so numbers from files and
+lists are validated exactly. \code{S7schema} objects are validated as
+\code{write_config()} writes them, so numbers that need 17 significant digits
+(e.g. \code{0.1 + 0.2}) are rounded.
 
 See \href{https://json-schema.org}{json-schema.org} on how to specify a JSON schema.
 }
 \section{Properties}{
 
 \describe{
-\item{context}{\code{\link[V8:v8]{V8::v8()}} context with a validator object based on the schema}
+\item{context}{\link[QuickJSR:JSContext]{QuickJSR::JSContext} with a validator object based on
+the schema}
 }
 }
 

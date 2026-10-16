@@ -1,12 +1,26 @@
 #' Convert an R object to YAML
 #'
 #' @description
-#' This function is used internally when validating `list` or `S7schema` objects, and
+#' This function is used internally when validating `S7schema` objects, and
 #' when using `write_config()` to save a configuration.
 #'
 #' Underneath it is calling `yaml::as.yaml()` to do the conversion, but all `logical` values
 #' are converted to `true`/`false` instead of `yes`/`no` respectively for a more robust integration
 #' with other YAML parsers.
+#' `Date` values are written as ISO 8601 strings (`"2025-08-06"`), and numbers
+#' are written with `precision = 15` instead of the default of 7. Numbers with
+#' up to 16 significant digits are read back as the same value, while numbers
+#' that need 17, e.g. `0.1 + 0.2`, are rounded.
+#'
+#' Missing values are written as:
+#' * logical `NA` as `.na`
+#' * `NA_character_` as `.na.character`
+#' * `NA_integer_` as `.na.integer`
+#' * `NA_real_` as `.na.real`
+#'
+#' R reads all of them back as `NA`, while other YAML parsers read them as
+#' strings. Previously logical `NA` was written as `NA`, which R read back as
+#' the string `"NA"`.
 #'
 #' It is rarely relevant to call this function directly except for debugging purposes, or when
 #' implementing a new method for your own object class.
@@ -15,8 +29,9 @@
 #' `to_yaml()` dispatches based on the class of `x`. Register a new S7 method if you want to overwrite
 #' how your own class is converted to YAML. See `S7::method()` for more information.
 #'
-#' The default method just uses `yaml::verbatim_logical()` to overwrite the default behavior
-#' of handling `logical` values:
+#' The default method uses `yaml::verbatim_logical()` to overwrite the default
+#' behavior of handling `logical` values, and a handler for `Date` values.
+#' The `logical` handler writes `NA` as `.na`, so it is read back as `NA`:
 #'
 #' ```{r, include = FALSE}
 #' f <- tempfile()
@@ -36,6 +51,10 @@
 #' @examples
 #' # Convert simple list to YAML
 #' to_yaml(list(hello = "world", is_today = TRUE)) |>
+#'   cat()
+#'
+#' # Missing logical values are written as .na
+#' to_yaml(list(a = NA, b = c(TRUE, NA))) |>
 #'   cat()
 #'
 #' # Convert S7schema object
@@ -67,8 +86,20 @@ S7::method(to_yaml, S7::class_any) <- function(x) {
 as_yaml <- function(x) {
   yaml::as.yaml(
     x = x,
+    precision = 15,
     handlers = list(
-      logical = yaml::verbatim_logical
+      logical = \(x) {
+        x <- yaml::verbatim_logical(x)
+        x[is.na(x)] <- ".na"
+        x
+      },
+      Date = \(x) format(x, "%Y-%m-%d")
     )
   )
+}
+
+#' Data as R reads it back after writing it with `to_yaml()`
+#' @noRd
+yaml_round_trip <- function(x) {
+  yaml::yaml.load(to_yaml(x))
 }

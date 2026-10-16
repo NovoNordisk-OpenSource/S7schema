@@ -86,6 +86,32 @@ test_that("validate() on modified S7schema still does not include file reference
   expect_no_match(conditionMessage(err), "simple\\.yml")
 })
 
+test_that("S7schema content is the list read by yaml::read_yaml()", {
+  file <- test_path("input", "r_types.yml")
+
+  x <- S7schema(
+    file = file,
+    schema = test_path("schemas", "r_types.json")
+  ) |>
+    expect_no_condition()
+
+  expect_equal(S7::S7_data(x), yaml::read_yaml(file))
+
+  validate(x) |>
+    expect_no_condition()
+})
+
+test_that("S7schema does not warn when file has no final newline", {
+  f <- withr::local_tempfile(fileext = ".yml")
+  writeLines("id: abc", f, sep = "")
+
+  S7schema(
+    file = f,
+    schema = test_path("schemas", "simple.json")
+  ) |>
+    expect_no_condition()
+})
+
 test_that("S7schema preserves the list parent", {
   data <- list(id = "test")
   x <- S7schema(.data = data, schema = test_path("schemas", "simple.json"))

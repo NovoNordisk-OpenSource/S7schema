@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "title": "Merge key example",
+  "description": "Schema for testing YAML merge keys",
+  "type": "object",
+  "properties": {
+    "defaults": {
+      "type": "object"
+    },
+    "config": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "do_something": {
+          "type": "boolean"
+        }
+      },
+      "required": ["id"],
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

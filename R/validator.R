@@ -1,24 +1,31 @@
 #' Constructor function for the internal `validator` class
 #'
 #' Does the following before:
-#' 1. Create a local V8 context to ensure variables etc. are local to the schema
-#' 2. Loads the bundled JavaScript file containing ajv, yaml, and helper functions.
+#' 1. Create a local QuickJS context to ensure variables etc. are local to the
+#'    schema
+#' 2. Loads the bundled JavaScript file containing ajv and helper functions.
 #'    See /dev/README.md for how this is created
-#' 3. Creates a validator object inside the V8 context for later use
+#' 3. Compiles and stores a validator inside the QuickJS context for later use.
+#'    Aborts if the schema is not valid JSON or not a valid JSON schema
 #' 4. Returns the context
 #' @noRd
-construct_validator <- function(schema) {
+construct_validator <- function(schema, call = rlang::caller_env()) {
   schema_content <- schema |>
     assert_file(ext = "json") |>
     readLines(warn = FALSE) |>
     paste(collapse = "\n")
 
-  ctx <- V8::v8()
-
-  ctx$source(system.file("bundle.js", package = "S7schema"))
-
-  ctx$assign("schema_str", schema_content)
-  ctx$eval("var validator = createValidator(schema_str);")
+  # ajv needs more than the 256 KB default stack of QuickJSR < 1.5.0
+  ctx <- QuickJSR::JSContext$new(stack_size = 1024L * 1024L)
+  ctx$source(file = system.file("bundle.js", package = "S7schema"))
+  # createValidator() returns the error message if the schema is invalid
+  msg <- ctx$call("createValidator", schema_content)
+  if (!is.null(msg)) {
+    cli::cli_abort(
+      message = c("Invalid JSON schema {.file {schema}}", x = "{msg}"),
+      call = call
+    )
+  }
 
   S7::new_object(
     S7::S7_object(),
@@ -29,23 +36,41 @@ construct_validator <- function(schema) {
 #' Internal validator based on a JSON schema
 #' @description
 #' Based on a JSON schema, [ajv](https://ajv.js.org) is used to create a validator
-#' object in Javascript that can be used to check an input yaml.
-#' This is done in a [V8::v8()] context, and stored inside
+#' object in Javascript that can be used to check a configuration.
+#' This is done in a QuickJS context ([QuickJSR::JSContext]), and stored inside
 #' the `context` property of the the object.
+#'
+#' All YAML is parsed in R, so the validated data is what R reads:
+#' * Files are read with `yaml::read_yaml()`.
+#' * `S7schema` objects are converted with `to_yaml()` and read back with
+#'   `yaml::yaml.load()`, so the validated data matches what `write_config()`
+#'   writes.
+#' * `list` objects in `validate_list()` are validated as they are.
+#'
+#' The resulting `list` is converted to JSON with `jsonlite::toJSON()` and
+#' validated by ajv. The JavaScript side never parses YAML.
+#' `NA`, `NaN`, and `Inf` values become `null` in the JSON sent to ajv.
+#' Numbers are sent with 17 significant digits, so numbers from files and
+#' lists are validated exactly. `S7schema` objects are validated as
+#' `write_config()` writes them, so numbers that need 17 significant digits
+#' (e.g. `0.1 + 0.2`) are rounded.
 #'
 #' See [json-schema.org](https://json-schema.org) on how to specify a JSON schema.
 #'
 #' @inheritParams S7schema
+#' @param call The execution environment shown in error messages if the
+#'   schema is invalid. See [rlang::abort()].
 #' @returns New `validator` object
 #' @section Properties:
 #' \describe{
-#'   \item{context}{[V8::v8()] context with a validator object based on the schema}
+#'   \item{context}{[QuickJSR::JSContext] with a validator object based on
+#'     the schema}
 #' }
 #' @keywords internal
 validator <- S7::new_class(
   name = "validator",
   properties = list(
-    context = S7::new_S3_class("V8")
+    context = S7::new_S3_class("JSContext")
   ),
   constructor = construct_validator
 )
@@ -70,23 +95,14 @@ fix_path <- function(path) {
 #' @noRd
 use_validator <- function(
   validator,
-  yaml_content,
+  data,
   file = NULL,
   call = parent.frame()
 ) {
-  validator@context$assign(
-    name = "yaml_str",
-    value = yaml_content
-  )
-
-  validator@context$eval(
-    src = "var result = validateYaml(validator, yaml_str);"
-  )
-
-  result <- validator@context$get(
-    name = "result",
-    simplifyVector = FALSE
-  )
+  # validateJson() returns a JSON string: QuickJSR simplifies arrays to
+  # vectors when converting to R
+  result <- validator@context$call("validateJson", to_json(data)) |>
+    jsonlite::fromJSON(simplifyVector = FALSE)
 
   if (is.null(result$errors)) {
     return(invisible())
@@ -102,6 +118,20 @@ use_validator <- function(
   }
 
   cli::cli_abort(message = msg, call = call)
+}
+
+#' Convert data to a JSON string. `NULL` and `NA` become `null`,
+#' and numbers keep 17 significant digits.
+#' @noRd
+to_json <- function(x) {
+  jsonlite::toJSON(
+    x = x,
+    auto_unbox = TRUE,
+    null = "null",
+    na = "null",
+    digits = I(17)
+  ) |>
+    as.character()
 }
 
 #' @noRd

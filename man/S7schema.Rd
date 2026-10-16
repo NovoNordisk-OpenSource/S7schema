@@ -37,7 +37,33 @@ the below workflow:
 }
 }
 \details{
+The content is validated as R reads it: files are read with
+\code{yaml::read_yaml()}, and \code{S7schema} objects are converted with \code{to_yaml()}
+and read back before validation. \code{list} objects in \code{validate_list()} are
+validated as they are.
 See internal \code{\link[=validator]{validator()}} documentation for more info on how the validation is done.
+
+In YAML files and \code{S7schema} objects, R reads a YAML sequence with one item
+(\verb{[a]}) as a single value (\code{"a"}). For fields that can hold one or more
+values, allow both forms in the schema with \code{oneOf}:
+
+\if{html}{\out{<div class="sourceCode json">}}\preformatted{\{
+  "oneOf": [
+    \{"type": "string"\},
+    \{"type": "array", "items": \{"type": "string"\}\}
+  ]
+\}
+}\if{html}{\out{</div>}}
+
+\code{NA}, \code{NaN}, and \code{Inf} values are validated as \code{null}. A field that may be
+missing must allow \code{null} in the schema:
+
+\if{html}{\out{<div class="sourceCode json">}}\preformatted{\{"type": ["string", "null"]\}
+}\if{html}{\out{</div>}}
+
+Numbers with up to 16 significant digits are validated exactly. Numbers that
+need 17, e.g. \code{0.1 + 0.2}, are validated exactly in files and lists, but
+rounded in \code{S7schema} objects, as \code{to_yaml()} writes them.
 }
 \section{Properties}{
 

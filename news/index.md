@@ -2,6 +2,8 @@
 
 ## S7schema 0.2.0
 
+CRAN release: 2026-10-16
+
 - Validation now checks the data that R reads
   ([\#70](https://github.com/NovoNordisk-OpenSource/S7schema/issues/70),
   [\#67](https://github.com/NovoNordisk-OpenSource/S7schema/issues/67)).

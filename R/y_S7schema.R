@@ -130,7 +130,7 @@ construct_S7schema <- function(file, schema, .data) {
   if (!rlang::is_missing(.data)) {
     return(
       S7::new_object(
-        .parent = .data,
+        .data,
         schema = schema,
         file = NULL
       )
@@ -143,7 +143,7 @@ construct_S7schema <- function(file, schema, .data) {
   content <- read_validated_yaml(file = file, schema = schema)
 
   S7::new_object(
-    .parent = content,
+    content,
     schema = schema,
     file = file
   )

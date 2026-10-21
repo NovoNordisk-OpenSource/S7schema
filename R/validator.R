@@ -28,7 +28,7 @@ construct_validator <- function(schema, call = rlang::caller_env()) {
   }
 
   S7::new_object(
-    .parent = S7::S7_object(),
+    S7::S7_object(),
     context = ctx
   )
 }

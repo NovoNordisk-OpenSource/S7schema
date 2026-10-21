@@ -49,7 +49,7 @@ my_config_class <- S7::new_class(
   parent = S7schema::S7schema,
   constructor = function(file) {
     S7::new_object(
-      .parent = S7schema::S7schema(
+      S7schema::S7schema(
         file = file,
         schema = system.file("examples/schema.json", package = "S7schema")
       )
@@ -77,7 +77,7 @@ print(x)
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
 #>  .. @ context:List of 6
-#>  .. .. $ context :<pointer: 0x55c4b68fc0e0> 
+#>  .. .. $ context :<pointer: 0x55918609bc70> 
 #>  .. .. $ validate:function (code_string)  
 #>  .. .. $ source  :function (file = NULL, code = NULL)  
 #>  .. .. $ call    :function (function_name, ...)  

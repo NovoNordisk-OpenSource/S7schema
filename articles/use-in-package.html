@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">S7schema</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -116,7 +116,7 @@ constructor:</p>
 <span>  parent <span class="op">=</span> <span class="fu">S7schema</span><span class="fu">::</span><span class="va"><a href="../reference/S7schema.html">S7schema</a></span>,</span>
 <span>  constructor <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">file</span><span class="op">)</span> <span class="op">{</span></span>
 <span>    <span class="fu">S7</span><span class="fu">::</span><span class="fu"><a href="https://rconsortium.github.io/S7/reference/new_class.html" class="external-link">new_object</a></span><span class="op">(</span></span>
-<span>      .parent <span class="op">=</span> <span class="fu">S7schema</span><span class="fu">::</span><span class="fu"><a href="../reference/S7schema.html">S7schema</a></span><span class="op">(</span></span>
+<span>      <span class="fu">S7schema</span><span class="fu">::</span><span class="fu"><a href="../reference/S7schema.html">S7schema</a></span><span class="op">(</span></span>
 <span>        file <span class="op">=</span> <span class="va">file</span>,</span>
 <span>        schema <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"examples/schema.json"</span>, package <span class="op">=</span> <span class="st">"S7schema"</span><span class="op">)</span></span>
 <span>      <span class="op">)</span></span>
@@ -143,7 +143,7 @@ automatically:</p>
 <span><span class="co">#&gt;  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"</span></span>
 <span><span class="co">#&gt;  @ validator: &lt;S7schema::validator&gt;</span></span>
 <span><span class="co">#&gt;  .. @ context:List of 6</span></span>
-<span><span class="co">#&gt;  .. .. $ context :&lt;pointer: 0x55c4b68fc0e0&gt; </span></span>
+<span><span class="co">#&gt;  .. .. $ context :&lt;pointer: 0x55918609bc70&gt; </span></span>
 <span><span class="co">#&gt;  .. .. $ validate:function (code_string)  </span></span>
 <span><span class="co">#&gt;  .. .. $ source  :function (file = NULL, code = NULL)  </span></span>
 <span><span class="co">#&gt;  .. .. $ call    :function (function_name, ...)  </span></span>

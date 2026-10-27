@@ -1,5 +1,12 @@
 # Changelog
 
+## S7schema 0.2.1
+
+CRAN release: 2026-10-26
+
+- Updates for compatibility with S7 \> 0.2.2
+  ([\#80](https://github.com/NovoNordisk-OpenSource/S7schema/issues/80)).
+
 ## S7schema 0.2.0
 
 CRAN release: 2026-10-16

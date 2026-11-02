@@ -1,3 +1,5 @@
+# S7schema (development version)
+
 # S7schema 0.2.1
 
 * Updates for compatibility with S7 > 0.2.2 (#80).

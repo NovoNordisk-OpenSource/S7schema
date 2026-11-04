@@ -65,14 +65,49 @@ which is pinned as a devDependency in `dev/package.json`:
 cd dev
 npm ci --ignore-scripts
 npx --no browserify entry.js -o ../inst/bundle.js
+node sync-licenses.js
 cd ..
 ```
 
-Dependencies are pinned to exact versions in `dev/package.json`. Updating a
-dependency, manually or in a Dependabot pull request, only changes
-`dev/package.json` and `dev/package-lock.json`. Rebuild `inst/bundle.js` with
-the commands above in the same pull request, otherwise the package still
-ships the old version.
+Dependencies are pinned to exact versions in `dev/package.json`.
+
+### Dependabot pull requests
+
+Dependabot opens npm pull requests for `dev/`: version updates weekly, and
+security updates. These only change `dev/package.json` and
+`dev/package-lock.json`.
+
+The `Bundle` workflow (`.github/workflows/bundle.yaml`) completes them:
+
+1. Rebuilds `inst/bundle.js` and syncs `inst/licenses`.
+2. Bumps the development version in `DESCRIPTION` and adds a `NEWS.md` bullet
+   (`dev/bump-version.js`).
+3. Pushes a commit `chore: rebuild bundle.js [dependabot skip]` as a GitHub
+   App.
+
+Because the App is the last pusher, a code owner can approve and merge the
+pull request alone.
+
+To update a Dependabot pull request to the latest `main`, comment
+`@dependabot rebase`. Do not use "Update branch": it makes you the last
+pusher, so a second reviewer is needed. Dependabot force-pushes over the bot
+commit (allowed by `[dependabot skip]`), and the workflow re-applies it.
+
+On all other pull requests the workflow fails if `inst/bundle.js` or
+`inst/licenses` differ from what `dev/package-lock.json` produces. Rebuild
+with the commands above.
+
+If `sync-licenses.js` fails because the set of bundled packages changed,
+handle the pull request manually (see [License](#license)).
+
+One-time setup (repository admin):
+
+1. Create a GitHub App in the organization with webhooks off and repository
+   permission "Contents: Read and write".
+2. Install the App on this repository only.
+3. Add the Dependabot secrets (Settings → Secrets and variables → Dependabot)
+   `BUNDLE_APP_CLIENT_ID` (the App's client ID) and `BUNDLE_APP_PRIVATE_KEY`
+   (a private key of the App).
 
 ### License
 
@@ -99,12 +134,9 @@ If new development introduces new packages or newer version, it is required to
 assess their license compatibility and update the files mentioned above as
 appropriate.
 
-To copy each license you can run the bash script below to copy all
-individual licenses:
-
-```bash
-for license in $(find node_modules -maxdepth 2 -iname "license*" | sort); do
-    package=$(dirname $license | xargs basename)
-    cp "$license" "../inst/licenses/${package}-LICENSE"
-  done
-```
+`node sync-licenses.js` (from `dev/`) copies the license file of each package
+included in the bundle (from `browserify --list`) to
+`inst/licenses/<package>-LICENSE`. It fails if packages were added or removed,
+as these need the manual steps: assess license compatibility, add or remove
+license files, and update `LICENSE.note`, the copyright holders in
+`DESCRIPTION`, and the table above.

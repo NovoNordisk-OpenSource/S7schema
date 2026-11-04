@@ -8,3 +8,19 @@ updates:
     commit-message:
       prefix: "chore"
       include: "scope"
+  - package-ecosystem: "npm"
+    directory: "/dev"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    groups:
+      npm:
+        applies-to: "version-updates"
+        patterns:
+          - "*"
+      npm-security:
+        applies-to: "security-updates"
+        patterns:
+          - "*"

@@ -108,7 +108,7 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
-          token: ${{ steps.app-token.outputs.token }}
+          persist-credentials: false
 
       - name: Setup node
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1  # v7.1.0
@@ -179,12 +179,16 @@ jobs:
       - name: Commit and push
         if: steps.paths.outputs.changed == 'true'
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          READ_TOKEN: ${{ github.token }}
           APP_SLUG: ${{ steps.app-token.outputs.app-slug }}
           HEAD_REF: ${{ github.event.pull_request.head.ref }}
         run: |
           set -euo pipefail
-          USER_ID="$(gh api "/users/${APP_SLUG}[bot]" --jq .id)"
+          # git reads the App token from GH_TOKEN via gh, so it is not stored
+          # on disk or passed in process args
+          gh auth setup-git
+          USER_ID="$(GH_TOKEN="${READ_TOKEN}" gh api "/users/${APP_SLUG}[bot]" --jq .id)"
           git config user.name "${APP_SLUG}[bot]"
           git config user.email "${USER_ID}+${APP_SLUG}[bot]@users.noreply.github.com"
           git add DESCRIPTION NEWS.md inst/bundle.js inst/licenses

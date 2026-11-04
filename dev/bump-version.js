@@ -90,7 +90,12 @@ const bullet = changes.length > 0
   : `* Rebuilt \`inst/bundle.js\` with updated build tools (#${pr}).`
 
 const version = bumpVersion(description)
-const pkgName = description.match(/^Package: (.+)$/m)[1].trim()
+const pkgMatch = description.match(/^Package: (.+)$/m)
+if (!pkgMatch) {
+  console.log('::error::Unexpected Package field in DESCRIPTION')
+  process.exit(1)
+}
+const pkgName = pkgMatch[1].trim()
 const header = `# ${pkgName} (development version)`
 
 // Add the bullet first in an existing development section, otherwise add a

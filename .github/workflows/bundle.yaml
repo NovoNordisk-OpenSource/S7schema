@@ -1,0 +1,104 @@
+---
+on:
+  pull_request:
+    branches:
+      - main
+permissions: {}
+name: Bundle
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+jobs:
+  bundle:
+    name: Bundle
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    env:
+      # Dependabot PRs get the rebuild pushed, all other PRs a drift check
+      BOT_PR: >-
+        ${{ github.actor == 'dependabot[bot]' &&
+        github.event.pull_request.user.login == 'dependabot[bot]' &&
+        github.event.pull_request.head.repo.full_name == github.repository }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Setup node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1  # v7.1.0
+        with:
+          node-version: 24
+          package-manager-cache: false
+
+      - name: Build inst/bundle.js
+        working-directory: dev
+        run: |
+          set -euo pipefail
+          npm ci --ignore-scripts --no-audit --no-fund
+          npx --no browserify entry.js -o ../inst/bundle.js
+
+      - name: Sync licenses
+        working-directory: dev
+        run: node sync-licenses.js
+
+      - name: Bump version and NEWS
+        id: bump
+        if: env.BOT_PR == 'true'
+        working-directory: dev
+        env:
+          BASE_REF: ${{ github.event.pull_request.base.ref }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          set -euo pipefail
+          node bump-version.js "$(git merge-base HEAD "origin/${BASE_REF}")" "${PR_NUMBER}"
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      # Minted only after npm ci and the build, so no write token exists while
+      # dependency code runs. Pushes with GITHUB_TOKEN do not trigger CI, and
+      # an App as last pusher lets the maintainer approve the PR alone.
+      - name: Create App token
+        id: app-token
+        if: env.BOT_PR == 'true' && steps.bump.outputs.changed == 'true'
+        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510  # v3.3.0
+        with:
+          client-id: ${{ secrets.BUNDLE_APP_CLIENT_ID }}
+          private-key: ${{ secrets.BUNDLE_APP_PRIVATE_KEY }}
+          permission-contents: write
+
+      # [dependabot skip] lets Dependabot keep rebasing over the bot commit;
+      # this workflow then reruns and re-applies it.
+      - name: Commit and push
+        if: env.BOT_PR == 'true' && steps.bump.outputs.changed == 'true'
+        env:
+          TOKEN: ${{ steps.app-token.outputs.token }}
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          APP_SLUG: ${{ steps.app-token.outputs.app-slug }}
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+        run: |
+          set -euo pipefail
+          USER_ID="$(gh api "/users/${APP_SLUG}[bot]" --jq .id)"
+          git config user.name "${APP_SLUG}[bot]"
+          git config user.email "${USER_ID}+${APP_SLUG}[bot]@users.noreply.github.com"
+          git add DESCRIPTION NEWS.md inst/bundle.js inst/licenses
+          git commit -m "chore: rebuild bundle.js [dependabot skip]"
+          git push "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "HEAD:refs/heads/${HEAD_REF}"
+
+      - name: Check inst/ is up to date
+        if: env.BOT_PR != 'true'
+        run: |
+          set -euo pipefail
+          if [ -n "$(git status --porcelain -- inst/)" ]; then
+            echo "::error::inst/bundle.js or inst/licenses is out of date with dev/package-lock.json. Rebuild following dev/README.md."
+            git status --short -- inst/
+            git diff --stat -- inst/
+            exit 1
+          fi

@@ -73,41 +73,24 @@ Dependencies are pinned to exact versions in `dev/package.json`.
 
 ### Dependabot pull requests
 
-Dependabot opens npm pull requests for `dev/`: version updates weekly, and
-security updates. These only change `dev/package.json` and
-`dev/package-lock.json`.
+Dependabot opens npm pull requests for `dev/`. The `Bundle` workflow
+(`.github/workflows/bundle.yaml`) rebuilds `inst/bundle.js` and
+`inst/licenses`, bumps the development version and `NEWS.md`, and pushes a
+commit `chore: rebuild bundle.js [dependabot skip]`.
 
-The `Bundle` workflow (`.github/workflows/bundle.yaml`) completes them:
-
-1. Rebuilds `inst/bundle.js` and syncs `inst/licenses`.
-2. Bumps the development version in `DESCRIPTION` and adds a `NEWS.md` bullet
-   (`dev/bump-version.js`).
-3. Pushes a commit `chore: rebuild bundle.js [dependabot skip]` as a GitHub
-   App.
-
-Because the App is the last pusher, a code owner can approve and merge the
-pull request alone.
+Review the `dev/package-lock.json` diff and the release notes of the updated
+packages, not `inst/bundle.js`.
 
 To update a Dependabot pull request to the latest `main`, comment
 `@dependabot rebase`. Do not use "Update branch": it makes you the last
-pusher, so a second reviewer is needed. Dependabot force-pushes over the bot
-commit (allowed by `[dependabot skip]`), and the workflow re-applies it.
+pusher, so a second reviewer is needed.
 
 On all other pull requests the workflow fails if `inst/bundle.js` or
-`inst/licenses` differ from what `dev/package-lock.json` produces. Rebuild
-with the commands above.
+`inst/licenses` are out of date with `dev/package-lock.json`. Rebuild with the
+commands above.
 
 If `sync-licenses.js` fails because the set of bundled packages changed,
 handle the pull request manually (see [License](#license)).
-
-One-time setup (repository admin):
-
-1. Create a GitHub App in the organization with webhooks off and repository
-   permission "Contents: Read and write".
-2. Install the App on this repository only.
-3. Add the Dependabot secrets (Settings → Secrets and variables → Dependabot)
-   `BUNDLE_APP_CLIENT_ID` (the App's client ID) and `BUNDLE_APP_PRIVATE_KEY`
-   (a private key of the App).
 
 ### License
 

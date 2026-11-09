@@ -10,6 +10,8 @@ updates:
       include: "scope"
     groups:
       github-actions:
+        patterns:
+          - "*"
   - package-ecosystem: "npm"
     directory: "/dev"
     schedule:

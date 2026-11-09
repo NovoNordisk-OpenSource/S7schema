@@ -65,14 +65,32 @@ which is pinned as a devDependency in `dev/package.json`:
 cd dev
 npm ci --ignore-scripts
 npx --no browserify entry.js -o ../inst/bundle.js
+node sync-licenses.js
 cd ..
 ```
 
-Dependencies are pinned to exact versions in `dev/package.json`. Updating a
-dependency, manually or in a Dependabot pull request, only changes
-`dev/package.json` and `dev/package-lock.json`. Rebuild `inst/bundle.js` with
-the commands above in the same pull request, otherwise the package still
-ships the old version.
+Dependencies are pinned to exact versions in `dev/package.json`.
+
+### Dependabot pull requests
+
+Dependabot opens npm pull requests for `dev/`. The `Bundle` workflow
+(`.github/workflows/bundle.yaml`) rebuilds `inst/bundle.js` and
+`inst/licenses`, bumps the development version and `NEWS.md`, and pushes a
+commit `chore: rebuild bundle.js [dependabot skip]`.
+
+Review the `dev/package-lock.json` diff and the release notes of the updated
+packages, not `inst/bundle.js`.
+
+To update a Dependabot pull request to the latest `main`, comment
+`@dependabot rebase`. Do not use "Update branch": it makes you the last
+pusher, so a second reviewer is needed.
+
+On all other pull requests the workflow fails if `inst/bundle.js` or
+`inst/licenses` are out of date with `dev/package-lock.json`. Rebuild with the
+commands above.
+
+If `sync-licenses.js` fails because the set of bundled packages changed,
+handle the pull request manually (see [License](#license)).
 
 ### License
 
@@ -99,12 +117,9 @@ If new development introduces new packages or newer version, it is required to
 assess their license compatibility and update the files mentioned above as
 appropriate.
 
-To copy each license you can run the bash script below to copy all
-individual licenses:
-
-```bash
-for license in $(find node_modules -maxdepth 2 -iname "license*" | sort); do
-    package=$(dirname $license | xargs basename)
-    cp "$license" "../inst/licenses/${package}-LICENSE"
-  done
-```
+`node sync-licenses.js` (from `dev/`) copies the license file of each package
+included in the bundle (from `browserify --list`) to
+`inst/licenses/<package>-LICENSE`. It fails if packages were added or removed,
+as these need the manual steps: assess license compatibility, add or remove
+license files, and update `LICENSE.note`, the copyright holders in
+`DESCRIPTION`, and the table above.

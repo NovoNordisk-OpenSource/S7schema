@@ -1,0 +1,196 @@
+---
+on:
+  pull_request:
+    branches:
+      - main
+permissions: {}
+name: Bundle
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+jobs:
+  # Runs npm dependency code, so it gets a read-only token and no secrets.
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    env:
+      # Dependabot PRs get the rebuild pushed, all other PRs a drift check
+      BOT_PR: >-
+        ${{ github.actor == 'dependabot[bot]' &&
+        github.event.pull_request.user.login == 'dependabot[bot]' &&
+        github.event.pull_request.head.repo.full_name == github.repository }}
+    outputs:
+      bot_pr: ${{ env.BOT_PR }}
+      changed: ${{ steps.changed.outputs.changed }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Setup node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1  # v7.1.0
+        with:
+          node-version: 24
+          package-manager-cache: false
+
+      - name: Build inst/bundle.js
+        working-directory: dev
+        run: |
+          set -euo pipefail
+          npm ci --ignore-scripts --no-audit --no-fund
+          npx --no browserify entry.js -o ../inst/bundle.js
+
+      - name: Sync licenses
+        working-directory: dev
+        run: node sync-licenses.js
+
+      - name: Detect changes in inst/
+        id: changed
+        run: |
+          set -euo pipefail
+          if [ -n "$(git status --porcelain -- inst/)" ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      # The artifact root holds bundle.js and licenses/ (inst/ is stripped).
+      - name: Upload bundle
+        if: env.BOT_PR == 'true' && steps.changed.outputs.changed == 'true'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9  # v7.0.2
+        with:
+          name: bundle
+          path: |
+            inst/bundle.js
+            inst/licenses/
+          retention-days: 1
+          if-no-files-found: error
+
+      - name: Check inst/ is up to date
+        if: env.BOT_PR != 'true'
+        run: |
+          set -euo pipefail
+          if [ -n "$(git status --porcelain -- inst/)" ]; then
+            echo "::error::inst/bundle.js or inst/licenses is out of date with dev/package-lock.json. Rebuild following dev/README.md."
+            git status --short -- inst/
+            git diff --stat -- inst/
+            exit 1
+          fi
+
+  # Holds the App key and a write token, so it runs no npm or node_modules
+  # code and takes only allowlisted files from the build artifact. Pushes
+  # with GITHUB_TOKEN do not trigger CI, and an App as last pusher lets the
+  # maintainer approve the PR alone.
+  push:
+    name: Push
+    needs: build
+    if: needs.build.outputs.bot_pr == 'true' && needs.build.outputs.changed == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions: {}
+    steps:
+      - name: Create App token
+        id: app-token
+        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510  # v3.3.0
+        with:
+          client-id: ${{ secrets.BUNDLE_APP_CLIENT_ID }}
+          private-key: ${{ secrets.BUNDLE_APP_PRIVATE_KEY }}
+          permission-contents: write
+
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Setup node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1  # v7.1.0
+        with:
+          node-version: 24
+          package-manager-cache: false
+
+      - name: Download bundle
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333  # v8.0.2
+        with:
+          name: bundle
+          path: ${{ runner.temp }}/bundle
+
+      # Only inst/bundle.js and the already reviewed license files are taken.
+      - name: Copy bundle into inst/
+        env:
+          ARTIFACT_DIR: ${{ runner.temp }}/bundle
+        run: |
+          set -euo pipefail
+          copy() {
+            if [ ! -f "$1" ] || [ -L "$1" ]; then
+              echo "::error::Artifact is missing regular file ${1#"${ARTIFACT_DIR}/"}"
+              exit 1
+            fi
+            cp -- "$1" "$2"
+          }
+          copy "${ARTIFACT_DIR}/bundle.js" inst/bundle.js
+          for dest in inst/licenses/*-LICENSE; do
+            [ -e "$dest" ] || continue
+            copy "${ARTIFACT_DIR}/licenses/$(basename -- "$dest")" "$dest"
+          done
+
+      - name: Bump version and NEWS
+        working-directory: dev
+        env:
+          BASE_REF: ${{ github.event.pull_request.base.ref }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          set -euo pipefail
+          node bump-version.js "$(git merge-base HEAD "origin/${BASE_REF}")" "${PR_NUMBER}"
+
+      - name: Check changed paths
+        id: paths
+        run: |
+          set -euo pipefail
+          list="$(mktemp)"
+          git diff --name-only -z HEAD > "$list"
+          git ls-files --others --exclude-standard -z >> "$list"
+          changed=false
+          bad=false
+          while IFS= read -r -d '' path; do
+            changed=true
+            if [[ "$path" == DESCRIPTION || "$path" == NEWS.md ||
+                  "$path" == inst/bundle.js ||
+                  "$path" =~ ^inst/licenses/[A-Za-z0-9@._-]+-LICENSE$ ]]; then
+              continue
+            fi
+            echo "::error::Unexpected change to ${path}"
+            bad=true
+          done < "$list"
+          if [ "$bad" = true ]; then
+            exit 1
+          fi
+          echo "changed=${changed}" >> "$GITHUB_OUTPUT"
+
+      # [dependabot skip] lets Dependabot keep rebasing over the bot commit;
+      # this workflow then reruns and re-applies it.
+      - name: Commit and push
+        if: steps.paths.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          READ_TOKEN: ${{ github.token }}
+          APP_SLUG: ${{ steps.app-token.outputs.app-slug }}
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+        run: |
+          set -euo pipefail
+          # git reads the App token from GH_TOKEN via gh, so it is not stored
+          # on disk or passed in process args
+          gh auth setup-git
+          USER_ID="$(GH_TOKEN="${READ_TOKEN}" gh api "/users/${APP_SLUG}[bot]" --jq .id)"
+          git config user.name "${APP_SLUG}[bot]"
+          git config user.email "${USER_ID}+${APP_SLUG}[bot]@users.noreply.github.com"
+          git add DESCRIPTION NEWS.md inst/bundle.js inst/licenses
+          git -c core.hooksPath=/dev/null commit -m "chore: rebuild bundle.js [dependabot skip]"
+          git -c core.hooksPath=/dev/null push origin "HEAD:refs/heads/${HEAD_REF}"

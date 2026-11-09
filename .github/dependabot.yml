@@ -10,5 +10,21 @@ updates:
       include: "scope"
     groups:
       github-actions:
+  - package-ecosystem: "npm"
+    directory: "/dev"
+    schedule:
+      interval: "weekly"
+    cooldown:
+      default-days: 7
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    groups:
+      npm:
+        applies-to: "version-updates"
+        patterns:
+          - "*"
+      npm-security:
+        applies-to: "security-updates"
         patterns:
           - "*"

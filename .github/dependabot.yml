@@ -5,6 +5,9 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    cooldown:
+      exclude:
+        - "NovoNordisk-OpenSource/r.workflows*"
     commit-message:
       prefix: "chore"
       include: "scope"

@@ -20,7 +20,7 @@ check_file <- function(file, ext = NULL) {
 }
 
 #' @noRd
-assert_file <- function(file, ext = NULL) {
+assert_file <- function(file, ext = NULL, call = rlang::caller_env()) {
   val <- check_file(file = file, ext = ext)
 
   if (isTRUE(val)) {
@@ -31,6 +31,7 @@ assert_file <- function(file, ext = NULL) {
     message = c(
       "Illegal file reference {.file {file}}",
       rlang::set_names(x = val, nm = "i")
-    )
+    ),
+    call = call
   )
 }

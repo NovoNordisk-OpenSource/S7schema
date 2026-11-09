@@ -36,6 +36,17 @@ test_that("S7schema can be initiated without YAML", {
     expect_error()
 })
 
+test_that("errors reference the user's call", {
+  schema <- test_path("schemas", "simple.json")
+
+  expect_snapshot(error = TRUE, {
+    S7schema(.data = list(illegal = "entry"), schema = schema)
+    S7schema(.data = list(id = "test"), schema = "missing.json")
+    S7schema(file = "missing.yml", schema = schema)
+    validate_yaml(file = "missing.yml", schema = schema)
+  })
+})
+
 test_that("validate_prop_schema() returns error for invalid input", {
   expect_match(validate_prop_schema("not_a_file.json"), "File does not exist")
 })

@@ -372,6 +372,7 @@ test_that("invalid schemas give a clean error", {
     validate_yaml(file = file, schema = schema)
     validate_list(x = list(), schema = schema)
     S7schema(file = file, schema = schema)
+    S7schema(.data = list(), schema = schema)
   })
 
   invalid_json <- withr::local_tempfile(fileext = ".json", lines = "{")

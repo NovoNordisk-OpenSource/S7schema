@@ -21,6 +21,9 @@ object in Javascript that can be used to check a configuration.
 This is done in a QuickJS context (\link[QuickJSR:JSContext]{QuickJSR::JSContext}), and stored inside
 the \code{context} property of the the object.
 
+Validators are cached per schema content and shared between objects with
+the same schema. A changed schema file gives a new validator.
+
 All YAML is parsed in R, so the validated data is what R reads:
 \itemize{
 \item Files are read with \code{yaml::read_yaml()}.

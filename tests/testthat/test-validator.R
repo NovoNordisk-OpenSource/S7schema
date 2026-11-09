@@ -35,3 +35,27 @@ test_that("strings with special characters are passed unchanged", {
   use_validator(validator = v, data = list(text = "\u00e6 \U0001F600")) |>
     expect_error("current value: .*\u00e6 \U0001F600")
 })
+
+test_that("validators are cached by schema content", {
+  schema <- test_path("schemas", "simple.json")
+  a <- validator(schema = schema)
+  b <- validator(schema = schema)
+  expect_identical(a@context, b@context)
+
+  copy <- withr::local_tempfile(fileext = ".json")
+  file.copy(from = schema, to = copy)
+  expect_identical(validator(schema = copy)@context, a@context)
+
+  readLines(copy) |>
+    sub(pattern = '"type": "boolean"', replacement = '"type": "string"') |>
+    writeLines(con = copy)
+  edited <- validator(schema = copy)
+  expect_false(identical(edited@context, a@context))
+  use_validator(validator = edited, data = list(do_something = "yes")) |>
+    expect_no_condition()
+  use_validator(validator = a, data = list(do_something = "yes")) |>
+    expect_error("must be boolean")
+
+  x <- S7schema(.data = list(id = "test"), schema = schema)
+  expect_identical(x@validator@context, x@validator@context)
+})

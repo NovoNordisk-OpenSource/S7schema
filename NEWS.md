@@ -6,6 +6,7 @@
 * Validators are cached by schema content and shared between objects, so validate() no longer rebuilds the validator on every call (#81, #78).
 
 * Errors from `S7schema(.data =)` and missing files now reference the user's call instead of internal functions (#77).
+* Errors from `validate()`, `write_config()`, `@<-` and `S7::set_props()` now reference the user's call instead of internal functions (#90).
 
 # S7schema 0.2.1
 

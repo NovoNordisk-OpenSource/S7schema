@@ -42,6 +42,16 @@ test_that("dates are written as ISO 8601 strings", {
     expect_equal(list(a = c("2025-08-06", NA)))
 })
 
+test_that("date-times are written as ISO 8601 strings in UTC", {
+  x <- as.POSIXct("2025-08-06 10:00:00", tz = "Europe/Copenhagen")
+
+  to_yaml(x) |>
+    expect_equal("'2025-08-06T08:00:00Z'\n")
+
+  yaml_round_trip(list(a = c(x, NA))) |>
+    expect_equal(list(a = c("2025-08-06T08:00:00Z", NA)))
+})
+
 test_that("numbers with up to 16 significant digits are read back exactly", {
   x <- c(
     0.1,

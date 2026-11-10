@@ -113,7 +113,7 @@ S7schema(
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
 #>  .. @ context:List of 6
-#>  .. .. $ context :<pointer: 0x5756f9fe3390> 
+#>  .. .. $ context :<pointer: 0x59b04da03270> 
 #>  .. .. $ validate:function (code_string)  
 #>  .. .. $ source  :function (file = NULL, code = NULL)  
 #>  .. .. $ call    :function (function_name, ...)  
@@ -132,7 +132,7 @@ S7schema(
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
 #>  .. @ context:List of 6
-#>  .. .. $ context :<pointer: 0x5756f9c15c40> 
+#>  .. .. $ context :<pointer: 0x59b04dc09b80> 
 #>  .. .. $ validate:function (code_string)  
 #>  .. .. $ source  :function (file = NULL, code = NULL)  
 #>  .. .. $ call    :function (function_name, ...)  

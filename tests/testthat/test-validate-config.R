@@ -123,21 +123,38 @@ test_that("errors omit the current value when it is not a scalar", {
     expect_no_match("current value")
 })
 
-test_that("oneOf shows all sub-errors for invalid input", {
-  validate_list(
-    x = list(value = "ABC123"),
-    schema = test_path("schemas", "oneof_pattern.json")
-  ) |>
-    expect_error("must match exactly one schema in oneOf")
-})
-
-test_that("oneOf with $ref shows all sub-errors", {
+test_that("oneOf shows only the error of a wrong item in an array", {
   expect_error(
     validate_list(
       x = list(value = list("abc", "ABC")),
       schema = test_path("schemas", "oneof_ref.json")
     ),
-    regexp = "(?s)must be string.*must match pattern",
+    regexp = '(?s)/value/2.*must match pattern.*current value: "ABC"',
+    perl = TRUE
+  ) |>
+    conditionMessage() |>
+    expect_no_match("must be string|oneOf")
+})
+
+test_that("oneOf shows only the error of a wrong scalar", {
+  expect_error(
+    validate_list(
+      x = list(value = "ABC"),
+      schema = test_path("schemas", "oneof_ref.json")
+    ),
+    regexp = "must match pattern"
+  ) |>
+    conditionMessage() |>
+    expect_no_match("must be array")
+})
+
+test_that("oneOf keeps the summary when no branch matches the type", {
+  expect_error(
+    validate_list(
+      x = list(value = 1),
+      schema = test_path("schemas", "oneof_ref.json")
+    ),
+    regexp = "(?s)exactly one schema in oneOf.*must be string.*must be array",
     perl = TRUE
   )
 })

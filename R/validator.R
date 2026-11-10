@@ -1,5 +1,3 @@
-# shortcut: unbounded, one QuickJS context per distinct schema content per
-# session, add eviction if schemas are edited very often in one session
 validator_cache <- new.env(parent = emptyenv())
 
 #' Constructor function for the internal `validator` class

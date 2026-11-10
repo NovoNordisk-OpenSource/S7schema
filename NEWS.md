@@ -2,6 +2,7 @@
 
 * Updated bundled JavaScript dependencies in `inst/bundle.js`: `fast-uri` 3.1.8 → 3.1.9 (#94).
 * Updated bundled JavaScript dependencies in `inst/bundle.js`: `ajv` 8.18.0 → 8.20.0 (#93).
+* Errors from `oneOf` schemas now show only the relevant error: branches that do not match the value's type are left out, and a single remaining error is shown with its own path and value (#88).
 * Validators are cached by schema content and shared between objects, so validate() no longer rebuilds the validator on every call (#81, #78).
 
 * Errors from `S7schema(.data =)` and missing files now reference the user's call instead of internal functions (#77).

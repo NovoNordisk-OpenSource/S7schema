@@ -2,6 +2,10 @@
 
 ## S7schema (development version)
 
+- Updated bundled JavaScript dependencies in `inst/bundle.js`: `ajv`
+  8.18.0 → 8.20.0
+  ([\#93](https://github.com/NovoNordisk-OpenSource/S7schema/issues/93)).
+
 ## S7schema 0.2.1
 
 CRAN release: 2026-10-26

@@ -5,6 +5,7 @@
 ^.cspell\.json$
 ^.lycheeignore$
 ^.devskim.json$
+^\.jscpd\.json$
 ^.mega-linter.yml$
 ^dev$
 ^docs$

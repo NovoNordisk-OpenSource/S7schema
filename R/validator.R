@@ -149,13 +149,14 @@ to_json <- function(x) {
 
 #' @noRd
 format_errors <- function(errors) {
-  is_oneof <- vapply(
+  combinators <- c("oneOf", "anyOf")
+  is_combinator <- vapply(
     X = errors,
-    FUN = \(e) identical(e$keyword, "oneOf"),
+    FUN = \(e) e$keyword %in% combinators,
     FUN.VALUE = logical(1)
   )
 
-  if (!any(is_oneof)) {
+  if (!any(is_combinator)) {
     error <- errors[[1]]
     header <- cli::format_inline(
       "{.field {fix_path(error$instancePath)}} {error$message}"
@@ -171,25 +172,25 @@ format_errors <- function(errors) {
     )
   }
 
-  oneof_error <- errors[is_oneof][[1]]
+  combinator_error <- errors[is_combinator][[1]]
 
   is_sub <- vapply(
     X = errors,
     FUN = \(e) {
-      !identical(e$keyword, "oneOf") &&
-        startsWith(e$instancePath, oneof_error$instancePath)
+      !e$keyword %in% combinators &&
+        startsWith(e$instancePath, combinator_error$instancePath)
     },
     FUN.VALUE = logical(1)
   )
 
   sub_errors <- errors[is_sub]
-  # A type error at the oneOf value only says that branch does not apply, so
-  # show it only when no branch matches the type
+  # A type error at the oneOf/anyOf value only says that branch does not
+  # apply, so show it only when no branch matches the type
   is_type <- vapply(
     X = sub_errors,
     FUN = \(e) {
       identical(e$keyword, "type") &&
-        identical(e$instancePath, oneof_error$instancePath)
+        identical(e$instancePath, combinator_error$instancePath)
     },
     FUN.VALUE = logical(1)
   )
@@ -202,7 +203,8 @@ format_errors <- function(errors) {
   }
 
   header <- cli::format_inline(
-    "{.field {fix_path(oneof_error$instancePath)}} {oneof_error$message}"
+    "{.field {fix_path(combinator_error$instancePath)}} ",
+    "{combinator_error$message}"
   )
 
   bullets <- vapply(
@@ -214,7 +216,7 @@ format_errors <- function(errors) {
   c(
     header,
     rlang::set_names(x = bullets, nm = rep("*", length(bullets))),
-    format_value(oneof_error$data)
+    format_value(combinator_error$data)
   )
 }
 

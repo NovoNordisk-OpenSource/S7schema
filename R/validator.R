@@ -19,8 +19,9 @@ construct_validator <- function(schema, call = rlang::caller_env()) {
     paste(collapse = "\n")
 
   key <- rlang::hash(x = schema_content)
-  if (!is.null(validator_cache[[key]])) {
-    return(validator_cache[[key]])
+  cached <- validator_cache[[key]]
+  if (!is.null(cached)) {
+    return(cached)
   }
 
   # ajv needs more than the 256 KB default stack of QuickJSR < 1.5.0

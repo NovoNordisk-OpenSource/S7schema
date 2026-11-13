@@ -182,12 +182,31 @@ format_errors <- function(errors) {
     FUN.VALUE = logical(1)
   )
 
+  sub_errors <- errors[is_sub]
+  # A type error at the oneOf value only says that branch does not apply, so
+  # show it only when no branch matches the type
+  is_type <- vapply(
+    X = sub_errors,
+    FUN = \(e) {
+      identical(e$keyword, "type") &&
+        identical(e$instancePath, oneof_error$instancePath)
+    },
+    FUN.VALUE = logical(1)
+  )
+  if (!all(is_type)) {
+    sub_errors <- sub_errors[!is_type]
+  }
+  # One error left: it is the real problem, so show it as a normal error
+  if (length(sub_errors) == 1L) {
+    return(format_errors(sub_errors))
+  }
+
   header <- cli::format_inline(
     "{.field {fix_path(oneof_error$instancePath)}} {oneof_error$message}"
   )
 
   bullets <- vapply(
-    X = errors[is_sub],
+    X = sub_errors,
     FUN = \(e) e$message,
     FUN.VALUE = character(1)
   )

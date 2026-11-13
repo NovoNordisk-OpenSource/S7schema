@@ -5,7 +5,7 @@ Underneath it is calling yaml::as.yaml() to do the conversion, but all logical v
 are converted to true/false instead of yes/no respectively for a more robust integration
 with other YAML parsers.
 Date values are written as ISO 8601 strings (&quot;2025-08-06&quot;).
-POSIXct values are written as ISO 8601 strings in UTC
+POSIXct and POSIXlt values are written as ISO 8601 strings in UTC
 (&quot;2025-08-06T08:00:00Z&quot;), and fractional seconds are dropped.
 Numbers are written with precision = 15 instead of the default of 7.
 Numbers with up to 16 significant digits are read back as the same value,
@@ -27,7 +27,7 @@ Underneath it is calling yaml::as.yaml() to do the conversion, but all logical v
 are converted to true/false instead of yes/no respectively for a more robust integration
 with other YAML parsers.
 Date values are written as ISO 8601 strings (&quot;2025-08-06&quot;).
-POSIXct values are written as ISO 8601 strings in UTC
+POSIXct and POSIXlt values are written as ISO 8601 strings in UTC
 (&quot;2025-08-06T08:00:00Z&quot;), and fractional seconds are dropped.
 Numbers are written with precision = 15 instead of the default of 7.
 Numbers with up to 16 significant digits are read back as the same value,
@@ -88,7 +88,7 @@ when using <code><a href="write_config.html">write_config()</a></code> to save a
 are converted to <code>true</code>/<code>false</code> instead of <code>yes</code>/<code>no</code> respectively for a more robust integration
 with other YAML parsers.
 <code>Date</code> values are written as ISO 8601 strings (<code>"2025-08-06"</code>).
-<code>POSIXct</code> values are written as ISO 8601 strings in UTC
+<code>POSIXct</code> and <code>POSIXlt</code> values are written as ISO 8601 strings in UTC
 (<code>"2025-08-06T08:00:00Z"</code>), and fractional seconds are dropped.
 Numbers are written with <code>precision = 15</code> instead of the default of 7.
 Numbers with up to 16 significant digits are read back as the same value,
@@ -126,8 +126,8 @@ implementing a new method for your own object class.</p>
     <p><code>to_yaml()</code> dispatches based on the class of <code>x</code>. Register a new S7 method if you want to overwrite
 how your own class is converted to YAML. See <code><a href="https://rconsortium.github.io/S7/reference/method.html" class="external-link">S7::method()</a></code> for more information.</p>
 <p>The default method uses <code><a href="https://yaml.r-lib.org/reference/verbatim_logical.html" class="external-link">yaml::verbatim_logical()</a></code> to overwrite the default
-behavior of handling <code>logical</code> values, and handlers for <code>Date</code> and <code>POSIXct</code>
-values.
+behavior of handling <code>logical</code> values, and handlers for <code>Date</code>, <code>POSIXct</code>
+and <code>POSIXlt</code> values.
 The <code>logical</code> handler writes <code>NA</code> as <code>.na</code>, so it is read back as <code>NA</code>:</p>
 <p></p><div class="sourceCode r"><pre><code><span><span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu">yaml</span><span class="fu">::</span><span class="fu"><a href="https://yaml.r-lib.org/reference/as.yaml.html" class="external-link">as.yaml</a></span><span class="op">(</span></span>
@@ -140,7 +140,8 @@ The <code>logical</code> handler writes <code>NA</code> as <code>.na</code>, so 
 <span>        <span class="va">x</span></span>
 <span>      <span class="op">}</span>,</span>
 <span>      Date <span class="op">=</span> \<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"%Y-%m-%d"</span><span class="op">)</span>,</span>
-<span>      POSIXct <span class="op">=</span> \<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"%Y-%m-%dT%H:%M:%SZ"</span>, tz <span class="op">=</span> <span class="st">"UTC"</span><span class="op">)</span></span>
+<span>      POSIXct <span class="op">=</span> \<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"%Y-%m-%dT%H:%M:%SZ"</span>, tz <span class="op">=</span> <span class="st">"UTC"</span><span class="op">)</span>,</span>
+<span>      POSIXlt <span class="op">=</span> \<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.POSIXlt.html" class="external-link">as.POSIXct</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, <span class="st">"%Y-%m-%dT%H:%M:%SZ"</span>, tz <span class="op">=</span> <span class="st">"UTC"</span><span class="op">)</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre><p></p></div>
@@ -175,7 +176,7 @@ The <code>logical</code> handler writes <code>NA</code> as <code>.na</code>, so 
 <span class="r-out co"><span class="r-pr">#&gt;</span>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  @ validator: &lt;S7schema::validator&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  .. @ context:List of 6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  .. .. $ context :&lt;pointer: 0x5d0f14af4a90&gt; </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. .. $ context :&lt;pointer: 0x5c37102f1b70&gt; </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  .. .. $ validate:function (code_string)  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  .. .. $ source  :function (file = NULL, code = NULL)  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  .. .. $ call    :function (function_name, ...)  </span>

@@ -35,7 +35,7 @@
 - [`to_yaml()`](https://novonordisk-opensource.github.io/S7schema/reference/to_yaml.md)
   and
   [`write_config()`](https://novonordisk-opensource.github.io/S7schema/reference/write_config.md)
-  write `POSIXct` values as ISO 8601 strings in UTC
+  write `POSIXct` and `POSIXlt` values as ISO 8601 strings in UTC
   (`2025-08-06T08:00:00Z`) instead of the number of seconds since
   1970-01-01, so they are validated as strings in `S7schema` objects
   ([\#75](https://github.com/NovoNordisk-OpenSource/S7schema/issues/75)).

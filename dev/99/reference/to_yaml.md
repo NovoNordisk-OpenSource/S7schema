@@ -10,11 +10,12 @@ Underneath it is calling
 the conversion, but all `logical` values are converted to `true`/`false`
 instead of `yes`/`no` respectively for a more robust integration with
 other YAML parsers. `Date` values are written as ISO 8601 strings
-(`"2025-08-06"`). `POSIXct` values are written as ISO 8601 strings in
-UTC (`"2025-08-06T08:00:00Z"`), and fractional seconds are dropped.
-Numbers are written with `precision = 15` instead of the default of 7.
-Numbers with up to 16 significant digits are read back as the same
-value, while numbers that need 17, e.g. `0.1 + 0.2`, are rounded.
+(`"2025-08-06"`). `POSIXct` and `POSIXlt` values are written as ISO 8601
+strings in UTC (`"2025-08-06T08:00:00Z"`), and fractional seconds are
+dropped. Numbers are written with `precision = 15` instead of the
+default of 7. Numbers with up to 16 significant digits are read back as
+the same value, while numbers that need 17, e.g. `0.1 + 0.2`, are
+rounded.
 
 Missing values are written as:
 
@@ -61,8 +62,8 @@ for more information.
 The default method uses
 [`yaml::verbatim_logical()`](https://yaml.r-lib.org/reference/verbatim_logical.html)
 to overwrite the default behavior of handling `logical` values, and
-handlers for `Date` and `POSIXct` values. The `logical` handler writes
-`NA` as `.na`, so it is read back as `NA`:
+handlers for `Date`, `POSIXct` and `POSIXlt` values. The `logical`
+handler writes `NA` as `.na`, so it is read back as `NA`:
 
     function(x) {
       yaml::as.yaml(
@@ -75,7 +76,8 @@ handlers for `Date` and `POSIXct` values. The `logical` handler writes
             x
           },
           Date = \(x) format(x, "%Y-%m-%d"),
-          POSIXct = \(x) format(x, "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
+          POSIXct = \(x) format(x, "%Y-%m-%dT%H:%M:%SZ", tz = "UTC"),
+          POSIXlt = \(x) format(as.POSIXct(x), "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
         )
       )
     }
@@ -112,7 +114,7 @@ print(x)
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
 #>  .. @ context:List of 6
-#>  .. .. $ context :<pointer: 0x5d0f14af4a90> 
+#>  .. .. $ context :<pointer: 0x5c37102f1b70> 
 #>  .. .. $ validate:function (code_string)  
 #>  .. .. $ source  :function (file = NULL, code = NULL)  
 #>  .. .. $ call    :function (function_name, ...)  

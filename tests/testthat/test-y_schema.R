@@ -47,6 +47,20 @@ test_that("errors reference the user's call", {
   })
 })
 
+test_that("non-character file paths error in the user's call", {
+  err <- expect_error(
+    S7schema(.data = list(id = "test"), schema = 1),
+    regexp = "must be a <character>"
+  )
+  expect_equal(rlang::call_name(err$call), "S7schema")
+
+  err <- expect_error(
+    S7schema(file = 1, schema = test_path("schemas", "simple.json")),
+    regexp = "must be a <character>"
+  )
+  expect_equal(rlang::call_name(err$call), "S7schema")
+})
+
 test_that("validate_prop_schema() returns error for invalid input", {
   expect_match(validate_prop_schema("not_a_file.json"), "File does not exist")
 })

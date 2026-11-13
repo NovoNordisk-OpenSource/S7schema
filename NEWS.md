@@ -7,6 +7,7 @@
 
 * Errors from `S7schema(.data =)` and missing files now reference the user's call instead of internal functions (#77).
 * Errors from `validate()`, `write_config()`, `@<-` and `S7::set_props()` now reference the user's call instead of internal functions (#90).
+* `to_yaml()` and `write_config()` write `POSIXct` and `POSIXlt` values as ISO 8601 strings in UTC (`2025-08-06T08:00:00Z`) instead of the number of seconds since 1970-01-01, so they are validated as strings in `S7schema` objects (#75).
 
 # S7schema 0.2.1
 

@@ -7,10 +7,12 @@
 #' Underneath it is calling `yaml::as.yaml()` to do the conversion, but all `logical` values
 #' are converted to `true`/`false` instead of `yes`/`no` respectively for a more robust integration
 #' with other YAML parsers.
-#' `Date` values are written as ISO 8601 strings (`"2025-08-06"`), and numbers
-#' are written with `precision = 15` instead of the default of 7. Numbers with
-#' up to 16 significant digits are read back as the same value, while numbers
-#' that need 17, e.g. `0.1 + 0.2`, are rounded.
+#' `Date` values are written as ISO 8601 strings (`"2025-08-06"`).
+#' `POSIXct` and `POSIXlt` values are written as ISO 8601 strings in UTC
+#' (`"2025-08-06T08:00:00Z"`), and fractional seconds are dropped.
+#' Numbers are written with `precision = 15` instead of the default of 7.
+#' Numbers with up to 16 significant digits are read back as the same value,
+#' while numbers that need 17, e.g. `0.1 + 0.2`, are rounded.
 #'
 #' Missing values are written as:
 #' * logical `NA` as `.na`
@@ -30,7 +32,8 @@
 #' how your own class is converted to YAML. See `S7::method()` for more information.
 #'
 #' The default method uses `yaml::verbatim_logical()` to overwrite the default
-#' behavior of handling `logical` values, and a handler for `Date` values.
+#' behavior of handling `logical` values, and handlers for `Date`, `POSIXct`
+#' and `POSIXlt` values.
 #' The `logical` handler writes `NA` as `.na`, so it is read back as `NA`:
 #'
 #' ```{r, include = FALSE}
@@ -93,7 +96,9 @@ as_yaml <- function(x) {
         x[is.na(x)] <- ".na"
         x
       },
-      Date = \(x) format(x, "%Y-%m-%d")
+      Date = \(x) format(x, "%Y-%m-%d"),
+      POSIXct = \(x) format(x, "%Y-%m-%dT%H:%M:%SZ", tz = "UTC"),
+      POSIXlt = \(x) format(as.POSIXct(x), "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
     )
   )
 }

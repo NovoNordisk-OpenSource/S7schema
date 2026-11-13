@@ -1,19 +1,28 @@
+validator_cache <- new.env(parent = emptyenv())
+
 #' Constructor function for the internal `validator` class
 #'
 #' Does the following before:
-#' 1. Create a local QuickJS context to ensure variables etc. are local to the
+#' 1. Returns the cached validator if one exists for the schema content
+#' 2. Create a local QuickJS context to ensure variables etc. are local to the
 #'    schema
-#' 2. Loads the bundled JavaScript file containing ajv and helper functions.
+#' 3. Loads the bundled JavaScript file containing ajv and helper functions.
 #'    See /dev/README.md for how this is created
-#' 3. Compiles and stores a validator inside the QuickJS context for later use.
+#' 4. Compiles and stores a validator inside the QuickJS context for later use.
 #'    Aborts if the schema is not valid JSON or not a valid JSON schema
-#' 4. Returns the context
+#' 5. Caches and returns the validator
 #' @noRd
 construct_validator <- function(schema, call = rlang::caller_env()) {
   schema_content <- schema |>
     assert_file(ext = "json") |>
     readLines(warn = FALSE) |>
     paste(collapse = "\n")
+
+  key <- rlang::hash(x = schema_content)
+  cached <- validator_cache[[key]]
+  if (!is.null(cached)) {
+    return(cached)
+  }
 
   # ajv needs more than the 256 KB default stack of QuickJSR < 1.5.0
   ctx <- QuickJSR::JSContext$new(stack_size = 1024L * 1024L)
@@ -27,10 +36,11 @@ construct_validator <- function(schema, call = rlang::caller_env()) {
     )
   }
 
-  S7::new_object(
+  validator_cache[[key]] <- S7::new_object(
     S7::S7_object(),
     context = ctx
   )
+  validator_cache[[key]]
 }
 
 #' Internal validator based on a JSON schema
@@ -39,6 +49,9 @@ construct_validator <- function(schema, call = rlang::caller_env()) {
 #' object in Javascript that can be used to check a configuration.
 #' This is done in a QuickJS context ([QuickJSR::JSContext]), and stored inside
 #' the `context` property of the the object.
+#'
+#' Validators are cached per schema content and shared between objects with
+#' the same schema. A changed schema file gives a new validator.
 #'
 #' All YAML is parsed in R, so the validated data is what R reads:
 #' * Files are read with `yaml::read_yaml()`.

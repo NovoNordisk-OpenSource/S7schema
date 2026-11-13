@@ -100,13 +100,6 @@ test_that("errors include the current value when it is a scalar", {
     schema = test_path("schemas", "array.json")
   ) |>
     expect_error("current value: 1")
-
-  # oneOf errors also report the value
-  validate_list(
-    x = list(value = "ABC123"),
-    schema = test_path("schemas", "oneof_pattern.json")
-  ) |>
-    expect_error('current value: "ABC123"')
 })
 
 test_that("errors omit the current value when it is not a scalar", {
@@ -142,7 +135,8 @@ test_that("oneOf shows only the error of a wrong scalar", {
       x = list(value = "ABC"),
       schema = test_path("schemas", "oneof_ref.json")
     ),
-    regexp = "must match pattern"
+    regexp = '(?s)/value must match pattern.*current value: "ABC"',
+    perl = TRUE
   ) |>
     conditionMessage() |>
     expect_no_match("must be array")

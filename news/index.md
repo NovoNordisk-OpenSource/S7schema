@@ -5,9 +5,40 @@
 - Updated bundled JavaScript dependencies in `inst/bundle.js`:
   `fast-uri` 3.1.8 → 3.1.9
   ([\#94](https://github.com/NovoNordisk-OpenSource/S7schema/issues/94)).
+
 - Updated bundled JavaScript dependencies in `inst/bundle.js`: `ajv`
   8.18.0 → 8.20.0
   ([\#93](https://github.com/NovoNordisk-OpenSource/S7schema/issues/93)).
+
+- Errors from `oneOf` schemas now show only the relevant error: branches
+  that do not match the value’s type are left out, and a single
+  remaining error is shown with its own path and value
+  ([\#88](https://github.com/NovoNordisk-OpenSource/S7schema/issues/88)).
+
+- Validators are cached by schema content and shared between objects, so
+  validate() no longer rebuilds the validator on every call
+  ([\#81](https://github.com/NovoNordisk-OpenSource/S7schema/issues/81),
+  [\#78](https://github.com/NovoNordisk-OpenSource/S7schema/issues/78)).
+
+- Errors from `S7schema(.data =)` and missing files now reference the
+  user’s call instead of internal functions
+  ([\#77](https://github.com/NovoNordisk-OpenSource/S7schema/issues/77)).
+
+- Errors from
+  [`validate()`](https://rconsortium.github.io/S7/reference/validate.html),
+  [`write_config()`](https://novonordisk-opensource.github.io/S7schema/reference/write_config.md),
+  `@<-` and
+  [`S7::set_props()`](https://rconsortium.github.io/S7/reference/props.html)
+  now reference the user’s call instead of internal functions
+  ([\#90](https://github.com/NovoNordisk-OpenSource/S7schema/issues/90)).
+
+- [`to_yaml()`](https://novonordisk-opensource.github.io/S7schema/reference/to_yaml.md)
+  and
+  [`write_config()`](https://novonordisk-opensource.github.io/S7schema/reference/write_config.md)
+  write `POSIXct` and `POSIXlt` values as ISO 8601 strings in UTC
+  (`2025-08-06T08:00:00Z`) instead of the number of seconds since
+  1970-01-01, so they are validated as strings in `S7schema` objects
+  ([\#75](https://github.com/NovoNordisk-OpenSource/S7schema/issues/75)).
 
 ## S7schema 0.2.1
 

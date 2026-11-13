@@ -6,6 +6,9 @@ configuration. This is done in a QuickJS context
 ([QuickJSR::JSContext](https://rdrr.io/pkg/QuickJSR/man/JSContext.html)),
 and stored inside the `context` property of the the object.
 
+Validators are cached per schema content and shared between objects with
+the same schema. A changed schema file gives a new validator.
+
 All YAML is parsed in R, so the validated data is what R reads:
 
 - Files are read with

@@ -77,7 +77,7 @@ print(x)
 #>  @ schema   : chr "/home/runner/work/_temp/Library/S7schema/examples/schema.json"
 #>  @ validator: <S7schema::validator>
 #>  .. @ context:List of 6
-#>  .. .. $ context :<pointer: 0x6148ae55dbd0> 
+#>  .. .. $ context :<pointer: 0x55a5d98e9050> 
 #>  .. .. $ validate:function (code_string)  
 #>  .. .. $ source  :function (file = NULL, code = NULL)  
 #>  .. .. $ call    :function (function_name, ...)  
@@ -117,7 +117,7 @@ works on the child class just like on the parent:
 
 x$my_config_var <- "not a number"
 S7::validate(x)
-#> Error in `validate_S7schema()`:
+#> Error in `S7::validate()`:
 #> ! /my_config_var must be number
 #> ✖ type: number
 #> ℹ current value: "not a number"

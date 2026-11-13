@@ -14,7 +14,7 @@ validator_cache <- new.env(parent = emptyenv())
 #' @noRd
 construct_validator <- function(schema, call = rlang::caller_env()) {
   schema_content <- schema |>
-    assert_file(ext = "json") |>
+    assert_file(ext = "json", call = call) |>
     readLines(warn = FALSE) |>
     paste(collapse = "\n")
 

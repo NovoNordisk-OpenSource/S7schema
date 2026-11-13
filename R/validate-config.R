@@ -62,7 +62,7 @@ validate_yaml.character <- function(file, schema) {
 #' @noRd
 read_validated_yaml <- function(file, schema, call = rlang::caller_env()) {
   content <- file |>
-    assert_file(ext = c("yml", "yaml")) |>
+    assert_file(ext = c("yml", "yaml"), call = call) |>
     yaml::read_yaml(readLines.warn = FALSE)
 
   use_validator(

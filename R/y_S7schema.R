@@ -128,6 +128,14 @@ construct_S7schema <- function(file, schema, .data) {
   rlang::check_exclusive(file, .data)
 
   if (!rlang::is_missing(.data)) {
+    # Validate here so errors reference S7schema(). S7::new_object() validates
+    # the object again and cannot skip it.
+    use_validator(
+      validator = validator(schema = schema, call = environment()),
+      data = yaml_round_trip(.data),
+      call = environment()
+    )
+
     return(
       S7::new_object(
         .data,

@@ -48,6 +48,10 @@ test_that("date-times are written as ISO 8601 strings in UTC", {
   to_yaml(x) |>
     expect_equal("'2025-08-06T08:00:00Z'\n")
 
+  as.POSIXlt(x) |>
+    to_yaml() |>
+    expect_equal("'2025-08-06T08:00:00Z'\n")
+
   yaml_round_trip(list(a = c(x, NA))) |>
     expect_equal(list(a = c("2025-08-06T08:00:00Z", NA)))
 })

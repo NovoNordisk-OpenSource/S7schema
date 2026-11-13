@@ -20,7 +20,7 @@ Underneath it is calling \code{yaml::as.yaml()} to do the conversion, but all \c
 are converted to \code{true}/\code{false} instead of \code{yes}/\code{no} respectively for a more robust integration
 with other YAML parsers.
 \code{Date} values are written as ISO 8601 strings (\code{"2025-08-06"}).
-\code{POSIXct} values are written as ISO 8601 strings in UTC
+\code{POSIXct} and \code{POSIXlt} values are written as ISO 8601 strings in UTC
 (\code{"2025-08-06T08:00:00Z"}), and fractional seconds are dropped.
 Numbers are written with \code{precision = 15} instead of the default of 7.
 Numbers with up to 16 significant digits are read back as the same value,
@@ -46,8 +46,8 @@ implementing a new method for your own object class.
 how your own class is converted to YAML. See \code{S7::method()} for more information.
 
 The default method uses \code{yaml::verbatim_logical()} to overwrite the default
-behavior of handling \code{logical} values, and handlers for \code{Date} and \code{POSIXct}
-values.
+behavior of handling \code{logical} values, and handlers for \code{Date}, \code{POSIXct}
+and \code{POSIXlt} values.
 The \code{logical} handler writes \code{NA} as \code{.na}, so it is read back as \code{NA}:
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{function(x) \{
@@ -61,7 +61,8 @@ The \code{logical} handler writes \code{NA} as \code{.na}, so it is read back as
         x
       \},
       Date = \\(x) format(x, "\%Y-\%m-\%d"),
-      POSIXct = \\(x) format(x, "\%Y-\%m-\%dT\%H:\%M:\%SZ", tz = "UTC")
+      POSIXct = \\(x) format(x, "\%Y-\%m-\%dT\%H:\%M:\%SZ", tz = "UTC"),
+      POSIXlt = \\(x) format(as.POSIXct(x), "\%Y-\%m-\%dT\%H:\%M:\%SZ", tz = "UTC")
     )
   )
 \}

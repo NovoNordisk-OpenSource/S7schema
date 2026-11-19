@@ -27,7 +27,7 @@ All YAML is parsed in R, so the validated data is what R reads:
   are validated as they are.
 
 The resulting `list` is converted to JSON with
-[`jsonlite::toJSON()`](https://jeroen.r-universe.dev/jsonlite/reference/fromJSON.html)
+[`jsonlite::toJSON()`](https://rdrr.io/pkg/jsonlite/man/fromJSON.html)
 and validated by ajv. The JavaScript side never parses YAML. `NA`,
 `NaN`, and `Inf` values become `null` in the JSON sent to ajv. Numbers
 are sent with 17 significant digits, so numbers from files and lists are

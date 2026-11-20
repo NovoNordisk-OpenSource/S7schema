@@ -91,7 +91,7 @@ the same schema. A changed schema file gives a new validator.</p>
 <code><a href="https://yaml.r-lib.org/reference/yaml.load.html" class="external-link">yaml::yaml.load()</a></code>, so the validated data matches what <code><a href="write_config.html">write_config()</a></code>
 writes.</p></li>
 <li><p><code>list</code> objects in <code><a href="validate_config.html">validate_list()</a></code> are validated as they are.</p></li>
-</ul><p>The resulting <code>list</code> is converted to JSON with <code><a href="https://jeroen.r-universe.dev/jsonlite/reference/fromJSON.html" class="external-link">jsonlite::toJSON()</a></code> and
+</ul><p>The resulting <code>list</code> is converted to JSON with <code><a href="https://rdrr.io/pkg/jsonlite/man/fromJSON.html" class="external-link">jsonlite::toJSON()</a></code> and
 validated by ajv. The JavaScript side never parses YAML.
 <code>NA</code>, <code>NaN</code>, and <code>Inf</code> values become <code>null</code> in the JSON sent to ajv.
 Numbers are sent with 17 significant digits, so numbers from files and

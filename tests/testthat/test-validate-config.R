@@ -153,6 +153,30 @@ test_that("oneOf keeps the summary when no branch matches the type", {
   )
 })
 
+test_that("anyOf shows the error of the branch with the right type", {
+  expect_error(
+    validate_list(
+      x = list(value = "ABC"),
+      schema = test_path("schemas", "anyof_type_pattern.json")
+    ),
+    regexp = '(?s)/value must match pattern.*current value: "ABC"',
+    perl = TRUE
+  ) |>
+    conditionMessage() |>
+    expect_no_match("must be array")
+})
+
+test_that("anyOf keeps the summary when no branch matches the type", {
+  expect_error(
+    validate_list(
+      x = list(value = 1),
+      schema = test_path("schemas", "anyof_type_pattern.json")
+    ),
+    regexp = "(?s)a schema in anyOf.*must be array.*must be string",
+    perl = TRUE
+  )
+})
+
 test_that("oneOf still validates correct input", {
   validate_list(
     x = list(value = "abc"),

@@ -15,6 +15,10 @@
   remaining error is shown with its own path and value
   ([\#88](https://github.com/NovoNordisk-OpenSource/S7schema/issues/88)).
 
+- Errors from `anyOf` schemas are shortened the same way as `oneOf`
+  errors
+  ([\#100](https://github.com/NovoNordisk-OpenSource/S7schema/issues/100)).
+
 - Validators are cached by schema content and shared between objects, so
   validate() no longer rebuilds the validator on every call
   ([\#81](https://github.com/NovoNordisk-OpenSource/S7schema/issues/81),

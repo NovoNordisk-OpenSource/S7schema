@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">S7schema</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1.9008</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1.9009</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,6 +41,7 @@
 <ul><li><p>Updated bundled JavaScript dependencies in <code>inst/bundle.js</code>: <code>fast-uri</code> 3.1.8 → 3.1.9 (<a href="https://github.com/NovoNordisk-OpenSource/S7schema/issues/94" class="external-link">#94</a>).</p></li>
 <li><p>Updated bundled JavaScript dependencies in <code>inst/bundle.js</code>: <code>ajv</code> 8.18.0 → 8.20.0 (<a href="https://github.com/NovoNordisk-OpenSource/S7schema/issues/93" class="external-link">#93</a>).</p></li>
 <li><p>Errors from <code>oneOf</code> schemas now show only the relevant error: branches that do not match the value’s type are left out, and a single remaining error is shown with its own path and value (<a href="https://github.com/NovoNordisk-OpenSource/S7schema/issues/88" class="external-link">#88</a>).</p></li>
+<li><p>Errors from <code>anyOf</code> schemas are shortened the same way as <code>oneOf</code> errors (<a href="https://github.com/NovoNordisk-OpenSource/S7schema/issues/100" class="external-link">#100</a>).</p></li>
 <li><p>Validators are cached by schema content and shared between objects, so validate() no longer rebuilds the validator on every call (<a href="https://github.com/NovoNordisk-OpenSource/S7schema/issues/81" class="external-link">#81</a>, <a href="https://github.com/NovoNordisk-OpenSource/S7schema/issues/78" class="external-link">#78</a>).</p></li>
 <li><p>Errors from <code>S7schema(.data =)</code> and missing files now reference the user’s call instead of internal functions (<a href="https://github.com/NovoNordisk-OpenSource/S7schema/issues/77" class="external-link">#77</a>).</p></li>
 <li><p>Errors from <code><a href="https://rconsortium.github.io/S7/reference/validate.html" class="external-link">validate()</a></code>, <code><a href="../reference/write_config.html">write_config()</a></code>, <code>@&lt;-</code> and <code><a href="https://rconsortium.github.io/S7/reference/props.html" class="external-link">S7::set_props()</a></code> now reference the user’s call instead of internal functions (<a href="https://github.com/NovoNordisk-OpenSource/S7schema/issues/90" class="external-link">#90</a>).</p></li>

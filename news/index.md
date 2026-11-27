@@ -2,6 +2,8 @@
 
 ## S7schema 0.2.2
 
+CRAN release: 2026-11-24
+
 - Updated bundled JavaScript dependencies in `inst/bundle.js`:
   `fast-uri` 3.1.8 → 3.1.9
   ([\#94](https://github.com/NovoNordisk-OpenSource/S7schema/issues/94))
